@@ -21,7 +21,8 @@
 
 @layer utilities {
   .padding {
-    @apply md:px-16 px-5 md:pb-24 pb-12
+    /* @apply md:px-16 px-5 md:pb-24 pb-12 */
+    @apply md:px-16 px-5
   }
 }
 

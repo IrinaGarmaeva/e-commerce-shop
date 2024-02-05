@@ -26,7 +26,7 @@ export default {
         "white": "#fff",
         "text-main": "#333333",
         "light-gray": "#555555",
-        "pink": "rgb(255, 0, 91)",
+        "pink": "#FF005B",
         "gray": "#999999",
         "orange": "#D82700",
       },

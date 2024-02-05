@@ -1,5 +1,6 @@
 import { type ChangeEvent, type FormEvent, useState } from "react";
 import { IoCloseOutline } from "react-icons/io5";
+import { VALIDATION_MESSAGES } from "../../../utils/validationConstants";
 
 const SearchForm = () => {
   const [searchRequest, setSearchRequest] = useState<string>("");
@@ -14,7 +15,7 @@ const SearchForm = () => {
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (!searchRequest) {
-      setError("Enter what you are looking for");
+      setError(VALIDATION_MESSAGES.emptySearchRequest);
       const searchError = document.getElementById("search-error");
       searchError?.classList.remove("hidden");
       return;
@@ -35,11 +36,11 @@ const SearchForm = () => {
   return (
     <div
     id="search-form-overlay"
-    className="w-full h-screen bg-bg-opacity fixed top-0 left-0 z-10 "
+    className="w-full h-screen bg-bg-opacity fixed top-0 left-0 z-10 hidden"
   >
     <form
       id="search-form"
-      className="bg-white min-h-20 px-5 z-20"
+      className="bg-white min-h-20 px-5 z-20 hidden"
       onSubmit={handleSubmit}
     >
       <div className="min-h-20 max-container flex flew-row flex-nowrap items-center gap-3 max-sm:gap-1">

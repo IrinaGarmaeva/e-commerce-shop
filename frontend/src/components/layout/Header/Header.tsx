@@ -1,4 +1,3 @@
-import { type ChangeEvent, type FormEvent, useState } from "react";
 import { Link } from "react-router-dom";
 import { GoSearch, GoPerson } from "react-icons/go";
 import { PiHandbag } from "react-icons/pi";
