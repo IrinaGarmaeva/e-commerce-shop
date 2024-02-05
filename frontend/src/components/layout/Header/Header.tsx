@@ -1,13 +1,24 @@
+import { type ChangeEvent, type FormEvent, useState } from "react";
 import { Link } from "react-router-dom";
 import { GoSearch, GoPerson } from "react-icons/go";
 import { PiHandbag } from "react-icons/pi";
 import { IoCallOutline } from "react-icons/io5";
 import { IoIosMenu } from "react-icons/io";
 import Navbar from "../../design-system/Navbar/Navbar";
+import SearchForm from "../../design-system/SearchForm/SearchForm";
 
 const Header = () => {
+  const handleOpenSearchForm = () => {
+    const searchForm = document.getElementById("search-form");
+    const overlay = document.getElementById("search-form-overlay");
+    searchForm?.classList.remove("hidden");
+    overlay?.classList.remove("hidden");
+  };
+
   return (
     <header className="flex flex-col align-center w-full text-text-main">
+      <>
+      <SearchForm />
       <div className="flex flex-row justify-between w-full items-center py-8">
         <button className="lg:hidden block">
           <IoIosMenu size={24} />
@@ -25,7 +36,10 @@ const Header = () => {
             <button className="lg:hidden block">
               <IoCallOutline size={20} className="text-light-gray" />
             </button>
-            <button className="static flex flex-row items-center" onClick={() => {}}>
+            <button
+              className="static flex flex-row items-center"
+              onClick={handleOpenSearchForm}
+            >
               <GoSearch size={20} className="text-light-gray" />
               <span className="pl-3 text-xl text-light-gray max-lg:hidden">
                 Search
@@ -44,6 +58,7 @@ const Header = () => {
         </div>
       </div>
       <Navbar />
+      </>
     </header>
   );
 };

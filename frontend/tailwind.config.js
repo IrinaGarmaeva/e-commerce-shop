@@ -22,6 +22,7 @@ export default {
       },
       colors: {
         "background": "rgb(255, 255, 255)",
+        "bg-opacity" : "rgba(58, 63, 68, 0.7)",
         "white": "#fff",
         "text-main": "#333333",
         "light-gray": "#555555",
@@ -31,6 +32,7 @@ export default {
       },
       screens: {
         "wide": "1440px",
+        "350px" : "350px",
       }
     },
   },
