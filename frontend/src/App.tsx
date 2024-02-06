@@ -7,6 +7,7 @@ import Footer from "./components/layout/Footer/Footer";
 import Home from "./components/pages/Home/Home";
 import Login from "./components/pages/Login/Login";
 import Register from "./components/pages/Register/Register";
+import ResetPassword from "./components/pages/ResetPassword/ResetPassword";
 
 const App = () => {
   return (
@@ -18,6 +19,7 @@ const App = () => {
             <Route path={ROUTES.home} element={<Home />} />
             <Route path={ROUTES.sign.in} element={<Login />} />
             <Route path={ROUTES.sign.up} element={<Register />} />
+            <Route path={ROUTES.resetPassword} element={<ResetPassword />} />
           </Routes>
         </main>
         <Footer />

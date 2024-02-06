@@ -39,9 +39,11 @@ const Register = () => {
             className="input"
             required
             value={email}
+            minLength={2}
+            maxLength={40}
             // onChange={() => {}}
           />
-          <span className="min-h-5 text-orange text-xs">Error</span>
+          <span className="min-h-5 text-orange text-xs"> Name Error</span>
           <label htmlFor="email" className="text-base">
             Email
           </label>
@@ -53,7 +55,7 @@ const Register = () => {
             value={email}
             onChange={handleChangeEmail}
           />
-          <span className="min-h-5 text-orange text-xs">Error</span>
+          <span className="min-h-5 text-orange text-xs">Email Error</span>
           <label htmlFor="password" className="text-base">Password</label>
           <input
             type="password"
@@ -63,7 +65,7 @@ const Register = () => {
             value={password}
             // onChange={}
           />
-          <span className="min-h-5 text-orange text-xs">fgduyfhh</span>
+          <span className="min-h-5 text-orange text-xs">Password error</span>
         </fieldset>
         <Button
           className="bg-pink px-6 py-3 text-white rounded-md"
