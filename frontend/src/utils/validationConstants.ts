@@ -1,4 +1,5 @@
 export const PATTERN_EMAIL = /^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,63}$/;
+export const isValidEmail = (email: string) : boolean => PATTERN_EMAIL.test(email);
 export const VALIDATION_MESSAGES = {
   emptySearchRequest: 'Enter what you are looking for',
   invalidEmail: 'Enter a valid email address',

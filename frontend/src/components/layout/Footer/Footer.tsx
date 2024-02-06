@@ -3,8 +3,8 @@ import SubscribeForm from "../../design-system/SubscribeForm/SubscribeForm";
 
 const Footer = () => {
   return (
-    <footer className="relative w-full bg-pink text-white py-8">
-      <div className="flex flex-row justify-between max-container">
+    <footer className="relative w-screen bg-pink text-white py-8">
+      <div className="flex flex-row justify-between max-container padding">
         <section className="flex flex-row gap-10 max-md:gap-6 max-md:text-sm">
           <ul className="">
             <li className="uppercase font-bold mb-3">Client Service</li>

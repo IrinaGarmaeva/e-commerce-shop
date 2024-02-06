@@ -17,12 +17,21 @@
     min-width: 320px;
     margin: 0 auto;
   }
+
+  .hover-menu {
+    @apply transition-all duration-700 ease-out hover:text-pink
+  }
 }
+
 
 @layer utilities {
   .padding {
     /* @apply md:px-16 px-5 md:pb-24 pb-12 */
     @apply md:px-16 px-5
+  }
+
+  .input {
+    @apply text-sm border border-pink h-7 rounded-md pl-2 focus:outline-none focus:shadow-md
   }
 }
 

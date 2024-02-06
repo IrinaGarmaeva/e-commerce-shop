@@ -2,9 +2,10 @@ import { type ChangeEvent, type FormEvent, useState } from "react";
 import { toast } from "react-toastify";
 import { TfiArrowCircleRight } from "react-icons/tfi";
 import {
-  PATTERN_EMAIL,
   VALIDATION_MESSAGES,
+  isValidEmail,
 } from "../../../utils/validationConstants";
+import Button from "../Button/Button";
 
 const SubscribeForm = () => {
   const [email, setEmail] = useState<string>("");
@@ -15,7 +16,7 @@ const SubscribeForm = () => {
 
   const handleChangeEmail = (e: ChangeEvent<HTMLInputElement>) => {
     setEmail(e.target.value);
-    if (!PATTERN_EMAIL.test(e.target.value)) {
+    if (!isValidEmail(e.target.value)) {
       setError(VALIDATION_MESSAGES.invalidEmail);
       setIsValid(false);
       !e.target.value && setError("");
@@ -55,14 +56,12 @@ const SubscribeForm = () => {
             autoComplete="off"
             className="w-10/12 pl-3 h-12 outline-none rounded-md text-sm text-text-main"
           />
-          <button type="submit" disabled={!checkValidity}>
-            <TfiArrowCircleRight
+          <Button type="submit" disabled={checkValidity} children={<TfiArrowCircleRight
               size={22}
               className={`absolute right-3 top-3.5 z-10 ${
                 isValid ? "text-pink" : "text-gray"
               }`}
-            />
-          </button>
+            />}/>
         </div>
         <span className="text-sm pl-3">{error}</span>
       </form>
