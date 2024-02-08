@@ -45,7 +45,7 @@ const ResetPassword = () => {
           />
           <span className="min-h-5 text-orange text-xs">{error}</span>
           <Button
-            className="bg-pink px-6 py-3 text-white rounded-md"
+            className="bg-pink px-6 py-3 text-white rounded-md "
             text="Submit"
             type="submit"
           />
