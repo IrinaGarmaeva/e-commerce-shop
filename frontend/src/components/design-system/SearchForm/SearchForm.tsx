@@ -1,7 +1,6 @@
 import { type ChangeEvent, type FormEvent, useState } from "react";
 import { IoCloseOutline } from "react-icons/io5";
 import { VALIDATION_MESSAGES } from "../../../utils/validationConstants";
-import Button from "../Button/Button";
 
 const SearchForm = () => {
   const [searchRequest, setSearchRequest] = useState<string>("");
@@ -64,10 +63,14 @@ const SearchForm = () => {
             {error}
           </span>
         </div>
-        <Button type="submit" className="bg-pink border border-pink px-6 py-2 rounded-md text-white max-sm:px-3 max-sm:text-sm max-sm:py-1.5" text="Search"/>
+        <button
+          type="submit"
+          className="bg-pink border border-pink px-6 py-2 rounded-md text-white max-sm:px-3 max-sm:text-sm max-sm:py-1.5"
+        >
+          Search
+        </button>
         <IoCloseOutline
           size={30}
-          className=""
           onClick={handleCloseSearchForm}
         />
       </div>

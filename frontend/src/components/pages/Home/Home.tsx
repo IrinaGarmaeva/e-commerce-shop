@@ -3,7 +3,7 @@ import ProductList from '../../design-system/ProductList/ProductList';
 
 const Home = () => {
   return (
-    <section className='max-container padding pt-10'>
+    <section className='max-container padding py-10'>
       <h1 className='text-center'>Latest Products</h1>
       <ProductList products={products} />
       {/* <div className='grid grid-cols-4 justify-items-center gap-4 max-lg:grid-cols-3'>
