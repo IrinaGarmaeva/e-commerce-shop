@@ -3,6 +3,7 @@ export const ROUTES = Object.freeze({
   cart: '/cart',
   bestsellers: '/bestsellers',
   catalog: "/catalog",
+  product: "/catalog/:id",
   earrings: "/catalog/earrings",
   necklaces: "/catalog/neclaces",
   bracelets: "/catalog/bracelets",
