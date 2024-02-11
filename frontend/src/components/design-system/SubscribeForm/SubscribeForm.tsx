@@ -37,12 +37,12 @@ const SubscribeForm = () => {
   };
 
   return (
-    <section className="pr-5 w-80 max-md:w-72">
-      <h3 className="uppercase font-bold max-md:text-sm">Get 10% discount</h3>
-      <p className="uppercase mt-3 max-md:text-sm">Subscribe to our newsletter</p>
+    <section className="pr-5 w-80 max-md:w-72 max-sm:self-center max-sm:w-full max-sm:pr-0 max-sm:flex max-sm:flex-col max-sm:items-center">
+      <h3 className="uppercase font-bold max-md:text-sm max-sm:text-center">Get 10% discount</h3>
+      <p className="uppercase mt-3 max-md:text-sm max-sm:text-center">Subscribe to our newsletter</p>
       <form
         onSubmit={handleSubscribe}
-        className="mt-4"
+        className="mt-4 max-sm:w-full"
         noValidate
         autoComplete="off"
       >
