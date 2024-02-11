@@ -1,13 +1,19 @@
+import { useState } from "react";
 import { Link } from "react-router-dom";
 import { GoSearch, GoPerson } from "react-icons/go";
 import { PiHandbag } from "react-icons/pi";
 import { IoCallOutline } from "react-icons/io5";
 import { IoIosMenu } from "react-icons/io";
+import { AiOutlineClose } from "react-icons/ai";
 import Navbar from "../../design-system/Navbar/Navbar";
 import SearchForm from "../../design-system/SearchForm/SearchForm";
 import Button from "../../design-system/Button/Button";
+import useScroll from "../../../hooks/useScroll";
 
 const Header = () => {
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState<boolean>(false);
+  const { isScrolled } = useScroll();
+
   const handleOpenSearchForm = () => {
     const searchForm = document.getElementById("search-form");
     const overlay = document.getElementById("search-form-overlay");
@@ -15,15 +21,28 @@ const Header = () => {
     overlay?.classList.remove("hidden");
   };
 
+  const handleCloseMobileMenu = () => {
+    setIsMobileMenuOpen(false)
+  }
+
   return (
-    <header className="max-container padding flex flex-col align-center w-full text-text-main">
+    <header className={`max-container padding flex flex-col align-center w-full text-text-main fixed top-0 z-20 bg-white ${isScrolled ? "shadow-md" : ""}`}>
       <>
         <SearchForm />
         <div className="flex flex-row justify-between w-full items-center py-8">
-          <Button
-            className="lg:hidden block"
-            children={<IoIosMenu size={24} />}
-          />
+          {isMobileMenuOpen ? (
+            <AiOutlineClose
+              size={25}
+              className="lg:hidden block "
+              onClick={() => setIsMobileMenuOpen(false)}
+            />
+          ) : (
+            <IoIosMenu
+              size={25}
+              onClick={() => setIsMobileMenuOpen(true)}
+              className="lg:hidden block"
+            />
+          )}
           <p className="flex-1 max-lg:hidden">+ 381 00 0000 00 00</p>
           <div className="mx-16px shrink-0 text-center">
             <Link to="/" className="text-4xl">
@@ -41,14 +60,14 @@ const Header = () => {
                 }
               />
               <button
-              className="static flex flex-row items-center"
-              onClick={handleOpenSearchForm}
-            >
-              <GoSearch size={20} className="text-light-gray" />
-              <span className="pl-3 text-xl text-light-gray max-lg:hidden">
-                Search
-              </span>
-            </button>
+                className="static flex flex-row items-center"
+                onClick={handleOpenSearchForm}
+              >
+                <GoSearch size={20} className="text-light-gray" />
+                <span className="pl-3 text-xl text-light-gray max-lg:hidden">
+                  Search
+                </span>
+              </button>
               <Link to="/login">
                 <GoPerson size={20} className="text-light-gray" />
               </Link>
@@ -61,7 +80,7 @@ const Header = () => {
             </div>
           </div>
         </div>
-        <Navbar />
+        <Navbar isMobileMenuOpen={isMobileMenuOpen} handleCloseMobileMenu={handleCloseMobileMenu}/>
       </>
     </header>
   );

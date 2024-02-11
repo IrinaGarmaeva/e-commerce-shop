@@ -7,7 +7,7 @@ const App = () => {
     <div className=" h-screen font-montserrat">
       <div className="flex flex-col h-full">
         <Header />
-        <main className="flex-grow">
+        <main className="flex-grow mt-24">
           <Outlet />
         </main>
         <Footer />

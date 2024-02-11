@@ -19,7 +19,7 @@ const Product = () => {
             <p className="font-semibold ">{`${product?.price} RSD`}</p>
             <div className="flex flex-row justify-between">
               <input type="number" min={1} max={5} placeholder="1"/>
-              <button className="bg-pink rounded-md text-white px-5 py-3 hover:scale-105" disabled={product?.countInStock === 0}>Add to Cart</button>
+              <button className="bg-pink rounded-md text-white px-5 py-3 ease-linear transition-all hover:scale-105" disabled={product?.countInStock === 0}>Add to Cart</button>
             </div>
           </div>
         </div>

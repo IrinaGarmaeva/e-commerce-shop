@@ -11,6 +11,12 @@
   scroll-behavior: smooth;
 }
 
+ul, ol {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
 @layer components {
   .max-container {
     max-width: 1440px;
@@ -21,6 +27,8 @@
   .hover-menu {
     @apply transition-all duration-700 ease-out hover:text-pink
   }
+
+
 }
 
 
@@ -32,6 +40,10 @@
 
   .input {
     @apply text-sm border border-pink h-7 rounded-md pl-2 focus:outline-none focus:shadow-md
+  }
+
+  .hover-mobile-menu {
+    @apply transition-all duration-700 ease-out hover:bg-pink hover:text-white
   }
 }
 
