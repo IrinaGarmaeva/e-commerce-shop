@@ -26,8 +26,8 @@ const Header = () => {
   }
 
   return (
-    <header className={`max-container padding flex flex-col align-center w-full text-text-main fixed top-0 z-20 bg-white ${isScrolled ? "shadow-md" : ""}`}>
-      <>
+    <header className={`w-full text-text-main fixed top-0 z-20 bg-white py-5 ${isScrolled ? "shadow-md" : ""}`}>
+      <div className="max-container padding flex flex-col align-center">
         <SearchForm />
         <div className="flex flex-row justify-between w-full items-center py-8">
           {isMobileMenuOpen ? (
@@ -81,7 +81,7 @@ const Header = () => {
           </div>
         </div>
         <Navbar isMobileMenuOpen={isMobileMenuOpen} handleCloseMobileMenu={handleCloseMobileMenu}/>
-      </>
+      </div>
     </header>
   );
 };
