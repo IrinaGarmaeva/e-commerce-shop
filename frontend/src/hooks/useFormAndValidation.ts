@@ -18,7 +18,6 @@ const useFormAndValidation = (initialValues: FormValues) => {
     setIsValid(isValid);
   };
 
-
   const resetForm = useCallback(
     (newValues = {}, newErrors = {}, newIsValid = false) => {
       setValues(newValues);

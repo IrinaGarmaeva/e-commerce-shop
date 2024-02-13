@@ -1,25 +1,23 @@
-import { type ChangeEvent, type FormEvent, useState } from "react";
+import { type FormEvent } from "react";
 import { IoCloseOutline } from "react-icons/io5";
-import { VALIDATION_MESSAGES } from "../../../utils/validationConstants";
+import { VALIDATION_MESSAGES, handleChangeInput } from "../../../utils/validationConstants";
+import useFormAndValidation from "../../../hooks/useFormAndValidation";
+import Input from "../Input/Input";
 
 const SearchForm = () => {
-  const [searchRequest, setSearchRequest] = useState<string>("");
-  const [error, setError] = useState<string>("");
-
-  const handleChangeSearchRequest = (e: ChangeEvent<HTMLInputElement>) => {
-    setSearchRequest(e.target.value);
-    const searchError = document.getElementById("search-error");
-    searchError?.classList.add("hidden");
-  };
+  const {values, setValues, errors, setErrors, handleChange, isValid} = useFormAndValidation({
+    searchRequest: '',
+  })
 
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    if (!searchRequest) {
-      setError(VALIDATION_MESSAGES.emptySearchRequest);
+    if (!values.searchRequest) {
+      setErrors({searchRequest: VALIDATION_MESSAGES.emptySearchRequest});
       const searchError = document.getElementById("search-error");
       searchError?.classList.remove("hidden");
       return;
     }
+    setValues({searchRequest: ''});
     console.log("you have submitted the search form");
   };
 
@@ -30,7 +28,7 @@ const SearchForm = () => {
     searchForm?.classList.add("hidden");
     overlay?.classList.add("hidden");
     searchError?.classList.add("hidden");
-    setSearchRequest("");
+    setValues({searchRequest: ''})
   };
 
   return (
@@ -45,27 +43,24 @@ const SearchForm = () => {
     >
       <div className="min-h-20 max-container flex flew-row flex-nowrap items-center gap-3 max-sm:gap-1">
         <div className="min-h-full w-11/12 relative max-350px:w-3/5">
-          <input
-            type="text"
-            value={searchRequest}
-            name="search"
-            placeholder="Search by keyword"
-            onChange={handleChangeSearchRequest}
-            autoComplete="off"
-            minLength={3}
-            maxLength={40}
-            className="min-h-full w-full bg-transparent outline-none text-xl max-sm:text-base"
+          <Input
+          type="text"
+          value={values.searchRequest}
+          name="searchRequest"
+          placeholder="Search by keyword"
+          onChange={(e) => handleChangeInput(e, errors, setErrors, handleChange, VALIDATION_MESSAGES.emptySearchRequest)}
+          inputClassName="min-h-full w-full bg-transparent outline-none text-xl max-sm:text-base"
+          error={errors.searchRequest}
+          spanClassName="absolute bottom-[-21px] left-0 text-sm text-orange hidden max-sm:text-xs"
+          spanId="search-error"
+          minLength={3}
+          maxLength={40}
           />
-          <span
-            id="search-error"
-            className="absolute bottom-[-21px] left-0 text-sm text-orange hidden max-sm:text-xs"
-          >
-            {error}
-          </span>
         </div>
         <button
           type="submit"
-          className="bg-pink border border-pink px-6 py-2 rounded-md text-white max-sm:px-3 max-sm:text-sm max-sm:py-1.5"
+          className="bg-pink border border-pink px-6 py-2 rounded-md text-white max-sm:px-3 max-sm:text-sm max-sm:py-1.5 disabled:cursor-not-allowed disabled:opacity-70"
+          disabled={!isValid}
         >
           Search
         </button>

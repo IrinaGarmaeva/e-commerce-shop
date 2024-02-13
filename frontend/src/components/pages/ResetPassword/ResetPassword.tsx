@@ -1,25 +1,29 @@
-import { ChangeEvent, useState } from "react";
+import { FormEvent, useEffect } from "react";
 import {
   isValidEmail,
   VALIDATION_MESSAGES,
+  handleChangeInput
 } from "../../../utils/validationConstants";
-import Button from "../../design-system/Button/Button";
+import useFormAndValidation from "../../../hooks/useFormAndValidation";
+import Input from "../../design-system/Input/Input";
 
 const ResetPassword = () => {
-  const [email, setEmail] = useState<string>("");
-  const [error, setError] = useState<string>("");
+  const {values, handleChange, errors, setErrors, isValid, setIsValid} = useFormAndValidation({
+    email: '',
+  })
 
-  const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
-    setEmail(e.target.value);
-    if (!isValidEmail(e.target.value)) {
-      setError(VALIDATION_MESSAGES.invalidEmail);
-      !e.target.value && setError("");
+  useEffect(() => {
+    if (errors.email || !values.email) {
+      setIsValid(false);
     } else {
-      setError("");
+      setIsValid(true);
     }
-  };
+  }, [errors]);
 
-  const handleSubmit = () => {};
+  const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault()
+    console.log('You have submitted reset password form')
+  };
 
   return (
     <section className="padding max-container flex items-center justify-center py-10">
@@ -34,21 +38,17 @@ const ResetPassword = () => {
           noValidate
           onSubmit={handleSubmit}
         >
-          <input
-            type="email"
-            name="email"
-            value={email}
-            className="input"
-            placeholder="Enter your Email"
-            autoComplete="off"
-            onChange={handleChange}
+          <Input
+          type="email"
+          name="email"
+          value={values.email}
+          inputClassName="input"
+          spanClassName="min-h-5 text-orange text-xs"
+          placeholder="Enter your Email"
+          onChange={(e) => handleChangeInput(e, errors, setErrors, handleChange, VALIDATION_MESSAGES.invalidEmail, isValidEmail)}
+          error={errors.email}
           />
-          <span className="min-h-5 text-orange text-xs">{error}</span>
-          <Button
-            className="bg-pink px-6 py-3 text-white rounded-md "
-            text="Submit"
-            type="submit"
-          />
+          <button className="bg-pink px-6 py-3 text-white rounded-md disabled:cursor-not-allowed disabled:opacity-70"  type="submit" disabled={!isValid}>Submit</button>
         </form>
       </div>
     </section>

@@ -1,45 +1,28 @@
-import { ChangeEvent, useState, useEffect, FormEvent } from "react";
+import { useEffect, FormEvent } from "react";
 import { Link } from "react-router-dom";
 import {
   isValidEmail,
   isValidPassword,
   VALIDATION_MESSAGES,
-  validateInput,
+  handleChangeInput,
 } from "../../../utils/validationConstants";
 import { ROUTES } from "../../../utils/constants";
 import useFormAndValidation from "../../../hooks/useFormAndValidation";
 import Input from "../../design-system/Input/Input";
 
 const Login = () => {
-  const { values, handleChange, errors, setErrors } = useFormAndValidation({
+  const { values, handleChange, errors, setErrors, isValid, setIsValid } = useFormAndValidation({
     email: "",
     password: "",
   });
-  const [isFormValid, setIsFormValid] = useState<boolean>(false);
 
   useEffect(() => {
     if (errors.email || errors.password || !values.email || !values.password) {
-      setIsFormValid(false);
+      setIsValid(false);
     } else {
-      setIsFormValid(true);
+      setIsValid(true);
     }
   }, [errors]);
-
-  const handleChangeInput = (
-    e: ChangeEvent<HTMLInputElement>,
-    isValidFunction: (value: string) => boolean,
-    validationMessage: string
-  ) => {
-    handleChange(e);
-    validateInput(
-      e.target.name,
-      e.target.value,
-      errors,
-      setErrors,
-      isValidFunction,
-      validationMessage
-    );
-  };
 
   const handleLogin = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -66,8 +49,11 @@ const Login = () => {
               onChange={(e) =>
                 handleChangeInput(
                   e,
+                  errors,
+                  setErrors,
+                  handleChange,
+                  VALIDATION_MESSAGES.invalidEmail,
                   isValidEmail,
-                  VALIDATION_MESSAGES.invalidEmail
                 )
               }
               error={errors.email}
@@ -84,8 +70,11 @@ const Login = () => {
               onChange={(e) =>
                 handleChangeInput(
                   e,
+                  errors,
+                  setErrors,
+                  handleChange,
+                  VALIDATION_MESSAGES.invalidPassword,
                   isValidPassword,
-                  VALIDATION_MESSAGES.invalidPassword
                 )
               }
               error={errors.password}
@@ -101,7 +90,7 @@ const Login = () => {
           <button
             type="submit"
             className="bg-pink px-6 py-3 text-white rounded-md disabled:cursor-not-allowed disabled:opacity-70"
-            disabled={!isFormValid}
+            disabled={!isValid}
           >
             Sign In
           </button>

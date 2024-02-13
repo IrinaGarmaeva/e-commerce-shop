@@ -1,3 +1,5 @@
+import { ChangeEvent } from "react";
+
 export const PATTERN_EMAIL = /^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,63}$/;
 export const PATTERN_PASSWORD = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[A-Za-z\d]{8,}$/;
 export const PATTERN_USERNAME = /^[A-Za-zА-Яа-я\- ]{3,40}$/
@@ -27,4 +29,23 @@ export const validateInput = (
   } else {
     setErrors({ ...errors, [name]: "" });
   }
+};
+
+export const handleChangeInput = (
+  e: ChangeEvent<HTMLInputElement>,
+  errors: { [key: string]: string },
+  setErrors: (errors: { [key: string]: string }) => void,
+  handleChange: (e: ChangeEvent<HTMLInputElement>) => void,
+  validationMessage: string,
+  isValidFunction?: (value: string) => boolean,
+): void => {
+  handleChange(e);
+  validateInput(
+    e.target.name,
+    e.target.value,
+    errors,
+    setErrors,
+    isValidFunction,
+    validationMessage
+  );
 };
