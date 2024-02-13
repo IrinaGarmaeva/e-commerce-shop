@@ -1,28 +1,50 @@
-import { ChangeEvent, useState } from "react";
+import { ChangeEvent, useState, useEffect, FormEvent } from "react";
 import { Link } from "react-router-dom";
 import {
   isValidEmail,
-  VALIDATION_MESSAGES
+  isValidPassword,
+  VALIDATION_MESSAGES,
+  validateInput,
 } from "../../../utils/validationConstants";
-import Button from "../../design-system/Button/Button";
 import { ROUTES } from "../../../utils/constants";
+import useFormAndValidation from "../../../hooks/useFormAndValidation";
+import Input from "../../design-system/Input/Input";
 
 const Login = () => {
-  const [email, setEmail] = useState<string>("");
-  const [error, setError] = useState<string>("");
-  const [password, setPassword] = useState<string>("");
+  const { values, handleChange, errors, setErrors } = useFormAndValidation({
+    email: "",
+    password: "",
+  });
+  const [isFormValid, setIsFormValid] = useState<boolean>(false);
 
-  const handleChangeEmail = (e: ChangeEvent<HTMLInputElement>) => {
-    setEmail(e.target.value);
-    if (!isValidEmail(e.target.value)) {
-      setError(VALIDATION_MESSAGES.invalidEmail);
-      !e.target.value && setError("");
+  useEffect(() => {
+    if (errors.email || errors.password || !values.email || !values.password) {
+      setIsFormValid(false);
     } else {
-      setError("");
+      setIsFormValid(true);
     }
+  }, [errors]);
+
+  const handleChangeInput = (
+    e: ChangeEvent<HTMLInputElement>,
+    isValidFunction: (value: string) => boolean,
+    validationMessage: string
+  ) => {
+    handleChange(e);
+    validateInput(
+      e.target.name,
+      e.target.value,
+      errors,
+      setErrors,
+      isValidFunction,
+      validationMessage
+    );
   };
 
-  const handleLogin = () => {};
+  const handleLogin = (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    console.log("You successfully logged in");
+  };
 
   return (
     <section className="max-container padding py-10">
@@ -37,34 +59,52 @@ const Login = () => {
             <label htmlFor="email" className="text-base">
               Email
             </label>
-            <input
+            <Input
               type="email"
               name="email"
-              className="input"
-              required
-              value={email}
-              onChange={handleChangeEmail}
+              value={values.email}
+              onChange={(e) =>
+                handleChangeInput(
+                  e,
+                  isValidEmail,
+                  VALIDATION_MESSAGES.invalidEmail
+                )
+              }
+              error={errors.email}
+              inputClassName="input"
+              spanClassName="min-h-5 text-orange text-xs mt-1"
             />
-            <span className="min-h-5 text-orange text-sm">Email error</span>
-            <label htmlFor="password" className="text-base">Password</label>
-            <input
+            <label htmlFor="password" className="text-base">
+              Password
+            </label>
+            <Input
               type="password"
-              name="email"
-              className="input"
-              required
-              value={password}
-              onChange={handleChangeEmail}
+              name="password"
+              value={values.password}
+              onChange={(e) =>
+                handleChangeInput(
+                  e,
+                  isValidPassword,
+                  VALIDATION_MESSAGES.invalidPassword
+                )
+              }
+              error={errors.password}
+              inputClassName="input"
+              spanClassName="min-h-8 text-orange text-xs mt-1"
             />
-            <span className="min-h-5 text-orange text-sm">Password Error</span>
           </fieldset>
           <div className="text-right text-xs">
-            <Link to={ROUTES.resetPassword} className=" border-b border-pink">Forgot your password?</Link>
+            <Link to={ROUTES.resetPassword} className=" border-b border-pink">
+              Forgot your password?
+            </Link>
           </div>
-          <Button
-            className="bg-pink px-6 py-3 text-white rounded-md"
-            text="Sign In"
+          <button
             type="submit"
-          />
+            className="bg-pink px-6 py-3 text-white rounded-md disabled:cursor-not-allowed disabled:opacity-70"
+            disabled={!isFormValid}
+          >
+            Sign In
+          </button>
           <Link
             to={ROUTES.sign.up}
             className="text-pink border border-1 border-pink  px-6 py-3 bg-transparent rounded-md text-center"
