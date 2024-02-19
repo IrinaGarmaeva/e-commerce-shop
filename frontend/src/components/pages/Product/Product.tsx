@@ -1,9 +1,20 @@
+import { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
-import products from "../../../products";
+import axios from "axios";
+import { ProductType } from "../../design-system/ProductCard/types";
 
 const Product = () => {
   const { id: productId } = useParams();
-  const product = products.find((item) => item._id === productId);
+  const [product, setProduct] = useState<ProductType>()
+
+  useEffect(() => {
+    const fetchProduct = async () => {
+      const {data} = await axios.get(`http://localhost:5000/api/products/${productId}`)
+      setProduct(data)
+    }
+
+    fetchProduct();
+  }, [productId])
 
   return (
     <section className="max-container padding py-10 flex justify-center">

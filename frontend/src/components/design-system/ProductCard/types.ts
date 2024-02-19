@@ -1,5 +1,5 @@
 
-export interface Product {
+export interface ProductType {
   _id: string;
   name: string;
   image: string;
@@ -12,5 +12,5 @@ export interface Product {
 }
 
 export type ProductCardProps = {
-  product: Product
+  product: ProductType
 }
