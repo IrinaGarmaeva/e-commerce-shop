@@ -1,4 +1,5 @@
 import express, {Request, Response, Express} from 'express';
+import connectDB from './config/db';
 import cors from 'cors';
 import dotenv from 'dotenv';
 dotenv.config();
@@ -6,7 +7,8 @@ import products from './data/products';
 
 const port = process.env.PORT || 5000;
 
-const app: Express = express()
+const app: Express = express();
+connectDB();
 
 app.use(cors());
 
