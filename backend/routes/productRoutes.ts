@@ -1,22 +1,16 @@
-import express, {Request, Response, Router} from "express";
-import asyncHandler from "../middleware/asyncHandler";
-import Product from "../models/productModel";
-import { notFound, errorHandler } from "../middleware/errorMiddleware";
+import express, { Router} from "express";
+import { getProducts, getProductById } from "../controllers/productController";
 
 const router: Router = express.Router();
 
-router.get("/", asyncHandler(async(req: Request, res: Response) => {
-  res.setHeader("Cache-Control", "no-store");
-  const products = await Product.find({})
-  res.json(products)
-}))
+// @desc    Fetch all products
+// @route   GET /api/products
+// @access  Public
+router.get("/", getProducts)
 
-router.get("/:id", asyncHandler(async(req: Request, res: Response) => {
-  const product = await Product.findById(req.params.id)
-  if (product) {
-    return res.json(product)
-  }
-  res.status(404).json({message: "Resourse not found"})
-}))
+// @desc    Fetch a product
+// @route   GET /api/products/:id
+// @access  Public
+router.get("/:id", getProductById)
 
 export default router
