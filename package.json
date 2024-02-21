@@ -13,6 +13,8 @@
   "author": "Irina Garmaeva",
   "license": "MIT",
   "dependencies": {
+    "bcrypt-ts": "^5.0.1",
+    "colors": "^1.4.0",
     "cors": "^2.8.5",
     "express": "^4.18.2",
     "mongoose": "^8.1.3"
