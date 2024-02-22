@@ -1,5 +1,6 @@
 import ProductList from '../../design-system/ProductList/ProductList';
 import { useGetProductsQuery } from '../../../redux/slices/apiSlices/productsSlice/productsSlice';
+import Loader from '../../design-system/Loader/Loader';
 
 const Home = () => {
   const { data: products, isLoading, error } = useGetProductsQuery('');
@@ -7,7 +8,7 @@ const Home = () => {
   return (
     <section className='max-container padding py-10'>
       {isLoading ? (
-        <h2>Loading...</h2>
+        <Loader />
       ) : error ? (
         <div>
           There is an error

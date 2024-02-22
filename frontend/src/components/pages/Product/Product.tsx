@@ -1,5 +1,6 @@
 import { useParams } from "react-router-dom";
 import { useGetProductDetailsQuery } from "../../../redux/slices/apiSlices/productsSlice/productsSlice";
+import Loader from "../../design-system/Loader/Loader";
 
 const Product = () => {
   const { id: productId } = useParams();
@@ -13,7 +14,7 @@ const Product = () => {
   return (
     <section className="max-container padding py-10 flex justify-center">
       {isLoading ? (
-        <h2>Loading...</h2>
+        <Loader />
       ) : error ? (
         <div>There is an error</div>
       ) : (
