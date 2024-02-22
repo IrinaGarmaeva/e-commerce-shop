@@ -1,4 +1,15 @@
-import { ButtonProps } from "./types";
+import { ReactNode } from "react";
+
+type ButtonType = "button" | "submit" | "reset";
+
+type ButtonProps = {
+  className?: string;
+  type?: ButtonType;
+  onClick?: () => void;
+  text?: string;
+  disabled?: string;
+  children?: ReactNode;
+};
 
 function Button({ className, type, onClick, text, children, disabled }: ButtonProps) {
   return (

@@ -1,5 +1,5 @@
 import { useParams } from "react-router-dom";
-import { useGetProductDetailsQuery } from "../../../redux/slices/apiSlices/productsSlice/productsSlice";
+import { useGetProductDetailsQuery } from "../../../redux/slices/productsSlice/productsSlice";
 import Loader from "../../design-system/Loader/Loader";
 
 const Product = () => {

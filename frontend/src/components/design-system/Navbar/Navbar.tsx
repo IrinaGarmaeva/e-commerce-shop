@@ -10,7 +10,6 @@ type NavbarProps = {
 const Navbar: FC<NavbarProps> = ({ isMobileMenuOpen, handleCloseMobileMenu }) => {
   const {pathname} = useLocation()
 
-
   return (
     <>
       {isMobileMenuOpen && (

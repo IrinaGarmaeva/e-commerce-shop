@@ -1,8 +1,12 @@
 import { FC, useState } from "react";
 import { Link } from "react-router-dom";
-import { ProductCardProps } from "./types";
 import { IoIosHeartEmpty } from "react-icons/io";
 import { IoIosHeart } from "react-icons/io";
+import { IProduct } from "./types";
+
+export type ProductCardProps = {
+  product: IProduct
+}
 
 const ProductCard: FC<ProductCardProps> = ({ product }) => {
   const [isLiked, setIsLiked] = useState<boolean>(false);
