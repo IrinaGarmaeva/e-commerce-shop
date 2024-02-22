@@ -1,4 +1,4 @@
-import { Product } from "../ProductCard/types"
+import { ProductType } from "../ProductCard/types"
 export type ProductListProps = {
-  products: Array<Product>
+  products: Array<ProductType>
 }
