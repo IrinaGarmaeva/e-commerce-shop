@@ -4,7 +4,7 @@ import { useDispatch } from "react-redux";
 import { useGetProductDetailsQuery } from "../../../redux/slices/productsSlice/productsSlice";
 import Loader from "../../design-system/Loader/Loader";
 import { addToCart } from "../../../redux/slices/cartSlice/cartSlice";
-import {ROUTES} from '../../../utils/constants'
+import { ROUTES } from "../../../utils/constants";
 
 const Product = () => {
   const { id: productId } = useParams();
@@ -19,13 +19,24 @@ const Product = () => {
   } = useGetProductDetailsQuery(productId);
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
-    setQuantity(Number(e.target.value))
-  }
+    const value = Number(e.target.value);
+    setQuantity(value > 0 ? value : 1);
+  };
 
   const handleAddToCart = () => {
-    dispatch(addToCart({...product, quantity}))
-    navigate(ROUTES.cart)
-  }
+    dispatch(addToCart({ ...product, quantity }));
+    navigate(ROUTES.cart);
+  };
+
+  const incrementQuantity = () => {
+    setQuantity((prevQuantity) =>
+      Math.min(prevQuantity + 1, product.countInStock)
+    );
+  };
+
+  const decrementQuantity = () => {
+    setQuantity((prevQuantity) => Math.max(prevQuantity - 1, 1));
+  };
 
   return (
     <section className="max-container padding py-10 flex justify-center">
@@ -49,18 +60,28 @@ const Product = () => {
               <p>{product?.description}</p>
               <p className="font-semibold ">{`${product?.price} RSD`}</p>
               {product.countInStock > 0 && (
-                <div className="flex flex-row justify-between">
-                <input type="number" min={1} max={product.countInStock} placeholder="1" value={quantity} onChange={handleChange}/>
-                <button
-                  className="bg-pink rounded-md text-white px-5 py-3 ease-linear transition-all hover:scale-105"
-                  disabled={product?.countInStock === 0}
-                  onClick={handleAddToCart}
-                >
-                  Add to Cart
-                </button>
-              </div>
+                <div className="flex flex-row justify-between items-center">
+                  <div className="flex flex-row flex-nowrap justify-between border border-[#ececec] bg-[#f8f8f8] px-3 max-h-12 rounded-sm">
+                    <button onClick={decrementQuantity} className="text-3xl ease-linear transition-allhover:text-pink">-</button>
+                    <input
+                      type="text"
+                      max={product.countInStock}
+                      placeholder="1"
+                      value={quantity}
+                      onChange={handleChange}
+                      className="focus:outline-none text-center max-w-9 bg-transparent"
+                    />
+                    <button onClick={incrementQuantity} className="text-3xl ease-linear transition-all hover:text-pink">+</button>
+                  </div>
+                  <button
+                    className="bg-pink rounded-md text-white px-5 py-3 ease-linear transition-all hover:scale-105"
+                    disabled={product?.countInStock === 0}
+                    onClick={handleAddToCart}
+                  >
+                    Add to Cart
+                  </button>
+                </div>
               )}
-
             </div>
           </div>
         </div>

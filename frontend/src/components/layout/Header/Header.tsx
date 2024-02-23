@@ -9,10 +9,15 @@ import Navbar from "../../design-system/Navbar/Navbar";
 import SearchForm from "../../design-system/SearchForm/SearchForm";
 import Button from "../../design-system/Button/Button";
 import useScroll from "../../../hooks/useScroll";
+import { useSelector } from "react-redux";
+import { RootState } from "../../../redux/store";
+
 
 const Header = () => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState<boolean>(false);
   const { isScrolled } = useScroll();
+  const { cartItems } = useSelector((state:RootState) => state.cart);
+  console.log(cartItems);
 
   const handleOpenSearchForm = () => {
     const searchForm = document.getElementById("search-form");
@@ -22,11 +27,15 @@ const Header = () => {
   };
 
   const handleCloseMobileMenu = () => {
-    setIsMobileMenuOpen(false)
-  }
+    setIsMobileMenuOpen(false);
+  };
 
   return (
-    <header className={`w-full text-text-main fixed top-0 z-20 bg-white py-5 ${isScrolled ? "shadow-md" : ""}`}>
+    <header
+      className={`w-full text-text-main fixed top-0 z-20 bg-white py-5 ${
+        isScrolled ? "shadow-md" : ""
+      }`}
+    >
       <div className="max-container padding flex flex-col align-center">
         <SearchForm />
         <div className="flex flex-row justify-between w-full items-center py-8">
@@ -73,14 +82,19 @@ const Header = () => {
               </Link>
               <Link to="/cart" className="static flex flex-row items-center">
                 <PiHandbag size={20} className=" text-light-gray" />
-                <span className="ml-1 min-h-3 bg-pink w-5 rounded-xl text-white text-center">
-                  0
-                </span>
+                {cartItems.length > 0 && (
+                  <span className="ml-1 min-h-3 bg-pink w-5 rounded-xl text-white text-center">
+                    {cartItems.reduce((a, c) => a + c.quantity!, 0)}
+                  </span>
+                )}
               </Link>
             </div>
           </div>
         </div>
-        <Navbar isMobileMenuOpen={isMobileMenuOpen} handleCloseMobileMenu={handleCloseMobileMenu}/>
+        <Navbar
+          isMobileMenuOpen={isMobileMenuOpen}
+          handleCloseMobileMenu={handleCloseMobileMenu}
+        />
       </div>
     </header>
   );
