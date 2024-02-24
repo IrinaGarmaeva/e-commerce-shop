@@ -17,7 +17,6 @@ const Header = () => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState<boolean>(false);
   const { isScrolled } = useScroll();
   const { cartItems } = useSelector((state:RootState) => state.cart);
-  console.log(cartItems);
 
   const handleOpenSearchForm = () => {
     const searchForm = document.getElementById("search-form");
