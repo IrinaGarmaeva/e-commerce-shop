@@ -4,6 +4,7 @@ import cors from "cors";
 import dotenv from "dotenv";
 dotenv.config();
 import productRoutes from "./routes/productRoutes";
+import userRoutes from './routes/userRoutes'
 import { notFound, errorHandler } from "./middleware/errorMiddleware";
 
 const port = process.env.PORT || 5000;
@@ -18,6 +19,7 @@ app.get("/", async (req: Request, res: Response) => {
 });
 
 app.use("/api/products", productRoutes);
+app.use("/api/users", userRoutes);
 
 app.use(notFound);
 app.use(errorHandler);

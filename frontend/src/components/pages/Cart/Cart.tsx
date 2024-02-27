@@ -1,20 +1,15 @@
 import { Link, useNavigate } from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
-import { toast } from "react-toastify";
+import { useSelector } from "react-redux";
 import { RootState } from "../../../redux/store";
 import { ROUTES } from "../../../utils/constants";
 import { IProduct } from "../../../types";
 import { MdDeleteOutline } from "react-icons/md";
-import {
-  addToCart,
-  removeFromCart,
-} from "../../../redux/slices/cartSlice/cartSlice";
+
 import CartOnSmallScreen from "./CartOnSmallScreen";
 import { useCart } from "../../../hooks/useCart";
 
 const Cart = () => {
   const navigate = useNavigate();
-  const dispatch = useDispatch();
 
   const {
     handleRemoveFromCart,
@@ -29,33 +24,6 @@ const Cart = () => {
   const handleNavigateToProductDetailsPage = (item: IProduct) => {
     navigate(`${ROUTES.catalog}/${item._id}`);
   };
-
-  // const handleRemoveFromCart = (id: string) => {
-  //   dispatch(removeFromCart(id));
-  // };
-
-  // const handleAddToCart = (product: IProduct, newQuantity: number) => {
-  //   const updatedQuantity = Math.min(newQuantity, product.countInStock);
-
-  //   if (updatedQuantity < newQuantity) {
-  //     toast.error("Not enough stock available");
-  //   }
-  //   dispatch(addToCart({ ...product, quantity: updatedQuantity }));
-  // };
-
-  // const handleIncrementQuantity = (item: IProduct) => {
-  //   const newQuantity = item.quantity! + 1;
-  //   handleAddToCart(item, newQuantity);
-  // };
-
-  // const handleDecrementQuantity = (item: IProduct) => {
-  //   const newQuantity = Math.max(item.quantity! - 1, 1);
-  //   handleAddToCart(item, newQuantity);
-  // };
-
-  // const handleChangeQuantity = (item: IProduct, newQuantity: number) => {
-  //   handleAddToCart(item, newQuantity);
-  // };
 
   const subtotal: number = Number(
     cartItems
