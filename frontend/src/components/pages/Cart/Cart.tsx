@@ -10,10 +10,18 @@ import {
   removeFromCart,
 } from "../../../redux/slices/cartSlice/cartSlice";
 import CartOnSmallScreen from "./CartOnSmallScreen";
+import { useCart } from "../../../hooks/useCart";
 
 const Cart = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
+
+  const {
+    handleRemoveFromCart,
+    handleIncrementQuantity,
+    handleDecrementQuantity,
+    handleChangeQuantity
+  } = useCart();
 
   const cart = useSelector((state: RootState) => state.cart);
   const { cartItems } = cart;
@@ -22,32 +30,32 @@ const Cart = () => {
     navigate(`${ROUTES.catalog}/${item._id}`);
   };
 
-  const handleRemoveFromCart = (id: string) => {
-    dispatch(removeFromCart(id));
-  };
+  // const handleRemoveFromCart = (id: string) => {
+  //   dispatch(removeFromCart(id));
+  // };
 
-  const handleAddToCart = (product: IProduct, newQuantity: number) => {
-    const updatedQuantity = Math.min(newQuantity, product.countInStock);
+  // const handleAddToCart = (product: IProduct, newQuantity: number) => {
+  //   const updatedQuantity = Math.min(newQuantity, product.countInStock);
 
-    if (updatedQuantity < newQuantity) {
-      toast.error("Not enough stock available");
-    }
-    dispatch(addToCart({ ...product, quantity: updatedQuantity }));
-  };
+  //   if (updatedQuantity < newQuantity) {
+  //     toast.error("Not enough stock available");
+  //   }
+  //   dispatch(addToCart({ ...product, quantity: updatedQuantity }));
+  // };
 
-  const handleIncrementQuantity = (item: IProduct) => {
-    const newQuantity = item.quantity! + 1;
-    handleAddToCart(item, newQuantity);
-  };
+  // const handleIncrementQuantity = (item: IProduct) => {
+  //   const newQuantity = item.quantity! + 1;
+  //   handleAddToCart(item, newQuantity);
+  // };
 
-  const handleDecrementQuantity = (item: IProduct) => {
-    const newQuantity = Math.max(item.quantity! - 1, 1);
-    handleAddToCart(item, newQuantity);
-  };
+  // const handleDecrementQuantity = (item: IProduct) => {
+  //   const newQuantity = Math.max(item.quantity! - 1, 1);
+  //   handleAddToCart(item, newQuantity);
+  // };
 
-  const handleChangeQuantity = (item: IProduct, newQuantity: number) => {
-    handleAddToCart(item, newQuantity);
-  };
+  // const handleChangeQuantity = (item: IProduct, newQuantity: number) => {
+  //   handleAddToCart(item, newQuantity);
+  // };
 
   const subtotal: number = Number(
     cartItems
