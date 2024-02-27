@@ -1,17 +1,22 @@
 import { FC } from "react";
-import ProductCard from '../ProductCard/ProductCard';
-import { ProductType } from '../ProductCard/types';
-import { ProductListProps } from "./types";
+import ProductCard from "../ProductCard/ProductCard";
+import { IProduct } from "../../../types/index";
 
-
-const ProductList: FC<ProductListProps> = ({products}) => {
-  return (
-    <section className='mt-8 flex flex-row flex-wrap justify-center justify-items-center gap-5' aria-label='Section with products'>
-      {products.map((product: ProductType )=> (
-        <ProductCard product={product} key={product._id}/>
-      ))}
-    </section>
-  )
+type ProductListProps = {
+  products: Array<IProduct>
 }
 
-export default ProductList
+const ProductList: FC<ProductListProps> = ({ products }) => {
+  return (
+    <section
+      className="mt-8 flex flex-row flex-wrap justify-center justify-items-center gap-5"
+      aria-label="Section with products"
+    >
+      {products.map((product: IProduct) => (
+        <ProductCard product={product} key={product._id} />
+      ))}
+    </section>
+  );
+};
+
+export default ProductList;

@@ -1,5 +1,18 @@
-import {FC} from 'react';
-import { InputProps } from './types';
+import {FC, ChangeEvent} from 'react';
+
+type InputProps = {
+  type: string,
+  name: string,
+  value: string,
+  placeholder?: string,
+  onChange: (e: ChangeEvent<HTMLInputElement>) => void,
+  error: string,
+  inputClassName: string,
+  spanClassName: string,
+  spanId?: string,
+  minLength?: number,
+  maxLength?: number
+}
 
 const Input: FC<InputProps> = ({ type, name, value, placeholder, onChange, error, inputClassName, spanClassName, spanId, minLength, maxLength }) => {
   return (
