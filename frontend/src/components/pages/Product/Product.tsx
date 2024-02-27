@@ -1,14 +1,14 @@
 import { useState, ChangeEvent } from "react";
-import { useParams, useNavigate } from "react-router-dom";
+import { useParams } from "react-router-dom";
+import { toast } from "react-toastify";
 import { useDispatch } from "react-redux";
 import { useGetProductDetailsQuery } from "../../../redux/slices/productsSlice/productsSlice";
 import Loader from "../../design-system/Loader/Loader";
 import { addToCart } from "../../../redux/slices/cartSlice/cartSlice";
-import { ROUTES } from "../../../utils/constants";
+import CustomNotification from "../../design-system/CustomNotification/CustomNotification";
 
 const Product = () => {
   const { id: productId } = useParams();
-  const navigate = useNavigate();
   const dispatch = useDispatch();
   const [quantity, setQuantity] = useState<number>(1);
 
@@ -25,7 +25,13 @@ const Product = () => {
 
   const handleAddToCart = () => {
     dispatch(addToCart({ ...product, quantity }));
-    navigate(ROUTES.cart);
+    toast(<CustomNotification product={product} />, {
+      position: "top-right",
+      autoClose: 4000,
+      hideProgressBar: true,
+      closeOnClick: true,
+      pauseOnHover: true,
+    })
   };
 
   const incrementQuantity = () => {
@@ -62,7 +68,7 @@ const Product = () => {
               {product.countInStock > 0 && (
                 <div className="flex flex-row justify-between items-center">
                   <div className="flex flex-row flex-nowrap justify-between border border-[#ececec] bg-[#f8f8f8] px-3 max-h-12 rounded-sm">
-                    <button onClick={decrementQuantity} className="text-3xl ease-linear transition-allhover:text-pink">-</button>
+                    <button onClick={decrementQuantity} className="text-3xl text-text-main ease-linear transition-allhover:text-pink">-</button>
                     <input
                       type="text"
                       max={product.countInStock}
@@ -71,7 +77,7 @@ const Product = () => {
                       onChange={handleChange}
                       className="focus:outline-none text-center max-w-9 bg-transparent"
                     />
-                    <button onClick={incrementQuantity} className="text-3xl ease-linear transition-all hover:text-pink">+</button>
+                    <button onClick={incrementQuantity} className="text-3xl text-text-main ease-linear transition-all hover:text-pink">+</button>
                   </div>
                   <button
                     className="bg-pink rounded-md text-white px-5 py-3 ease-linear transition-all hover:scale-105"
