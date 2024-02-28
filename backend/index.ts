@@ -3,13 +3,19 @@ import connectDB from "./config/db";
 import cors from "cors";
 import dotenv from "dotenv";
 dotenv.config();
+import cookieParser from 'cookie-parser';
 import productRoutes from "./routes/productRoutes";
+import userRoutes from './routes/userRoutes'
 import { notFound, errorHandler } from "./middleware/errorMiddleware";
 
 const port = process.env.PORT || 5000;
 
-const app: Express = express();
 connectDB();
+
+const app: Express = express();
+app.use(express.json());
+app.use(express.urlencoded({extended: true}));
+app.use(cookieParser());
 
 app.use(cors());
 
@@ -18,6 +24,7 @@ app.get("/", async (req: Request, res: Response) => {
 });
 
 app.use("/api/products", productRoutes);
+app.use("/api/users", userRoutes);
 
 app.use(notFound);
 app.use(errorHandler);
