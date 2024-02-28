@@ -2,9 +2,9 @@ import { NextFunction, Request, Response } from "express";
 import jwt, { JwtPayload } from "jsonwebtoken";
 import asyncHandler from "./asyncHandler";
 import User from "../models/userModel";
-import { UserResponse } from "../controllers/userControllers";
+import { UserResponse } from "../types";
 
-interface CustomRequest extends Request {
+export interface CustomRequest extends Request {
   user: UserResponse;
 }
 

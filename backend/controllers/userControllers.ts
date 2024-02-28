@@ -1,14 +1,10 @@
 import { Request, Response } from "express-serve-static-core";
 import asyncHandler from "../middleware/asyncHandler";
-import User, { IUser } from "../models/userModel";
+import User from "../models/userModel";
 import generateToken from "../utils/generateToken";
-
-export interface UserResponse {
-  _id: string;
-  name: string;
-  email: string;
-  isAdmin: boolean;
-}
+import { CustomRequest } from "../middleware/authMiddleware";
+import { IUser, UserResponse } from "../types";
+import { userInfo } from "os";
 
 // @desc    Auth user and get token
 // @route   POST /api/users/login
@@ -21,7 +17,7 @@ const authUser = asyncHandler(async (req: Request, res: Response) => {
   if (user && (await user.matchPassword!(password))) {
     generateToken(res, user._id);
 
-    res.json({
+    res.status(200).json({
       _id: user._id,
       name: user.name,
       email: user.email,
@@ -77,7 +73,19 @@ const logoutUser = asyncHandler(async (req: Request, res: Response) => {
 // @access  Private
 const getUserProfile = asyncHandler(async (req: Request, res: Response) => {
   res.setHeader("Cache-Control", "no-store");
-  res.send("get user profile");
+  const user = await User.findById((req as CustomRequest).user._id);
+
+  if (user) {
+    res.status(200).json({
+      _id: user._id,
+      name: user.name,
+      email: user.email,
+      isAdmin: user.isAdmin,
+    });
+  } else {
+    res.status(404);
+    throw new Error("User not found");
+  }
 });
 
 // @desc    Update user profile
@@ -85,7 +93,26 @@ const getUserProfile = asyncHandler(async (req: Request, res: Response) => {
 // @access  Private
 const updateUserProfile = asyncHandler(async (req: Request, res: Response) => {
   res.setHeader("Cache-Control", "no-store");
-  res.send("update user profile");
+  const user = await User.findById((req as CustomRequest).user._id);
+
+  if (user) {
+    user.name = req.body.name || user.name;
+    user.email = req.body.email || user.email;
+    if (req.body.password) {
+      user.password = req.body.password;
+    }
+
+    const updatedUser: UserResponse = await user.save();
+    res.status(200).json({
+      _id: updatedUser._id,
+      name: updatedUser.name,
+      email: updatedUser.email,
+      isAdmin: updatedUser.isAdmin,
+    });
+  } else {
+    res.status(404);
+    throw new Error("User not found");
+  }
 });
 
 // @desc    Get users
