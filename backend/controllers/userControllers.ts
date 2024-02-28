@@ -1,13 +1,46 @@
 import { Request, Response } from "express-serve-static-core";
 import asyncHandler from "../middleware/asyncHandler";
-import User from "../models/userModel";
+import User, { IUser } from "../models/userModel";
+import jwt from 'jsonwebtoken';
+
+export interface UserResponse {
+  _id: string;
+  name: string;
+  email: string;
+  isAdmin: boolean;
+}
 
 // @desc    Auth user and get token
 // @route   POST /api/users/login
 // @access  Public
 const authUser = asyncHandler(async (req: Request, res: Response) => {
   res.setHeader("Cache-Control", "no-store");
-  res.send("auth user");
+  const {email, password} = req.body;
+  console.log(req.body)
+
+  const user:  IUser | null = await User.findOne({email: email})
+  if (user && (await user.matchPassword!(password))) {
+    const token = jwt.sign({userId: user._id}, process.env.JWT_SECRET!, {
+      expiresIn: '14d'
+    });
+
+    res.cookie('jwt', token, {
+      httpOnly: true,
+      secure:process.env.NODE_ENV !== 'development',
+      sameSite: 'strict',
+      maxAge: 14 * 24 * 60 * 60 * 1000 // 14 days
+    });
+
+    res.json({
+      _id: user._id,
+      name: user.name,
+      email: user.email,
+      isAdmin: user.isAdmin,
+    })
+  } else {
+    res.status(401);
+    throw new Error('Invalid email or password')
+  }
 });
 
 // @desc    Registration
