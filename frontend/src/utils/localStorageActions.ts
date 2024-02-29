@@ -1,7 +1,7 @@
-import { IProduct, ICartState } from "../types";
+import { IProduct, ICartState, IUser } from "../types";
 
 export default class LocalStorage {
-  static setItem(key: string, data: IProduct | ICartState) {
+  static setItem(key: string, data: IProduct | ICartState | IUser) {
     localStorage.setItem(key, JSON.stringify(data));
   }
 
