@@ -14,6 +14,7 @@ import Register from './components/pages/Register/Register.tsx';
 import ResetPassword from './components/pages/ResetPassword/ResetPassword.tsx';
 import Product from './components/pages/Product/Product.tsx';
 import Cart from './components/pages/Cart/Cart.tsx';
+import Profile from './components/pages/Profile/Profile.tsx';
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -24,6 +25,7 @@ const router = createBrowserRouter(
       <Route path={ROUTES.resetPassword} element={<ResetPassword />} />
       <Route path={ROUTES.product} element={<Product />} />
       <Route path={ROUTES.cart} element={<Cart />} />
+      <Route path={ROUTES.profile} element={<Profile />} />
     </Route>
   )
 )

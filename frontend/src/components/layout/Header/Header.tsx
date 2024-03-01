@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { GoSearch, GoPerson } from "react-icons/go";
 import { PiHandbag } from "react-icons/pi";
 import { IoCallOutline } from "react-icons/io5";
@@ -9,14 +9,22 @@ import Navbar from "../../design-system/Navbar/Navbar";
 import SearchForm from "../../design-system/SearchForm/SearchForm";
 import Button from "../../design-system/Button/Button";
 import useScroll from "../../../hooks/useScroll";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import { RootState } from "../../../redux/store";
-
+import { useLogoutMutation } from "../../../redux/slices/usersApiSlice/usersApiSlice";
+import { logout } from "../../../redux/slices/authSlice/authSlice";
+import { ROUTES } from "../../../utils/constants";
 
 const Header = () => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState<boolean>(false);
+  const [showProfileMenu, setShowProfileMenu] = useState<boolean>(false);
+
   const { isScrolled } = useScroll();
-  const { cartItems } = useSelector((state:RootState) => state.cart);
+  const { cartItems } = useSelector((state: RootState) => state.cart);
+  const { userInfo } = useSelector((state: RootState) => state.auth);
+  const dispatch = useDispatch();
+  const [logoutApiCall] = useLogoutMutation();
+  const navigate = useNavigate();
 
   const handleOpenSearchForm = () => {
     const searchForm = document.getElementById("search-form");
@@ -28,6 +36,17 @@ const Header = () => {
   const handleCloseMobileMenu = () => {
     setIsMobileMenuOpen(false);
   };
+
+  const handleLogOut = async() => {
+    console.log('You clicked logg out button')
+    try {
+      await logoutApiCall(undefined).unwrap()
+      dispatch(logout())
+      navigate(ROUTES.home)
+    } catch (error) {
+      console.log(error)
+    }
+  }
 
   return (
     <header
@@ -76,8 +95,25 @@ const Header = () => {
                   Search
                 </span>
               </button>
-              <Link to="/login">
-                <GoPerson size={20} className="text-light-gray" />
+              <Link
+                to={userInfo ? "profile" : "login"}
+                onMouseEnter={() => setShowProfileMenu(true)}
+                onMouseLeave={() => setShowProfileMenu(false)}
+              >
+                <GoPerson
+                  size={20}
+                  className={`${userInfo ? "text-pink" : "text-light-gray"}`}
+                />
+                {showProfileMenu && userInfo && (
+                  <div className="absolute top-20 right-13 bg-white shadow-md p-2 z-30 rounded-md w-20  font-medium text-light-gray">
+                    <Link to="/profile" className="block hover-menu">
+                      Profile
+                    </Link>
+                    <p className="block hover-menu" onClick={handleLogOut}>
+                      Logout
+                    </p>
+                  </div>
+                )}
               </Link>
               <Link to="/cart" className="static flex flex-row items-center">
                 <PiHandbag size={20} className=" text-light-gray" />

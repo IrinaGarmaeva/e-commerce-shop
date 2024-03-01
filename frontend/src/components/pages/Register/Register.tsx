@@ -1,5 +1,6 @@
-import { FormEvent, useEffect } from "react";
-import { Link } from "react-router-dom";
+import { FormEvent, useEffect, useState } from "react";
+import { Link, useLocation, useNavigate } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
 import {
   isValidEmail,
   isValidPassword,
@@ -10,27 +11,73 @@ import {
 import { ROUTES } from "../../../utils/constants";
 import useFormAndValidation from "../../../hooks/useFormAndValidation";
 import Input from "../../design-system/Input/Input";
+import { useRegisterMutation } from "../../../redux/slices/usersApiSlice/usersApiSlice";
+import { setCredentials } from "../../../redux/slices/authSlice/authSlice";
+import { RootState } from "../../../redux/store";
+import { PiEyeClosedLight } from "react-icons/pi";
+import Loader from "../../design-system/Loader/Loader";
 
 const Register = () => {
-  const { values, handleChange, errors, setErrors, isValid, setIsValid } = useFormAndValidation({
-    name: "",
-    email: "",
-    password: "",
-  });
+  const [showPassword, setShowPassword] = useState<boolean>(false);
+  const [showConfirmPassword, setShowConfirmPassword] =
+    useState<boolean>(false);
+  const { values, handleChange, errors, setErrors, isValid, setIsValid } =
+    useFormAndValidation({
+      name: "",
+      email: "",
+      password: "",
+    });
+
+  const [register, { isLoading }] = useRegisterMutation();
+  const dispatch = useDispatch();
+  const { userInfo } = useSelector((state: RootState) => state.auth);
+  const { search } = useLocation();
+  const navigate = useNavigate();
+  const searchParams = new URLSearchParams(search);
+  const redirect = searchParams.get("redirect") || "/";
 
   useEffect(() => {
-    if (errors.email || errors.password || !values.email || !values.password) {
+    if (userInfo) {
+      navigate(redirect);
+    }
+  }, [userInfo, redirect, navigate]);
+
+  useEffect(() => {
+    if (
+      errors.email ||
+      errors.password ||
+      errors.confirmPassword ||
+      !values.email ||
+      !values.password ||
+      !values.confirmPassword
+    ) {
       setIsValid(false);
     } else {
       setIsValid(true);
     }
   }, [errors]);
 
-  const handleRegister = (e: FormEvent<HTMLFormElement>) => {
+  const handleRegister = async (
+    e: FormEvent<HTMLFormElement>
+  ): Promise<void> => {
     e.preventDefault();
+    if (values.confirmPassword !== values.password) {
+      setErrors({ confirmPassword: "Passwords do not match" });
+    } else {
+      try {
+        const email = values.email;
+        const password = values.password;
+        const name = values.name;
+        const res = await register({ name, email, password }).unwrap();
+        dispatch(setCredentials({ ...res }));
+        navigate(redirect);
+      } catch (error) {
+        console.log(error);
+      }
+    }
   };
 
-  return (
+  return isLoading ? (<Loader />) :(
     <section className="max-container padding py-10">
       <div className="flex flex-col justify-center items-center text-text-main">
         <p className="text-2xl max-[500px]:text-xl">Create an Account</p>
@@ -55,7 +102,7 @@ const Register = () => {
                   setErrors,
                   handleChange,
                   VALIDATION_MESSAGES.invalidName,
-                  isValidName,
+                  isValidName
                 )
               }
               inputClassName="input"
@@ -75,7 +122,7 @@ const Register = () => {
                   setErrors,
                   handleChange,
                   VALIDATION_MESSAGES.invalidEmail,
-                  isValidEmail,
+                  isValidEmail
                 )
               }
               error={errors.email}
@@ -85,24 +132,63 @@ const Register = () => {
             <label htmlFor="password" className="text-base">
               Password
             </label>
-            <Input
-              type="password"
-              name="password"
-              value={values.password}
-              error={errors.password}
-              onChange={(e) =>
-                handleChangeInput(
-                  e,
-                  errors,
-                  setErrors,
-                  handleChange,
-                  VALIDATION_MESSAGES.invalidPassword,
-                  isValidPassword,
-                )
-              }
-              inputClassName="input"
-              spanClassName="min-h-8 text-orange text-xs mt-1"
-            />
+            <div className="relative w-full flex flex-col">
+              <Input
+                type={showPassword ? "text" : "password"}
+                name="password"
+                value={values.password}
+                error={errors.password}
+                onChange={(e) =>
+                  handleChangeInput(
+                    e,
+                    errors,
+                    setErrors,
+                    handleChange,
+                    VALIDATION_MESSAGES.invalidPassword,
+                    isValidPassword
+                  )
+                }
+                inputClassName="input w-full"
+                spanClassName="min-h-8 text-orange text-xs mt-1"
+              />
+              <button
+                type="button"
+                className="absolute top-3 right-2 transform -translate-y-1/2 hover:text-pink"
+                onClick={() => setShowPassword(!showPassword)}
+              >
+                <PiEyeClosedLight size={20} />
+              </button>
+            </div>
+            <label htmlFor="confirmPassword" className="text-base">
+              Confirm Password
+            </label>
+            <div className="relative w-full flex flex-col">
+              <Input
+                type={showConfirmPassword ? "text" : "password"}
+                name="confirmPassword"
+                value={values.confirmPassword}
+                error={errors.confirmPassword}
+                onChange={(e) =>
+                  handleChangeInput(
+                    e,
+                    errors,
+                    setErrors,
+                    handleChange,
+                    VALIDATION_MESSAGES.invalidPassword,
+                    isValidPassword
+                  )
+                }
+                inputClassName="input w-full"
+                spanClassName="min-h-8 text-orange text-xs mt-1"
+              />
+              <button
+                type="button"
+                className="absolute top-3 right-2 transform -translate-y-1/2 hover:text-pink"
+                onClick={() => setShowConfirmPassword(!showConfirmPassword)}
+              >
+                <PiEyeClosedLight size={20} />
+              </button>
+            </div>
           </fieldset>
           <button
             className="bg-pink px-6 py-3 text-white rounded-md disabled:cursor-not-allowed disabled:opacity-70"
@@ -112,7 +198,7 @@ const Register = () => {
             Sign Up
           </button>
           <Link
-            to={ROUTES.sign.in}
+            to={redirect ? `/login?redirect=${redirect}` : ROUTES.sign.in}
             className="text-pink border border-1 border-pink  px-6 py-3 bg-transparent rounded-md text-center"
           >
             Already Have an Account

@@ -4,7 +4,6 @@ import User from "../models/userModel";
 import generateToken from "../utils/generateToken";
 import { CustomRequest } from "../middleware/authMiddleware";
 import { IUser, UserResponse } from "../types";
-import { userInfo } from "os";
 
 // @desc    Auth user and get token
 // @route   POST /api/users/login
@@ -13,7 +12,7 @@ const authUser = asyncHandler(async (req: Request, res: Response) => {
   // res.setHeader("Cache-Control", "no-store");
   const { email, password } = req.body;
 
-  const user: IUser | null = await User.findOne({ email: email });
+  const user: IUser | null = await User.findOne({ email });
   if (user && (await user.matchPassword!(password))) {
     generateToken(res, user._id);
 
@@ -33,7 +32,7 @@ const authUser = asyncHandler(async (req: Request, res: Response) => {
 // @route   POST /api/users
 // @access  Public
 const registerUser = asyncHandler(async (req: Request, res: Response) => {
-  res.setHeader("Cache-Control", "no-store");
+  // res.setHeader("Cache-Control", "no-store");
   const { email, name, password } = req.body;
   const userExists = await User.findOne({ email });
   if (userExists) {
@@ -59,7 +58,7 @@ const registerUser = asyncHandler(async (req: Request, res: Response) => {
 // @route   POST /api/users/logout
 // @access  Private
 const logoutUser = asyncHandler(async (req: Request, res: Response) => {
-  res.setHeader("Cache-Control", "no-store");
+  // res.setHeader("Cache-Control", "no-store");
   res.cookie("jwt", "", {
     httpOnly: true,
     expires: new Date(0),
@@ -72,7 +71,7 @@ const logoutUser = asyncHandler(async (req: Request, res: Response) => {
 // @route   GET /api/users/profile
 // @access  Private
 const getUserProfile = asyncHandler(async (req: Request, res: Response) => {
-  res.setHeader("Cache-Control", "no-store");
+  // res.setHeader("Cache-Control", "no-store");
   const user = await User.findById((req as CustomRequest).user._id);
 
   if (user) {
@@ -92,7 +91,7 @@ const getUserProfile = asyncHandler(async (req: Request, res: Response) => {
 // @route   PUT /api/users/profile
 // @access  Private
 const updateUserProfile = asyncHandler(async (req: Request, res: Response) => {
-  res.setHeader("Cache-Control", "no-store");
+  // res.setHeader("Cache-Control", "no-store");
   const user = await User.findById((req as CustomRequest).user._id);
 
   if (user) {

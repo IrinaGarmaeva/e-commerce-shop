@@ -13,7 +13,8 @@ export const VALIDATION_MESSAGES = {
   invalidEmail: 'Enter a valid email address',
   validEmail: 'You have successfully subscribed to our newsletter',
   emptyEmail: 'Enter your email to subscribe to our newsletter',
-  invalidPassword: 'Your password must be at least 8 characters long and contain 1 number, 1 uppercase, 1 lowercase'
+  invalidPassword: 'Your password must be at least 8 characters long and contain 1 number, 1 uppercase, 1 lowercase',
+  failedAuth: "Invalid email or password"
 };
 
 export const validateInput = (
