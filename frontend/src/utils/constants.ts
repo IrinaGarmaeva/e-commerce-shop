@@ -3,6 +3,7 @@ export const BASE_URL = process.env.NODE_ENV === 'development' ? 'http://localho
 export const ROUTES = Object.freeze({
   home: '/',
   cart: '/cart',
+  profile: '/profile',
   bestsellers: '/bestsellers',
   catalog: "/catalog",
   product: "/catalog/:id",

@@ -7,8 +7,8 @@ interface IAuthState {
 }
 
 const initialState: IAuthState = {
-  userInfo: LocalStorage.getItem("userInfo")
-    ? JSON.parse(LocalStorage.getItem("userInfo"))
+  userInfo: localStorage.getItem("userInfo")
+    ? JSON.parse(localStorage.getItem("userInfo")!)
     : null,
 };
 
@@ -18,7 +18,7 @@ const authSlice = createSlice({
   reducers: {
     setCredentials: (state: IAuthState, action: PayloadAction<IUser>): void => {
       state.userInfo = action.payload;
-      LocalStorage.setItem("userInfo", action.payload);
+      localStorage.setItem("userInfo", JSON.stringify(action.payload));
     },
   },
 });

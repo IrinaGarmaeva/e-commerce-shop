@@ -12,11 +12,13 @@ import useScroll from "../../../hooks/useScroll";
 import { useSelector } from "react-redux";
 import { RootState } from "../../../redux/store";
 
-
 const Header = () => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState<boolean>(false);
+  const [showProfileMenu, setShowProfileMenu] = useState<boolean>(false);
+
   const { isScrolled } = useScroll();
-  const { cartItems } = useSelector((state:RootState) => state.cart);
+  const { cartItems } = useSelector((state: RootState) => state.cart);
+  const { userInfo } = useSelector((state: RootState) => state.auth);
 
   const handleOpenSearchForm = () => {
     const searchForm = document.getElementById("search-form");
@@ -28,6 +30,10 @@ const Header = () => {
   const handleCloseMobileMenu = () => {
     setIsMobileMenuOpen(false);
   };
+
+  const handleLogOut = () => {
+    console.log('You clicked logg out button')
+  }
 
   return (
     <header
@@ -76,8 +82,25 @@ const Header = () => {
                   Search
                 </span>
               </button>
-              <Link to="/login">
-                <GoPerson size={20} className="text-light-gray" />
+              <Link
+                to={userInfo ? "profile" : "login"}
+                onMouseEnter={() => setShowProfileMenu(true)}
+                onMouseLeave={() => setShowProfileMenu(false)}
+              >
+                <GoPerson
+                  size={20}
+                  className={`${userInfo ? "text-pink" : "text-light-gray"}`}
+                />
+                {showProfileMenu && userInfo && (
+                  <div className="absolute top-20 right-13 bg-white shadow-md p-2 z-30 rounded-md w-20  font-medium text-light-gray">
+                    <Link to="/profile" className="block hover-menu">
+                      Profile
+                    </Link>
+                    <p className="block hover-menu" onClick={handleLogOut}>
+                      Logout
+                    </p>
+                  </div>
+                )}
               </Link>
               <Link to="/cart" className="static flex flex-row items-center">
                 <PiHandbag size={20} className=" text-light-gray" />

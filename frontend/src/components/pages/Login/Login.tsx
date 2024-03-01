@@ -1,5 +1,6 @@
 import { useEffect, FormEvent } from "react";
-import { Link } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
 import {
   isValidEmail,
   isValidPassword,
@@ -9,12 +10,32 @@ import {
 import { ROUTES } from "../../../utils/constants";
 import useFormAndValidation from "../../../hooks/useFormAndValidation";
 import Input from "../../design-system/Input/Input";
+import Loader from "../../design-system/Loader/Loader";
+import { useLoginMutation } from "../../../redux/slices/usersApiSlice/usersApiSlice";
+import { setCredentials } from "../../../redux/slices/authSlice/authSlice";
+import { toast } from "react-toastify";
+import { RootState } from "../../../redux/store";
 
 const Login = () => {
-  const { values, handleChange, errors, setErrors, isValid, setIsValid } = useFormAndValidation({
-    email: "",
-    password: "",
-  });
+  const { values, handleChange, errors, setErrors, isValid, setIsValid } =
+    useFormAndValidation({
+      email: "",
+      password: "",
+    });
+
+  const dispatch = useDispatch();
+  const { search } = useLocation();
+  const searchParams = new URLSearchParams(search);
+  const redirect = searchParams.get("redirect") || "/";
+  const navigate = useNavigate();
+  const [login, { isLoading }] = useLoginMutation();
+  const { userInfo } = useSelector((state: RootState) => state.auth);
+
+  useEffect(() => {
+    if (userInfo) {
+      navigate(redirect);
+    }
+  }, [userInfo, redirect, navigate]);
 
   useEffect(() => {
     if (errors.email || errors.password || !values.email || !values.password) {
@@ -24,9 +45,20 @@ const Login = () => {
     }
   }, [errors]);
 
-  const handleLogin = (e: FormEvent<HTMLFormElement>) => {
+  const handleLogin = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    console.log("You successfully logged in");
+    // const a = JSON.parse({"_id":"65e07320a6a91713ef6a0d05","name":"test","email":"test@email.com","isAdmin":false})
+
+    try {
+      const email = values.email;
+      const password = values.password;
+      const res = await login({ email, password }).unwrap();
+      dispatch(setCredentials({...res}))
+      navigate(redirect)
+    } catch (error) {
+      console.log(error)
+      toast.error(VALIDATION_MESSAGES.failedAuth)
+    }
   };
 
   return (
@@ -53,7 +85,7 @@ const Login = () => {
                   setErrors,
                   handleChange,
                   VALIDATION_MESSAGES.invalidEmail,
-                  isValidEmail,
+                  isValidEmail
                 )
               }
               error={errors.email}
@@ -74,7 +106,7 @@ const Login = () => {
                   setErrors,
                   handleChange,
                   VALIDATION_MESSAGES.invalidPassword,
-                  isValidPassword,
+                  isValidPassword
                 )
               }
               error={errors.password}
@@ -90,12 +122,12 @@ const Login = () => {
           <button
             type="submit"
             className="bg-pink px-6 py-3 text-white rounded-md disabled:cursor-not-allowed disabled:opacity-70"
-            disabled={!isValid}
+            disabled={!isValid && isLoading}
           >
             Sign In
           </button>
           <Link
-            to={ROUTES.sign.up}
+            to={redirect ? `/login?redirect=${redirect}` : "/"}
             className="text-pink border border-1 border-pink  px-6 py-3 bg-transparent rounded-md text-center"
           >
             Sign Up
