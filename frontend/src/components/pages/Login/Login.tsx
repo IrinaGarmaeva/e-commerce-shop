@@ -47,7 +47,6 @@ const Login = () => {
 
   const handleLogin = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    // const a = JSON.parse({"_id":"65e07320a6a91713ef6a0d05","name":"test","email":"test@email.com","isAdmin":false})
 
     try {
       const email = values.email;
