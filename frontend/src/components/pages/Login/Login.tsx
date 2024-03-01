@@ -1,4 +1,4 @@
-import { useEffect, FormEvent } from "react";
+import { useState, useEffect, FormEvent } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import {
@@ -15,8 +15,10 @@ import { useLoginMutation } from "../../../redux/slices/usersApiSlice/usersApiSl
 import { setCredentials } from "../../../redux/slices/authSlice/authSlice";
 import { toast } from "react-toastify";
 import { RootState } from "../../../redux/store";
+import { PiEyeClosedLight } from "react-icons/pi";
 
 const Login = () => {
+  const [showPassword, setShowPassword] = useState<boolean>(false);
   const { values, handleChange, errors, setErrors, isValid, setIsValid } =
     useFormAndValidation({
       email: "",
@@ -45,18 +47,18 @@ const Login = () => {
     }
   }, [errors]);
 
-  const handleLogin = async (e: FormEvent<HTMLFormElement>) => {
+  const handleLogin = async (e: FormEvent<HTMLFormElement>): Promise<void> => {
     e.preventDefault();
 
     try {
       const email = values.email;
       const password = values.password;
       const res = await login({ email, password }).unwrap();
-      dispatch(setCredentials({...res}))
-      navigate(redirect)
+      dispatch(setCredentials({ ...res }));
+      // navigate(redirect)
     } catch (error) {
-      console.log(error)
-      toast.error(VALIDATION_MESSAGES.failedAuth)
+      console.log(error);
+      toast.error(VALIDATION_MESSAGES.failedAuth);
     }
   };
 
@@ -94,24 +96,33 @@ const Login = () => {
             <label htmlFor="password" className="text-base">
               Password
             </label>
-            <Input
-              type="password"
-              name="password"
-              value={values.password}
-              onChange={(e) =>
-                handleChangeInput(
-                  e,
-                  errors,
-                  setErrors,
-                  handleChange,
-                  VALIDATION_MESSAGES.invalidPassword,
-                  isValidPassword
-                )
-              }
-              error={errors.password}
-              inputClassName="input"
-              spanClassName="min-h-8 text-orange text-xs mt-1"
-            />
+            <div className="relative w-full flex flex-col">
+              <Input
+                type={showPassword ? "text" : "password"}
+                name="password"
+                value={values.password}
+                onChange={(e) =>
+                  handleChangeInput(
+                    e,
+                    errors,
+                    setErrors,
+                    handleChange,
+                    VALIDATION_MESSAGES.invalidPassword,
+                    isValidPassword
+                  )
+                }
+                error={errors.password}
+                inputClassName="input w-full"
+                spanClassName="min-h-8 text-orange text-xs mt-1"
+              />
+              <button
+                type="button"
+                className="absolute top-3 right-2 transform -translate-y-1/2 hover:text-pink"
+                onClick={() => setShowPassword(!showPassword)}
+              >
+                <PiEyeClosedLight size={20} />
+              </button>
+            </div>
           </fieldset>
           <div className="text-right text-xs">
             <Link to={ROUTES.resetPassword} className=" border-b border-pink">
@@ -121,12 +132,12 @@ const Login = () => {
           <button
             type="submit"
             className="bg-pink px-6 py-3 text-white rounded-md disabled:cursor-not-allowed disabled:opacity-70"
-            disabled={!isValid && isLoading}
+            disabled={!isValid }
           >
             Sign In
           </button>
           <Link
-            to={redirect ? `/login?redirect=${redirect}` : "/"}
+            to={redirect ? `/register?redirect=${redirect}` : "/"}
             className="text-pink border border-1 border-pink  px-6 py-3 bg-transparent rounded-md text-center"
           >
             Sign Up
