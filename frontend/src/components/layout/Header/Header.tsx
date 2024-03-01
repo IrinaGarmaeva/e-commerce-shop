@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { GoSearch, GoPerson } from "react-icons/go";
 import { PiHandbag } from "react-icons/pi";
 import { IoCallOutline } from "react-icons/io5";
@@ -9,8 +9,11 @@ import Navbar from "../../design-system/Navbar/Navbar";
 import SearchForm from "../../design-system/SearchForm/SearchForm";
 import Button from "../../design-system/Button/Button";
 import useScroll from "../../../hooks/useScroll";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import { RootState } from "../../../redux/store";
+import { useLogoutMutation } from "../../../redux/slices/usersApiSlice/usersApiSlice";
+import { logout } from "../../../redux/slices/authSlice/authSlice";
+import { ROUTES } from "../../../utils/constants";
 
 const Header = () => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState<boolean>(false);
@@ -19,6 +22,9 @@ const Header = () => {
   const { isScrolled } = useScroll();
   const { cartItems } = useSelector((state: RootState) => state.cart);
   const { userInfo } = useSelector((state: RootState) => state.auth);
+  const dispatch = useDispatch();
+  const [logoutApiCall] = useLogoutMutation();
+  const navigate = useNavigate();
 
   const handleOpenSearchForm = () => {
     const searchForm = document.getElementById("search-form");
@@ -31,8 +37,15 @@ const Header = () => {
     setIsMobileMenuOpen(false);
   };
 
-  const handleLogOut = () => {
+  const handleLogOut = async() => {
     console.log('You clicked logg out button')
+    try {
+      await logoutApiCall(undefined).unwrap()
+      dispatch(logout())
+      navigate(ROUTES.home)
+    } catch (error) {
+      console.log(error)
+    }
   }
 
   return (
