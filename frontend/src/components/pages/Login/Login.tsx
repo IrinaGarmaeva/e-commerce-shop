@@ -55,7 +55,7 @@ const Login = () => {
       const password = values.password;
       const res = await login({ email, password }).unwrap();
       dispatch(setCredentials({ ...res }));
-      // navigate(redirect)
+      navigate(redirect)
     } catch (error) {
       console.log(error);
       toast.error(VALIDATION_MESSAGES.failedAuth);
@@ -132,7 +132,7 @@ const Login = () => {
           <button
             type="submit"
             className="bg-pink px-6 py-3 text-white rounded-md disabled:cursor-not-allowed disabled:opacity-70"
-            disabled={!isValid }
+            disabled={!isValid}
           >
             Sign In
           </button>

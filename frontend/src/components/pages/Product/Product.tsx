@@ -49,7 +49,7 @@ const Product = () => {
       {isLoading ? (
         <Loader />
       ) : error ? (
-        <div>There is an error</div>
+        <div>There is an error </div>
       ) : (
         <div className="flex flex-col w-4/5">
           <p className="text-light-gray">{`Home - Catalog - ${product?.category} - ${product?.name}`}</p>

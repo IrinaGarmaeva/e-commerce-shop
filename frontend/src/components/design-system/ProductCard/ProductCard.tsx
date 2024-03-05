@@ -2,7 +2,7 @@ import { FC, useState } from "react";
 import { Link } from "react-router-dom";
 import { IoIosHeartEmpty } from "react-icons/io";
 import { IoIosHeart } from "react-icons/io";
-import { IProduct } from "./types";
+import { IProduct } from "../../../types/index";
 
 export type ProductCardProps = {
   product: IProduct
@@ -14,7 +14,8 @@ const ProductCard: FC<ProductCardProps> = ({ product }) => {
   return (
     <div className="rounded w-64 text-main">
       <div className="relative">
-        <Link to={`/catalog/${product._id}`}>
+        {/* <Link to={`/catalog/${product._id}`}> */}
+        <Link to={`/${product._id}`}>
           <img
             src={product.image}
             alt={product.name}

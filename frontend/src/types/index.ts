@@ -1,4 +1,3 @@
-
 export interface IProduct {
   _id: string;
   name: string;
@@ -18,6 +17,8 @@ export interface ICartState {
   shippingPrice?: string;
   taxPrice?: string;
   totalPrice?: string;
+  shippingAddress?: IShippingDetails;
+  paymentMethod?: string;
 }
 
 export interface IUser {
@@ -25,4 +26,11 @@ export interface IUser {
   name: string;
   email: string;
   isAdmin: boolean;
+}
+
+export interface IShippingDetails {
+  address: string;
+  city: string;
+  country: string;
+  postalCode: string;
 }

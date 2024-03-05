@@ -33,6 +33,11 @@ const Cart = () => {
   const shipping = subtotal >= 5000 ? "FREE" : "400 RSD";
   const total = subtotal + (shipping === "FREE" ? 0 : 400);
 
+  const handleCheckout = () => {
+    navigate("/login?redirect=/shipping");
+  }
+
+
   return (
     <section className="max-container padding py-10 flex justify-center flex-col">
       <h2 className="text-center text-2xl">Shopping Cart</h2>
@@ -149,7 +154,7 @@ const Cart = () => {
               <button
                 className="w-full mt-4 py-3 bg-pink text-white font-semibold rounded-md"
                 disabled={cartItems.length === 0}
-                onClick={() => navigate(ROUTES.sign.in)}
+                onClick={handleCheckout}
               >
                 Continue to checkout
               </button>
