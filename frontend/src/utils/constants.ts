@@ -15,6 +15,7 @@ export const ROUTES = Object.freeze({
   resetPassword: "/passwordreset",
   shipping: "/shipping",
   payment: "/payment",
+  placeorder: "/placeorder",
   sign: {
     up: '/register',
     in: '/login',
