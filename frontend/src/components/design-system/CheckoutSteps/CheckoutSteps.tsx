@@ -6,6 +6,7 @@ export interface ICheckoutStepsProps {
   step2: boolean;
   step3: boolean;
   step4: boolean;
+  className: string;
 }
 
 const CheckoutSteps = ({
@@ -13,9 +14,10 @@ const CheckoutSteps = ({
   step2,
   step3,
   step4,
+  className,
 }: Partial<ICheckoutStepsProps>) => {
   return (
-    <nav className="flex justify-center gap-x-6 text-light-gray max-[500px]:gap-x-3 max-[500px]:text-[13px]">
+    <nav className={`${className} flex justify-center gap-x-6 text-light-gray max-[500px]:gap-x-3 max-[500px]:text-[13px] whitespace-nowrap`}>
       <div>
         <Link
           to={ROUTES.sign.in}
@@ -40,7 +42,7 @@ const CheckoutSteps = ({
         <Link
           to={ROUTES.payment}
           className={
-            step3 ? "text-text-mainfont-semibold" : "cursor-not-allowed"
+            step3 ? "text-text-main font-semibold" : "cursor-not-allowed"
           }
         >
           Payment

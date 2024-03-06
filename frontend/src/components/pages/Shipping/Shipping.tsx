@@ -44,7 +44,7 @@ const Shipping = () => {
       <div className="flex flex-col justify-center items-center text-text-main">
         <CheckoutSteps step1 step2/>
         <h2 className="text-2xl mt-6">Shipping</h2>
-        <form action="" className="w-96 pt-6 px-15 flex flex-col gap-5 max-[500px]:w-72" onSubmit={handleSubmit}>
+        <form  className="w-96 pt-6 px-15 flex flex-col gap-5 max-[500px]:w-72" onSubmit={handleSubmit}>
           <fieldset className="flex flex-col">
             <label htmlFor="address" className="">
               Address

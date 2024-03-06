@@ -22,6 +22,7 @@ import Cart from "./components/pages/Cart/Cart.tsx";
 import Profile from "./components/pages/Profile/Profile.tsx";
 import Shipping from "./components/pages/Shipping/Shipping.tsx";
 import ProtectedRoute from "./components/design-system/ProtectedRoute/ProtectedRoute.tsx";
+import Payment from "./components/pages/Payment/Payment.tsx";
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -35,6 +36,7 @@ const router = createBrowserRouter(
       <Route path="" element={<ProtectedRoute />}>
         <Route path={ROUTES.shipping} element={<Shipping />} />
         <Route path={ROUTES.profile} element={<Profile />} />
+        <Route path={ROUTES.payment} element={<Payment />} />
       </Route>
     </Route>
   )
