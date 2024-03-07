@@ -1,7 +1,7 @@
 import mongoose, {Document, Schema} from "mongoose";
 import { IProduct } from "./productModel";
 
-interface IOrderItem {
+export interface IOrderItem {
   name: string;
   quantity: number;
   image: string;
@@ -26,7 +26,7 @@ interface IPaymentResult {
 interface IOrder extends Document {
   user: mongoose.Types.ObjectId;
   orderItems: IOrderItem[];
-  shippingAdress: IShippingAddress;
+  shippingAddress: IShippingAddress;
   paymentMethod: string;
   paymentResult: IPaymentResult;
   itemsPrice: number;
@@ -58,7 +58,7 @@ const orderSchema = new Schema<IOrder>({
       },
     },
   ],
-  shippingAdress: {
+  shippingAddress: {
     address: { type: String, required: true },
     city: { type: String, required: true },
     postCode: { type: String, required: true },
