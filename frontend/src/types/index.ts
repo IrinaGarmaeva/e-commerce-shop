@@ -1,3 +1,4 @@
+import mongoose from "mongoose";
 export interface IProduct {
   _id: string;
   name: string;
@@ -33,4 +34,32 @@ export interface IShippingDetails {
   city: string;
   country: string;
   postalCode: string;
+}
+
+export interface IOrder {
+  _id?: mongoose.Schema.Types.ObjectId;
+  orderItems: IOrderItem[];
+  shippingAddress: IShippingDetails;
+  paymentMethod: "PayPal" | "Gift Certificate" | "Cash on Delivery" | string;
+  itemsPrice: string;
+  taxPrice: string;
+  shippingPrice: string;
+  totalPrice: string;
+
+  createdAt?: string;
+  isDelivered?: boolean;
+  isPaid?: boolean;
+  paidAt?: string;
+  deliveredAt?: string;
+  updatedAt?: string;
+  user: IUser;
+}
+
+export interface IOrderItem {
+  _id: mongoose.Schema.Types.ObjectId;
+  image: string;
+  name: string;
+  price: number;
+  product: mongoose.Schema.Types.ObjectId;
+  qtquantity?: number;
 }

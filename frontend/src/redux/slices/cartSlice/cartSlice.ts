@@ -10,7 +10,7 @@ const cartSlice = createSlice({
   name: "cart",
   initialState,
   reducers: {
-    addToCart: (state, action: PayloadAction<IProduct>) => {
+    addToCart: (state: ICartState, action: PayloadAction<IProduct>) => {
       const item = action.payload;
 
       const existItem = state.cartItems.find(
@@ -27,23 +27,27 @@ const cartSlice = createSlice({
 
       return updateCart(state);
     },
-    removeFromCart: (state, action: PayloadAction<string>) => {
+    removeFromCart: (state: ICartState, action: PayloadAction<string>) => {
       state.cartItems = state.cartItems.filter(
         (item) => item._id.toString() !== action.payload
       );
       return updateCart(state);
     },
-    saveShippingAdress: (state, action: PayloadAction<IShippingDetails>) => {
+    saveShippingAdress: (state: ICartState, action: PayloadAction<IShippingDetails>) => {
       state.shippingAddress = action.payload;
       return updateCart(state)
     },
-    savePaymentMethod: (state, action: PayloadAction<string>) => {
+    savePaymentMethod: (state: ICartState, action: PayloadAction<string>) => {
       state.paymentMethod = action.payload;
+      return updateCart(state)
+    },
+    clearCartItems: (state: ICartState) => {
+      state.cartItems = [];
       return updateCart(state)
     }
   },
 });
 
-export const { addToCart, removeFromCart, saveShippingAdress, savePaymentMethod } = cartSlice.actions;
+export const { addToCart, removeFromCart, saveShippingAdress, savePaymentMethod, clearCartItems } = cartSlice.actions;
 
 export default cartSlice.reducer;
