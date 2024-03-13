@@ -4,7 +4,6 @@ import { Link, useNavigate } from "react-router-dom";
 import { RootState } from "../../../redux/store";
 import { ROUTES } from "../../../utils/constants";
 import CheckoutSteps from "../../design-system/CheckoutSteps/CheckoutSteps";
-import { toast } from "react-toastify";
 import { useCreateOrderMutation } from "../../../redux/slices/ordersApiSlice/ordersApiSlice";
 import { clearCartItems } from "../../../redux/slices/cartSlice/cartSlice";
 import Loader from "../../design-system/Loader/Loader";
@@ -15,6 +14,7 @@ const PlaceOrder = () => {
   const cart = useSelector((state: RootState) => state.cart);
 
   const [createOrder] = useCreateOrderMutation();
+  const { userInfo } = useSelector((state: RootState) => state.auth);
 
   useEffect(() => {
     if (!cart.shippingAddress?.address) {
@@ -25,7 +25,6 @@ const PlaceOrder = () => {
   }, [navigate, cart.paymentMethod, cart.shippingAddress?.address]);
 
   const placeOrderHandler = async () => {
-    console.log("1111");
     try {
       const res = await createOrder({
         orderItems: cart.cartItems,
@@ -34,7 +33,8 @@ const PlaceOrder = () => {
         itemsPrice: cart.itemsPrice,
         shippingprice: cart.shippingPrice,
         taxPrice: cart.taxPrice,
-        totalprice: cart.totalPrice,
+        totalPrice: cart.totalPrice,
+        user: userInfo?._id
       }).unwrap();
       dispatch(clearCartItems());
       navigate(`/order/${res._id}`);

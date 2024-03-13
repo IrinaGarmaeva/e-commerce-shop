@@ -61,5 +61,5 @@ export interface IOrderItem {
   name: string;
   price: number;
   product: mongoose.Schema.Types.ObjectId;
-  qtquantity?: number;
+  quantity?: number;
 }

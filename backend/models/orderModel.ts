@@ -6,13 +6,14 @@ export interface IOrderItem {
   quantity: number;
   image: string;
   price: number;
-  product: mongoose.Types.ObjectId | IProduct;
+  // product: mongoose.Types.ObjectId | IProduct;
+  product: mongoose.Types.ObjectId;
 }
 
 interface IShippingAddress {
   address: string;
   city: string;
-  postCode: string;
+  postalCode: string;
   country: string;
 }
 
@@ -61,7 +62,7 @@ const orderSchema = new Schema<IOrder>({
   shippingAddress: {
     address: { type: String, required: true },
     city: { type: String, required: true },
-    postCode: { type: String, required: true },
+    postalCode: { type: String, required: true },
     country: { type: String, required: true },
   },
   paymentMethod: {
@@ -115,3 +116,9 @@ const orderSchema = new Schema<IOrder>({
 const Order = mongoose.model<IOrder>("Order", orderSchema);
 
 export default Order;
+
+
+
+
+
+

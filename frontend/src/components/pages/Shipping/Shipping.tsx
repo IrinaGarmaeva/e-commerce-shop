@@ -1,7 +1,7 @@
 import { ChangeEvent, FormEvent, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import { saveShippingAdress } from "../../../redux/slices/cartSlice/cartSlice";
+import { saveShippingAddress } from "../../../redux/slices/cartSlice/cartSlice";
 import { RootState } from "../../../redux/store";
 import { ROUTES } from "../../../utils/constants";
 import useFormAndValidation from "../../../hooks/useFormAndValidation";
@@ -35,7 +35,7 @@ const Shipping = () => {
 
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    dispatch(saveShippingAdress({ address: values.address, city: values.city, country: values.country, postalCode: values.postalCode }));
+    dispatch(saveShippingAddress({ address: values.address, city: values.city, country: values.country, postalCode: values.postalCode }));
     navigate(ROUTES.payment);
   };
 
