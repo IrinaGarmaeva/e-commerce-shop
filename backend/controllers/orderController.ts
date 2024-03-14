@@ -52,6 +52,7 @@ const addOrderItems = asyncHandler(async (req: Request, res: Response) => {
 // @route   GET /api/orders/myorders
 // @access  Private
 const getMyOrders = asyncHandler(async (req: Request, res: Response) => {
+  res.setHeader("Cache-Control", "no-store");
   const id = (req as AuthenticatedRequest).user._id;
   const orders = await Order.find({ user: id });
   res.status(200).json(orders);

@@ -11,7 +11,7 @@ const getProducts = asyncHandler(async (req: Request, res: Response) => {
 const getProductById = asyncHandler(async (req: Request, res: Response) => {
   res.setHeader("Cache-Control", "no-store");
   const product = await Product.findById(req.params.id);
-  // console.log(req.params.id)
+  console.log('id of product', req.params.id)
   if (product) {
     return res.json(product);
   }

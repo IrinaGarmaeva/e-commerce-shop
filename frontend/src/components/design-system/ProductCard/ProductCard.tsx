@@ -15,7 +15,7 @@ const ProductCard: FC<ProductCardProps> = ({ product }) => {
     <div className="rounded w-64 text-main">
       <div className="relative">
         {/* <Link to={`/catalog/${product._id}`}> */}
-        <Link to={`/${product._id}`}>
+        <Link to={`/product/${product._id}`}>
           <img
             src={product.image}
             alt={product.name}
@@ -41,7 +41,7 @@ const ProductCard: FC<ProductCardProps> = ({ product }) => {
         )}
       </div>
       <div className="mt-2">
-        <Link to={`/catalog/${product._id}`} className="text-lg">
+        <Link to={`/product/${product._id}`} className="text-lg">
           {product.name}
         </Link>
         <p className="text-sm">{product.description}</p>

@@ -8,7 +8,7 @@ import { addToCart } from "../../../redux/slices/cartSlice/cartSlice";
 import CustomNotification from "../../design-system/CustomNotification/CustomNotification";
 
 const Product = () => {
-  const { id: productId } = useParams();
+  const { productId } = useParams();
   const dispatch = useDispatch();
   const [quantity, setQuantity] = useState<number>(1);
 

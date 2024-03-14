@@ -46,7 +46,7 @@ const PlaceOrder = () => {
   return (
     <section className="max-container padding py-10">
       <CheckoutSteps step1 step2 step3 step4 />
-      <div className="flex flex-row justify-between box-border mt-5 w-11/12 text-text-main">
+      <div className="flex flex-row justify-between items-start justify-items-center  box-border mt-5 w-11/12 text-text-main">
         <div className="shadow-lg rounded-md  p-2">
           <div className="border-b border-light-gray">
             <div className="px-3 py-4">
@@ -100,7 +100,7 @@ const PlaceOrder = () => {
             </div>
           </div>
         </div>
-        <div className="flex flex-col ml-8 w-80 rounded-md shadow-lg p-2">
+        <div className="flex flex-col ml-8 w-80 rounded-md shadow-lg p-2 text-nowrap">
           <h2 className="mb-2 px-3 font-bold">Order Summary</h2>
           <div className="flex justify-between px-3 py-4 border-b border-light-gray">
             <p>Items:</p>

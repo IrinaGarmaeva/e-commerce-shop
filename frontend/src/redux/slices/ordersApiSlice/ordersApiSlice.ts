@@ -1,6 +1,5 @@
 import { apiSlice } from "./../apiSlices/apiSlice";
 import { ORDERS_URL } from "../../../utils/constants";
-// import { IOrder } from "../../../types";
 
 export const ordersApiSlice = apiSlice.injectEndpoints({
   endpoints: (builder) => ({
@@ -12,7 +11,15 @@ export const ordersApiSlice = apiSlice.injectEndpoints({
       }),
       invalidatesTags: ["Order"],
     }),
+    getOrderDetails: builder.query({
+      query: (orderId) => ({
+        url: `${ORDERS_URL}/${orderId}`,
+        method: "GET",
+      }),
+      providesTags: ["Order"],
+      keepUnusedDataFor: 5,
+    })
   }),
 });
 
-export const { useCreateOrderMutation } = ordersApiSlice;
+export const { useCreateOrderMutation, useGetOrderDetailsQuery } = ordersApiSlice;
