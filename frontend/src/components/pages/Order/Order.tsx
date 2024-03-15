@@ -2,6 +2,7 @@ import { Link, useParams } from "react-router-dom";
 import { useGetOrderDetailsQuery } from "../../../redux/slices/ordersApiSlice/ordersApiSlice";
 import Loader from "../../design-system/Loader/Loader";
 import { IOrderItem } from "../../../types";
+import OrderSummary from "../../design-system/OrderSummary/OrderSummary";
 
 const Order = () => {
   const { orderId } = useParams();
@@ -88,29 +89,7 @@ const Order = () => {
           id="2col"
           className="flex flex-col ml-8 w-80 rounded-md shadow-md p-2 text-nowrap bg-[#f5f5f5] max-lg:ml-0 max-lg:mt-3 max-lg:w-full"
         >
-          <div className="py-4 border-b border-light-gray">
-            <h2 className="mb-2 px-3 font-bold">Order Summary</h2>
-          </div>
-          <table className="table-auto ml-3 mt-3">
-            <tbody>
-              <tr>
-                <td className="py-1 pr-2">Items</td>
-                <td className="py-1 text-center">{order.itemsPrice} RSD</td>
-              </tr>
-              <tr>
-                <td className="py-1 pr-2">Shipping</td>
-                <td className="py-1 text-center">{order.shippingPrice} RSD</td>
-              </tr>
-              <tr>
-                <td className="py-1 pr-2">Tax</td>
-                <td className="py-1 text-center">{order.taxPrice} RSD</td>
-              </tr>
-              <tr>
-                <td className="py-1 pr-2">Total</td>
-                <td className="py-1 text-center">{order.totalPrice} RSD</td>
-              </tr>
-            </tbody>
-          </table>
+          <OrderSummary order={order} />
         </div>
       </div>
     </section>
