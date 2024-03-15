@@ -6,7 +6,6 @@ import { ROUTES } from "../../../utils/constants";
 import CheckoutSteps from "../../design-system/CheckoutSteps/CheckoutSteps";
 import { useCreateOrderMutation } from "../../../redux/slices/ordersApiSlice/ordersApiSlice";
 import { clearCartItems } from "../../../redux/slices/cartSlice/cartSlice";
-import Loader from "../../design-system/Loader/Loader";
 
 const PlaceOrder = () => {
   const navigate = useNavigate();

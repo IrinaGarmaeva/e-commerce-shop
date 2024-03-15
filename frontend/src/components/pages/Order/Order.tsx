@@ -9,19 +9,27 @@ const Order = () => {
   const { data: order, error, isLoading } = useGetOrderDetailsQuery(orderId);
 
   const renderOrderItems = () => {
-    return order.orderItems.map((item: IOrderItem, index) => (
-      <div key={index} className="border-b border-light-gray flex py-3">
-        <Link to={`/product/${item.product}`}>
-          <img
-            src={item.image}
-            className="rounded w-24 h-24 object-cover"
-            alt={item.name}
-          />
-        </Link>
-        <Link to={`/product/${item.product}`} className="pl-6 w-3/6">
-          {item.name}
-        </Link>
-        <p className="pl-3">
+    return order.orderItems.map((item: IOrderItem, index: number) => (
+      <div
+        key={index}
+        className="border-b border-light-gray flex py-3 max-sm:flex-col"
+      >
+        <div className="flex w-2/3 max-sm:w-full">
+          <Link to={`/product/${item.product}`}>
+            <img
+              src={item.image}
+              className="rounded w-24 h-24 object-cover"
+              alt={item.name}
+            />
+          </Link>
+          <Link
+            to={`/product/${item.product}`}
+            className="pl-6 w-2/3 max-sm:w-4/6"
+          >
+            {item.name}
+          </Link>
+        </div>
+        <p className="pl-3 max-sm:pl-0 max-sm:pt-3 max-sm:text-right">
           {item.quantity} x {item.price} = {item.quantity! * item.price}
         </p>
       </div>
@@ -34,8 +42,11 @@ const Order = () => {
   return (
     <section className="max-container padding py-10  text-text-main">
       <h2 className="font-bold text-xl">Order {orderId}</h2>
-      <div className="flex flex-row justify-between items-start justify-items-center box-border mt-5 w-11/12">
-        <div id="1col" className="shadow-lg rounded-md p-2 grow-0 shrink-0">
+      <div className="flex flex-row justify-between items-start justify-items-center box-border mt-5 w-11/12 max-lg:flex-col max-lg:w-5/6 max-md:w-full">
+        <div
+          id="1col"
+          className="shadow-lg rounded-md p-2 shrink-0 max-lg:w-full"
+        >
           <div className="">
             <div className="px-3 py-4 border-b border-light-gray">
               <h2 className="pb-3 font-semibold text-lg">Shipping</h2>
@@ -75,7 +86,7 @@ const Order = () => {
         </div>
         <div
           id="2col"
-          className="flex flex-col ml-8 w-80 rounded-md shadow-lg p-2 text-nowrap"
+          className="flex flex-col ml-8 w-80 rounded-md shadow-lg p-2 text-nowrap max-lg:ml-0 max-lg:w-full"
         >
           <div className="py-4 border-b border-light-gray">
             <h2 className="mb-2 px-3 font-bold">Order Summary</h2>
