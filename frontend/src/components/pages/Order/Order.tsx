@@ -29,7 +29,7 @@ const Order = () => {
             {item.name}
           </Link>
         </div>
-        <p className="pl-3 max-sm:pl-0 max-sm:pt-3 max-sm:text-right">
+        <p className="pl-3 max-sm:pl-0 max-sm:pt-3 max-sm:text-right text-nowrap">
           {item.quantity} x {item.price} = {item.quantity! * item.price}
         </p>
       </div>
@@ -40,14 +40,14 @@ const Order = () => {
   if (error) return <div>There is an error</div>;
 
   return (
-    <section className="max-container padding py-10  text-text-main">
+    <section className="max-container padding py-10 text-text-main max-lg:flex max-lg:flex-col">
       <h2 className="font-bold text-xl">Order {orderId}</h2>
-      <div className="flex flex-row justify-between items-start justify-items-center box-border mt-5 w-11/12 max-lg:flex-col max-lg:w-5/6 max-md:w-full">
+      <div className="flex flex-row justify-between items-start justify-items-center box-border mt-5 w-11/12 max-lg:self-center max-lg:flex-col max-lg:w-5/6 max-md:w-full">
         <div
           id="1col"
-          className="shadow-lg rounded-md p-2 shrink-0 max-lg:w-full"
+          className="shadow-md rounded-md p-2 shrink-0 max-lg:w-full"
         >
-          <div className="">
+          <div>
             <div className="px-3 py-4 border-b border-light-gray">
               <h2 className="pb-3 font-semibold text-lg">Shipping</h2>
               <p>
@@ -86,7 +86,7 @@ const Order = () => {
         </div>
         <div
           id="2col"
-          className="flex flex-col ml-8 w-80 rounded-md shadow-lg p-2 text-nowrap max-lg:ml-0 max-lg:w-full"
+          className="flex flex-col ml-8 w-80 rounded-md shadow-md p-2 text-nowrap bg-[#f5f5f5] max-lg:ml-0 max-lg:mt-3 max-lg:w-full"
         >
           <div className="py-4 border-b border-light-gray">
             <h2 className="mb-2 px-3 font-bold">Order Summary</h2>
@@ -95,19 +95,19 @@ const Order = () => {
             <tbody>
               <tr>
                 <td className="py-1 pr-2">Items</td>
-                <td className="py-1">{order.itemsPrice} RSD</td>
+                <td className="py-1 text-center">{order.itemsPrice} RSD</td>
               </tr>
               <tr>
                 <td className="py-1 pr-2">Shipping</td>
-                <td className="py-1">{order.shippingPrice} RSD</td>
+                <td className="py-1 text-center">{order.shippingPrice} RSD</td>
               </tr>
               <tr>
                 <td className="py-1 pr-2">Tax</td>
-                <td className="py-1">{order.taxPrice} RSD</td>
+                <td className="py-1 text-center">{order.taxPrice} RSD</td>
               </tr>
               <tr>
                 <td className="py-1 pr-2">Total</td>
-                <td className="py-1">{order.totalPrice} RSD</td>
+                <td className="py-1 text-center">{order.totalPrice} RSD</td>
               </tr>
             </tbody>
           </table>

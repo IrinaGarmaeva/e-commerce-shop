@@ -67,7 +67,7 @@ const Payment = () => {
               type="radio"
               name="paymentMethod"
               inputClassName="appearance-none h-3 w-3 bg-white border-[1px] border-[#C5C5C5] rounded-full checked:bg-pink checked:border-gray-800 transition-all duration-700 ease-out"
-              value="GiftCertificate"
+              value="Gift Certificate"
               onChange={(e: ChangeEvent<HTMLInputElement>) =>
                 setPaymentMethod(e.target.value)
               }

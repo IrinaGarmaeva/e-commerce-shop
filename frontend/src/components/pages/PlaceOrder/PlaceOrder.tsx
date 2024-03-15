@@ -12,6 +12,7 @@ const PlaceOrder = () => {
   const dispatch = useDispatch();
   const cart = useSelector((state: RootState) => state.cart);
 
+
   const [createOrder] = useCreateOrderMutation();
   const { userInfo } = useSelector((state: RootState) => state.auth);
 
@@ -43,15 +44,15 @@ const PlaceOrder = () => {
   };
 
   return (
-    <section className="max-container padding py-10">
+    <section className="max-container padding py-10 max-lg:flex max-lg:flex-col">
       <CheckoutSteps step1 step2 step3 step4 />
-      <div className="flex flex-row justify-between items-start justify-items-center  box-border mt-5 w-11/12 text-text-main">
-        <div className="shadow-lg rounded-md  p-2">
+      <div className="flex flex-row justify-between items-start justify-items-center  box-border mt-5 w-11/12 text-text-main max-lg:flex-col max-lg:w-5/6 max-lg:self-center max-md:w-full">
+        <div id="1col" className="shadow-md rounded-md p-2 shrink-0 max-lg:w-full">
           <div className="border-b border-light-gray">
             <div className="px-3 py-4">
-              <h2 className="pb-2">Shipping</h2>
+              <h2 className="pb-3 font-semibold text-lg">Shipping</h2>
               <p>
-                <strong>Address: </strong>
+                <strong className="font-semibold">Address: </strong>
                 {cart.shippingAddress?.address}, {cart.shippingAddress?.city},{" "}
                 {cart.shippingAddress?.postalCode},{" "}
                 {cart.shippingAddress?.country}
@@ -60,35 +61,35 @@ const PlaceOrder = () => {
           </div>
           <div className="border-b border-light-gray">
             <div className="px-3 py-4">
-              <h2 className="pb-2">Payment Method</h2>
+              <h2 className="pb-3 font-semibold text-lg">Payment Method</h2>
               <p>
-                <strong>Method: </strong>
+                <strong className="font-semibold">Method: </strong>
                 {cart.paymentMethod}
               </p>
             </div>
           </div>
           <div className="p-2">
             <div className="px-3 py-4">
-              <h2>Order Items</h2>
+              <h2 className="pb-3 font-semibold text-lg">Order Items</h2>
               {cart.cartItems.length === 0 ? (
                 <p>Your cart is empty</p>
               ) : (
                 <div className="mt-3">
                   {cart.cartItems.map((item, index) => (
-                    <div className="flex justify-between mt-3" key={index}>
-                      <div className="flex">
-                        <Link to={`/${item._id}`}>
+                    <div className="border-b border-light-gray flex py-3 max-sm:flex-col" key={index}>
+                      <div className="flex w-2/3 max-sm:w-full">
+                        <Link to={`/product/${item._id}`}>
                           <img
                             src={item.image}
                             alt={item.name}
-                            className="w-20 h-20 object-cover rounded-md"
+                            className="w-24 h-24 object-cover rounded-md"
                           />
                         </Link>
-                        <Link to={`/${item._id}`} className="pl-4">
-                          {item.description}
+                        <Link to={`/product/${item._id}`} className="pl-6 w-2/3 max-sm:w-4/6">
+                          {item.name}
                         </Link>
                       </div>
-                      <p className="px-2 text-nowrap">
+                      <p className="text-nowrap pl-3 max-sm:pl-0 max-sm:pt-3 max-sm:text-right">
                         {item.quantity} x {item.price} ={" "}
                         {item.quantity! * item.price}
                       </p>
@@ -99,24 +100,28 @@ const PlaceOrder = () => {
             </div>
           </div>
         </div>
-        <div className="flex flex-col ml-8 w-80 rounded-md shadow-lg p-2 text-nowrap">
+        <div id="2col" className="flex flex-col ml-8 w-80 rounded-md shadow-md p-2 text-nowrap max-lg:ml-0 max-lg:mt-3 max-lg:w-full bg-[#f5f5f5]">
           <h2 className="mb-2 px-3 font-bold">Order Summary</h2>
-          <div className="flex justify-between px-3 py-4 border-b border-light-gray">
-            <p>Items:</p>
-            <p>{cart.itemsPrice} RSD</p>
-          </div>
-          <div className="flex justify-between px-3 py-4 border-b border-light-gray">
-            <p>Shipping:</p>
-            <p>{cart.shippingPrice} RSD</p>
-          </div>
-          <div className="flex justify-between px-3 py-4 border-b border-light-gray">
-            <p>Tax:</p>
-            <p>{cart.taxPrice} RSD</p>
-          </div>
-          <div className="flex justify-between px-3 py-4 border-b border-light-gray">
-            <p>Total:</p>
-            <p>{cart.totalPrice} RSD</p>
-          </div>
+          <table className="table-auto ml-3 mt-3">
+            <tbody>
+              <tr>
+                <td className="py-1 pr-2">Items</td>
+                <td className="py-1 text-center">{cart.itemsPrice} RSD</td>
+              </tr>
+              <tr>
+                <td className="py-1 pr-2">Shipping</td>
+                <td className="py-1 text-center">{cart.shippingPrice} RSD</td>
+              </tr>
+              <tr>
+                <td className="py-1 pr-2">Tax</td>
+                <td className="py-1 text-center">{cart.taxPrice} RSD</td>
+              </tr>
+              <tr>
+                <td className="py-1 pr-2">Total</td>
+                <td className="py-1 text-center">{cart.totalPrice} RSD</td>
+              </tr>
+            </tbody>
+          </table>
           <button
             type="button"
             className="bg-pink px-6 py-3 mt-4 text-white rounded-md disabled:cursor-not-allowed disabled:opacity-70"
