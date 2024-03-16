@@ -30,6 +30,7 @@ export default {
         "pink": "#FF005B",
         "gray": "#999999",
         "orange": "#D82700",
+        "red": "#fe5252"
       },
       screens: {
         "wide": "1440px",

@@ -7,14 +7,15 @@ import CheckoutSteps from "../../design-system/CheckoutSteps/CheckoutSteps";
 import { useCreateOrderMutation } from "../../../redux/slices/ordersApiSlice/ordersApiSlice";
 import { clearCartItems } from "../../../redux/slices/cartSlice/cartSlice";
 import OrderSummary from "../../design-system/OrderSummary/OrderSummary";
+import { IProduct } from "../../../types";
 
 const PlaceOrder = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const cart = useSelector((state: RootState) => state.cart);
+  const { userInfo } = useSelector((state: RootState) => state.auth);
 
   const [createOrder] = useCreateOrderMutation();
-  const { userInfo } = useSelector((state: RootState) => state.auth);
 
   useEffect(() => {
     if (!cart.shippingAddress?.address) {
@@ -39,7 +40,7 @@ const PlaceOrder = () => {
       dispatch(clearCartItems());
       navigate(`/order/${res._id}`);
     } catch (error) {
-      console.log(error);
+      console.log('Error placing order:', error);
     }
   };
 
@@ -47,10 +48,7 @@ const PlaceOrder = () => {
     <section className="max-container padding py-10 max-lg:flex max-lg:flex-col">
       <CheckoutSteps step1 step2 step3 step4 />
       <div className="flex flex-row justify-between items-start justify-items-center  box-border mt-5 w-11/12 text-text-main max-lg:flex-col max-lg:w-5/6 max-lg:self-center max-md:w-full">
-        <div
-          id="1col"
-          className="shadow-md rounded-md p-2 shrink-0 max-lg:w-full"
-        >
+        <div className="shadow-md rounded-md p-2 shrink-0 max-lg:w-full">
           <div className="border-b border-light-gray">
             <div className="px-3 py-4">
               <h2 className="pb-3 font-semibold text-lg">Shipping</h2>
@@ -78,7 +76,7 @@ const PlaceOrder = () => {
                 <p>Your cart is empty</p>
               ) : (
                 <div className="mt-3">
-                  {cart.cartItems.map((item, index) => (
+                  {cart.cartItems.map((item: IProduct, index: number) => (
                     <div
                       className="border-b border-light-gray flex py-3 max-sm:flex-col"
                       key={index}
@@ -109,10 +107,7 @@ const PlaceOrder = () => {
             </div>
           </div>
         </div>
-        <div
-          id="2col"
-          className="flex flex-col ml-8 w-80 rounded-md shadow-md p-2 text-nowrap max-lg:ml-0 max-lg:mt-3 max-lg:w-full bg-[#f5f5f5]"
-        >
+        <div className="flex flex-col ml-8 w-80 rounded-md shadow-md p-2 text-nowrap max-lg:ml-0 max-lg:mt-3 max-lg:w-full bg-[#f5f5f5]">
           <OrderSummary order={cart} />
           <button
             type="button"

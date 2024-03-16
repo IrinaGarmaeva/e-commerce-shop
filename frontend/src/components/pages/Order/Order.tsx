@@ -44,13 +44,10 @@ const Order = () => {
     <section className="max-container padding py-10 text-text-main max-lg:flex max-lg:flex-col">
       <h2 className="font-bold text-xl">Order {orderId}</h2>
       <div className="flex flex-row justify-between items-start justify-items-center box-border mt-5 w-11/12 max-lg:self-center max-lg:flex-col max-lg:w-5/6 max-md:w-full">
-        <div
-          id="1col"
-          className="shadow-md rounded-md p-2 shrink-0 max-lg:w-full"
-        >
+        <div className="shadow-md rounded-md p-2 shrink-0 max-lg:w-full">
           <div>
             <div className="px-3 py-4 border-b border-light-gray">
-              <h2 className="pb-3 font-semibold text-lg">Shipping</h2>
+              <h3 className="pb-3 font-semibold text-lg">Shipping</h3>
               <p>
                 <strong className="font-semibold">Name: </strong>{" "}
                 {order.user.name}
@@ -66,29 +63,38 @@ const Order = () => {
                 {order.shippingAddress.country}
               </p>
               {order.isDelivered ? (
-                <p>Devivered on {order.deliveredAt}</p>
+                <p className="bg-[#D1F2EB] py-5 px-3 w-full text-[#13967D] border border-[#a3e4d7] rounded-md mt-3">
+                  Devivered on {order.deliveredAt}
+                </p>
               ) : (
-                <p>Not delivered</p>
+                <p className="bg-[#FADBD8] py-5 px-3 w-full text-red border border-[#F5B7B1] rounded-md mt-3">
+                  Not delivered
+                </p>
               )}
             </div>
             <div className="px-3 py-4 border-b border-light-gray">
-              <h2 className="pb-3 font-semibold text-lg">Payment Method</h2>
+              <h3 className="pb-3 font-semibold text-lg">Payment Method</h3>
               <p>
                 <strong className="font-semibold">Method: </strong>{" "}
                 {order.paymentMethod}
               </p>
-              {order.isPaid ? <p>Paid on {order.paidAt}</p> : <p>Not paid</p>}
+              {order.isPaid ? (
+                <p className="bg-[#D1F2EB] py-5 px-3 w-full text-[#13967D] border border-[#a3e4d7] rounded-md mt-3">
+                  Paid on {order.paidAt}
+                </p>
+              ) : (
+                <p className="bg-[#FADBD8] py-5 px-3 w-full text-red border border-[#F5B7B1] rounded-md mt-3">
+                  Not paid
+                </p>
+              )}
             </div>
             <div className="px-3 py-4">
-              <h2 className="pb-3 font-semibold text-lg">Order Items</h2>
-              <div> {renderOrderItems()}</div>
+              <h3 className="pb-3 font-semibold text-lg">Order Items</h3>
+              <div>{renderOrderItems()}</div>
             </div>
           </div>
         </div>
-        <div
-          id="2col"
-          className="flex flex-col ml-8 w-80 rounded-md shadow-md p-2 text-nowrap bg-[#f5f5f5] max-lg:ml-0 max-lg:mt-3 max-lg:w-full"
-        >
+        <div className="flex flex-col ml-8 w-80 rounded-md shadow-md p-2 text-nowrap bg-[#f5f5f5] max-lg:ml-0 max-lg:mt-3 max-lg:w-full">
           <OrderSummary order={order} />
         </div>
       </div>
