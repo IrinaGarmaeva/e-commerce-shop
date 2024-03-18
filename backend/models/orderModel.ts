@@ -35,9 +35,9 @@ interface IOrder extends Document {
   shippingPrice: number;
   totalPrice: number;
   isPaid: boolean;
-  paidAt: Date;
+  paidAt: number;
   isDelivered: boolean;
-  deliveredAt: Date;
+  deliveredAt: number;
 }
 
 const orderSchema = new Schema<IOrder>({
@@ -99,7 +99,7 @@ const orderSchema = new Schema<IOrder>({
     type: Boolean,
   },
   paidAt: {
-    type: Date,
+    type: Number,
   },
   isDelivered: {
     type: Boolean,
@@ -107,7 +107,7 @@ const orderSchema = new Schema<IOrder>({
     default: false,
   },
   deliveredAt: {
-    type: Date,
+    type: Number,
   },
 }, {
   timestamps: true
