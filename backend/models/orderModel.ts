@@ -38,6 +38,7 @@ interface IOrder extends Document {
   paidAt: number;
   isDelivered: boolean;
   deliveredAt: number;
+  isConfirmed: boolean;
 }
 
 const orderSchema = new Schema<IOrder>({

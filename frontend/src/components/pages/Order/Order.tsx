@@ -3,6 +3,7 @@ import { useSelector } from "react-redux";
 import {
   useGetOrderDetailsQuery,
   usePayOrderMutation,
+  useConfirmOrderMutation,
 } from "../../../redux/slices/ordersApiSlice/ordersApiSlice";
 import Loader from "../../design-system/Loader/Loader";
 import { IOrderItem } from "../../../types";
@@ -32,8 +33,11 @@ const Order = () => {
     refetch,
   } = useGetOrderDetailsQuery(orderId);
   const [payOrder, { isLoading: loadingPay }] = usePayOrderMutation();
+  const [confirmOrder, { isLoading: loadingConfirm }] =
+    useConfirmOrderMutation();
 
   const { userInfo } = useSelector((state: RootState) => state.auth);
+  console.log('just order',order)
 
   const {
     values,
@@ -67,6 +71,17 @@ const Order = () => {
     toast.success("Payment successful");
   };
 
+  const handleConfirmOrder = async () => {
+    if (!orderId || !order) {
+      return;
+    }
+
+    await confirmOrder({ orderId, details: order });
+    refetch();
+    console.log('order after confirm', order)
+    toast.success("Confirm successful");
+  };
+
   const addCertificateNumber = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (!orderId || !order) {
@@ -79,9 +94,9 @@ const Order = () => {
       });
     } else {
       setValues({ certificateNumber: "" });
-      await payOrder({ orderId, details: order });
+      await confirmOrder({ orderId, details: order });
       refetch();
-      toast.success("Payment successful");
+      toast.success("Confirm successful, u entered certificate number");
     }
   };
 
@@ -114,13 +129,13 @@ const Order = () => {
   };
 
   if (isLoading) return <Loader />;
-  if (error) return <div>There is an error</div>;
+  if (error) return <div className="max-container padding py-10 text-center text-lg">There is an error</div>;
 
   return (
     <section className="max-container padding py-10 text-text-main max-lg:flex max-lg:flex-col">
       <h2 className="font-bold text-xl">Order {orderId}</h2>
       <button
-        className="bg-pink px-10 py-3 mt-4 text-white rounded-md font-semibold"
+        className="bg-pink px-10 py-3 mt-4 text-white rounded-md font-semibold w-40 ease-linear transition-all hover:scale-105"
         onClick={() => navigate(-1)}
       >
         Go Back
@@ -178,7 +193,7 @@ const Order = () => {
         </div>
         <div className="flex flex-col ml-8 w-80 rounded-md shadow-md p-2 text-nowrap bg-[#f5f5f5] max-lg:ml-0 max-lg:mt-3 max-lg:w-full">
           <OrderSummary order={order} />
-          {!order.isPaid && (
+          {!order.isConfirmed && (
             <div>
               {loadingPay && <Loader />}
               {order.paymentMethod === "PayPal" && (
@@ -196,7 +211,8 @@ const Order = () => {
                 <div className="flex justify-center">
                   <button
                     type="button"
-                    className="bg-pink px-10 py-3 mt-4 text-white rounded-md w-full"
+                    className="bg-pink px-10 py-3 mt-4 text-white rounded-md w-full font-semibold ease-linear transition-all hover:scale-105"
+                    onClick={handleConfirmOrder}
                   >
                     Confirm Order
                   </button>

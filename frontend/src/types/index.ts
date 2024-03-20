@@ -48,6 +48,7 @@ export interface IOrder {
   isDelivered?: boolean;
   isPaid?: boolean;
   paidAt?: string;
+  isConfirmed?: boolean;
   deliveredAt?: string;
   updatedAt?: string;
   user: IUser;

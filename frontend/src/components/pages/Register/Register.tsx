@@ -199,7 +199,7 @@ const Register = () => {
           </button>
           <Link
             to={redirect ? `/login?redirect=${redirect}` : ROUTES.sign.in}
-            className="text-pink border border-1 border-pink  px-6 py-3 bg-transparent rounded-md text-center"
+            className="text-pink border border-pink  px-6 py-3 bg-transparent rounded-md text-center"
           >
             Already Have an Account
           </Link>

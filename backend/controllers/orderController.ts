@@ -78,11 +78,11 @@ const getOrderById = asyncHandler(async (req: Request, res: Response) => {
 // @route   PUT /api/orders/:id/pay
 // @access  Private
 const updateOrderToPaid = asyncHandler(async (req: Request, res: Response) => {
-  console.log('req params id in updateOrderToPaid', req.params.id);
   const order = await Order.findById(req.params.id);
 
   if(order) {
     order.isPaid = true;
+    order.isConfirmed = true;
     order.paidAt = Date.now();
     order.paymentResult = {
       id: req.body.id,
@@ -91,6 +91,22 @@ const updateOrderToPaid = asyncHandler(async (req: Request, res: Response) => {
       email_address: req.body.email_address
     }
 
+    const updateOrder = await order.save();
+    res.status(200).json(updateOrder);
+  } else {
+    res.status(404);
+    throw new Error("Order not found");
+  }
+});
+
+// @desc    Update order to confirm
+// @route   PUT /api/orders/:id/confirm
+// @access  Private
+const updateOrderToConfirm = asyncHandler(async (req: Request, res: Response) => {
+  const order = await Order.findById(req.params.id);
+
+  if(order) {
+    order.isConfirmed = true;
     const updateOrder = await order.save();
     res.status(200).json(updateOrder);
   } else {
@@ -120,6 +136,7 @@ export {
   getMyOrders,
   getOrderById,
   updateOrderToPaid,
+  updateOrderToConfirm,
   updateOrderToDelivered,
   getOrders,
 };

@@ -111,7 +111,7 @@ const PlaceOrder = () => {
           <OrderSummary order={cart} />
           <button
             type="button"
-            className="bg-pink px-6 py-3 mt-4 text-white rounded-md disabled:cursor-not-allowed disabled:opacity-70"
+            className="bg-pink px-6 py-3 mt-4 font-semibold text-white rounded-md disabled:cursor-not-allowed disabled:opacity-70 ease-linear transition-all hover:scale-105"
             disabled={cart.cartItems.length === 0}
             onClick={placeOrderHandler}
           >

@@ -57,7 +57,7 @@ const Cart = () => {
                 {cartItems.map((item: IProduct) => (
                   <tr
                     key={item._id}
-                    className="flex flex-row justify-between items-center border-b border-[#ececec] "
+                    className="flex flex-row justify-between items-center border-b border-[#ececec]"
                   >
                     <td className="py-2">
                       <img

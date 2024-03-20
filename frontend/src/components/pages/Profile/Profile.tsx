@@ -1,11 +1,11 @@
-import { useEffect } from "react";
-import { FormEvent } from "react";
-import { useProfileMutation } from "../../../redux/slices/usersApiSlice/usersApiSlice";
+import { useEffect, FormEvent } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import Loader from "../../design-system/Loader/Loader";
+import { useProfileMutation } from "../../../redux/slices/usersApiSlice/usersApiSlice";
+import { useGetMyOrdersQuery } from "../../../redux/slices/ordersApiSlice/ordersApiSlice";
 import { toast } from "react-toastify";
 import { setCredentials } from "../../../redux/slices/authSlice/authSlice";
 import { RootState } from "../../../redux/store";
+import Loader from "../../design-system/Loader/Loader";
 import Input from "../../design-system/Input/Input";
 import useFormAndValidation from "../../../hooks/useFormAndValidation";
 import {
@@ -14,6 +14,9 @@ import {
   isValidName,
   VALIDATION_MESSAGES,
 } from "../../../utils/validationConstants";
+import { FaTimes } from "react-icons/fa";
+import { IOrder } from "../../../types";
+import { Link } from "react-router-dom";
 
 const Profile = () => {
   const dispatch = useDispatch();
@@ -34,6 +37,7 @@ const Profile = () => {
 
   const [updateProfile, { isLoading: loadingUpdateProfile }] =
     useProfileMutation();
+  const { data: orders, isLoading, error } = useGetMyOrdersQuery("");
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -52,11 +56,13 @@ const Profile = () => {
 
   return (
     <div className="max-container padding py-10">
-      <div className="flex flex-row justify-between text-text-main">
+      <div className="flex flex-row gap-16 text-text-main max-xl:flex-col max-xl:items-center">
         <div id="1col">
-          <h2 className="text-2xl max-[500px]:text-xl">User profile</h2>
+          <h2 className="text-2xl max-[500px]:text-xl max-xl:text-center">
+            User profile
+          </h2>
           <form
-            className="w-72 pt-6 px-15 flex flex-col gap-5"
+            className="w-72 pt-6 px-15 flex flex-col gap-5 max-sm:w-64"
             noValidate
             onSubmit={handleSubmit}
           >
@@ -69,7 +75,7 @@ const Profile = () => {
                 name="name"
                 value={values.name}
                 error={errors.name}
-                inputClassName="input"
+                inputClassName="input mt-2"
                 spanClassName="min-h-5 text-orange text-xs mt-1"
                 onChange={(e) =>
                   handleChangeInput(
@@ -91,7 +97,7 @@ const Profile = () => {
                 name="email"
                 value={values.email}
                 error={errors.email}
-                inputClassName="input"
+                inputClassName="input mt-2"
                 spanClassName="min-h-5 text-orange text-xs mt-1"
                 placeholder="Enter your password"
                 onChange={(e) =>
@@ -107,7 +113,7 @@ const Profile = () => {
               />
             </fieldset>
             <button
-              className="bg-pink px-6 py-3 text-white rounded-md disabled:cursor-not-allowed disabled:opacity-70"
+              className="bg-pink px-6 py-3 text-white font-medium rounded-md disabled:cursor-not-allowed disabled:opacity-70 ease-linear transition-all hover:scale-105"
               type="submit"
               disabled={!isValid}
             >
@@ -116,9 +122,73 @@ const Profile = () => {
           </form>
           {loadingUpdateProfile && <Loader />}
         </div>
-        <div id="2col" className="">
-          <h2 className="">My Orders</h2>
-          <table></table>
+        <div id="2col" className="w-3/4 max-xl:w-full">
+          <h2 className="text-2xl max-xl:text-center">My Orders</h2>
+          {isLoading ? (
+            <Loader />
+          ) : error ? (
+            <div>There is an error</div>
+          ) : (
+            <div className="overflow-x-auto">
+              <table className="w-full table-auto mt-6 text-center text-text-main">
+                <thead>
+                  <tr>
+                    <th scope="col">ID</th>
+                    <th scope="col">DATE</th>
+                    <th scope="col">TOTAL</th>
+                    <th scope="col">PAID</th>
+                    <th scope="col">DELIVERED</th>
+                    <th scope="col"></th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {orders.map((order: IOrder, index: number) => (
+                    <tr
+                      key={index}
+                      className="text-center border-b border-[#ececec]"
+                    >
+                      <td className="py-2 px-2 whitespace-nowrap ">
+                        {order._id}
+                      </td>
+                      <td className="py-2 px-2 whitespace-nowrap">
+                        {order.createdAt!.substring(0, 10)}
+                      </td>
+                      <td className="py-2 px-2 whitespace-nowrap">
+                        {order.totalPrice} RSD
+                      </td>
+                      <td className="py-2 px-2 whitespace-nowrap">
+                        <div className="flex justify-center items-center">
+                          {order.isPaid ? (
+                            order.paidAt!.toString().substring(0, 10)
+                          ) : (
+                            <FaTimes style={{ color: "red" }} />
+                          )}
+                        </div>
+                      </td>
+                      <td className="py-2 px-2 whitespace-nowrap">
+                        <div className="flex justify-center items-center">
+                          {order.isDelivered ? (
+                            order.deliveredAt!.substring(0, 10)
+                          ) : (
+                            <FaTimes
+                              style={{ color: "red", alignSelf: "center" }}
+                            />
+                          )}
+                        </div>
+                      </td>
+                      <td className="py-2 px-2 whitespace-nowrap ">
+                        <Link to={`/order/${order._id}`}>
+                        <button className="bg-pink text-white px-3 py-1 border border-pink rounded-md text-center ease-linear transition-all hover:scale-105 font-medium">
+                          Details
+                        </button>
+                        </Link>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          )}
         </div>
       </div>
     </div>

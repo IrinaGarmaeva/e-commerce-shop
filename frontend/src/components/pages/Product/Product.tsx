@@ -80,7 +80,7 @@ const Product = () => {
                     <button onClick={incrementQuantity} className="text-3xl text-text-main ease-linear transition-all hover:text-pink">+</button>
                   </div>
                   <button
-                    className="bg-pink rounded-md text-white px-5 py-3 ease-linear transition-all hover:scale-105"
+                    className="bg-pink rounded-md text-white font-medium px-5 py-3 ease-linear transition-all hover:scale-105"
                     disabled={product?.countInStock === 0}
                     onClick={handleAddToCart}
                   >
