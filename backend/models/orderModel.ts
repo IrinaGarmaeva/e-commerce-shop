@@ -102,6 +102,9 @@ const orderSchema = new Schema<IOrder>({
   paidAt: {
     type: Number,
   },
+  isConfirmed: {
+    type: Boolean,
+  },
   isDelivered: {
     type: Boolean,
     required: true,

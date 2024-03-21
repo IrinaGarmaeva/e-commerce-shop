@@ -25,7 +25,7 @@ export const VALIDATION_MESSAGES = {
     "Your password must be at least 8 characters long and contain 1 number, 1 uppercase, 1 lowercase",
   failedAuth: "Invalid email or password",
   emptyCertificateNumber: "Enter your certificate number",
-  invalidCertificateNumber: "Certificate contains only numbers",
+  invalidCertificateNumber: "Certificate contains only 4 digits",
 };
 
 export const validateInput = (
