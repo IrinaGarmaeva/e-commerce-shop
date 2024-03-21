@@ -25,7 +25,6 @@ const Navbar: FC<NavbarProps> = ({ isMobileMenuOpen, handleCloseMobileMenu }) =>
                 >
                   {item.label}
                 </Link>
-              // </li>
             ))}
           </div>
         </nav>

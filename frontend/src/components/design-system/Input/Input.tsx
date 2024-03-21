@@ -6,9 +6,9 @@ type InputProps = {
   value: string,
   placeholder?: string,
   onChange: (e: ChangeEvent<HTMLInputElement>) => void,
-  error: string,
+  error?: string,
   inputClassName: string,
-  spanClassName: string,
+  spanClassName?: string,
   spanId?: string,
   minLength?: number,
   maxLength?: number

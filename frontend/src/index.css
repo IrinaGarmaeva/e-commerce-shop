@@ -28,7 +28,6 @@ ul, ol {
     @apply transition-all duration-700 ease-out hover:text-pink
   }
 
-
 }
 
 
@@ -39,7 +38,7 @@ ul, ol {
   }
 
   .input {
-    @apply text-sm border border-pink h-7 rounded-md pl-2 focus:outline-none focus:shadow-md
+    @apply text-sm border border-pink h-7 rounded-md px-2 focus:outline-none focus:shadow-md
   }
 
   .hover-mobile-menu {

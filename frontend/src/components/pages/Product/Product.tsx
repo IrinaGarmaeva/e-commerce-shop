@@ -8,7 +8,7 @@ import { addToCart } from "../../../redux/slices/cartSlice/cartSlice";
 import CustomNotification from "../../design-system/CustomNotification/CustomNotification";
 
 const Product = () => {
-  const { id: productId } = useParams();
+  const { productId } = useParams();
   const dispatch = useDispatch();
   const [quantity, setQuantity] = useState<number>(1);
 
@@ -49,7 +49,7 @@ const Product = () => {
       {isLoading ? (
         <Loader />
       ) : error ? (
-        <div>There is an error</div>
+        <div>There is an error </div>
       ) : (
         <div className="flex flex-col w-4/5">
           <p className="text-light-gray">{`Home - Catalog - ${product?.category} - ${product?.name}`}</p>
@@ -80,7 +80,7 @@ const Product = () => {
                     <button onClick={incrementQuantity} className="text-3xl text-text-main ease-linear transition-all hover:text-pink">+</button>
                   </div>
                   <button
-                    className="bg-pink rounded-md text-white px-5 py-3 ease-linear transition-all hover:scale-105"
+                    className="bg-pink rounded-md text-white font-medium px-5 py-3 ease-linear transition-all hover:scale-105"
                     disabled={product?.countInStock === 0}
                     onClick={handleAddToCart}
                   >

@@ -1,18 +1,19 @@
 import mongoose, {Document, Schema} from "mongoose";
 import { IProduct } from "./productModel";
 
-interface IOrderItem {
+export interface IOrderItem {
   name: string;
   quantity: number;
   image: string;
   price: number;
-  product: mongoose.Types.ObjectId | IProduct;
+  // product: mongoose.Types.ObjectId | IProduct;
+  product: mongoose.Types.ObjectId;
 }
 
 interface IShippingAddress {
   address: string;
   city: string;
-  postCode: string;
+  postalCode: string;
   country: string;
 }
 
@@ -26,7 +27,7 @@ interface IPaymentResult {
 interface IOrder extends Document {
   user: mongoose.Types.ObjectId;
   orderItems: IOrderItem[];
-  shippingAdress: IShippingAddress;
+  shippingAddress: IShippingAddress;
   paymentMethod: string;
   paymentResult: IPaymentResult;
   itemsPrice: number;
@@ -34,9 +35,11 @@ interface IOrder extends Document {
   shippingPrice: number;
   totalPrice: number;
   isPaid: boolean;
-  paidAt: Date;
+  paidAt: number;
   isDelivered: boolean;
-  deliveredAt: Date;
+  deliveredAt: number;
+  isConfirmed: boolean;
+  certificateNumber: number;
 }
 
 const orderSchema = new Schema<IOrder>({
@@ -58,10 +61,10 @@ const orderSchema = new Schema<IOrder>({
       },
     },
   ],
-  shippingAdress: {
+  shippingAddress: {
     address: { type: String, required: true },
     city: { type: String, required: true },
-    postCode: { type: String, required: true },
+    postalCode: { type: String, required: true },
     country: { type: String, required: true },
   },
   paymentMethod: {
@@ -98,7 +101,13 @@ const orderSchema = new Schema<IOrder>({
     type: Boolean,
   },
   paidAt: {
-    type: Date,
+    type: Number,
+  },
+  isConfirmed: {
+    type: Boolean,
+  },
+  certificateNumber: {
+    type: Number,
   },
   isDelivered: {
     type: Boolean,
@@ -106,7 +115,7 @@ const orderSchema = new Schema<IOrder>({
     default: false,
   },
   deliveredAt: {
-    type: Date,
+    type: Number,
   },
 }, {
   timestamps: true
@@ -115,3 +124,9 @@ const orderSchema = new Schema<IOrder>({
 const Order = mongoose.model<IOrder>("Order", orderSchema);
 
 export default Order;
+
+
+
+
+
+
