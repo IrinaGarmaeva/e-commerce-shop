@@ -13,6 +13,8 @@ const Order = () => {
 
   const { data: order, error, isLoading } = useGetOrderDetailsQuery(orderId);
 
+  console.log('order in cert', order)
+
   const { userInfo } = useSelector((state: RootState) => state.auth);
 
   const renderOrderItems = () => {

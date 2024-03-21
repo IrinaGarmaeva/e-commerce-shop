@@ -19,7 +19,7 @@ export const ordersApiSlice = apiSlice.injectEndpoints({
       providesTags: ["Order"],
       keepUnusedDataFor: 5,
     }),
-    payOrder: builder.mutation({
+    payOrderByCard: builder.mutation({
       query: ({orderId, details}) => ({
         url: `${ORDERS_URL}/${orderId}/pay`,
         method: "PUT",
@@ -30,6 +30,14 @@ export const ordersApiSlice = apiSlice.injectEndpoints({
     confirmOrder: builder.mutation({
       query: ({orderId, details}) => ({
         url: `${ORDERS_URL}/${orderId}/confirm`,
+        method: "PUT",
+        body: { ...details },
+      }),
+      invalidatesTags: ["Order"],
+    }),
+    payOrderByCertificate: builder.mutation({
+      query: ({orderId, details}) => ({
+        url: `${ORDERS_URL}/${orderId}/paybycertificate`,
         method: "PUT",
         body: { ...details },
       }),
@@ -52,4 +60,4 @@ export const ordersApiSlice = apiSlice.injectEndpoints({
   }),
 });
 
-export const { useCreateOrderMutation, useGetOrderDetailsQuery, usePayOrderMutation, useConfirmOrderMutation, useGetPayPalClientIdQuery, useGetMyOrdersQuery } = ordersApiSlice;
+export const { useCreateOrderMutation, useGetOrderDetailsQuery, usePayOrderByCardMutation, useConfirmOrderMutation, useGetPayPalClientIdQuery, useGetMyOrdersQuery, usePayOrderByCertificateMutation } = ordersApiSlice;

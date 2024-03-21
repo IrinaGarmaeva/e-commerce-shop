@@ -1,7 +1,7 @@
 import { useState, useCallback, ChangeEvent } from "react";
 
 type FormValues = {
-  [key: string]: string;
+  [key: string]: string | number;
 };
 
 const useFormAndValidation = (initialValues: FormValues) => {

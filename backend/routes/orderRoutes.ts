@@ -5,6 +5,7 @@ import {
   getOrderById,
   updateOrderToPaid,
   updateOrderToConfirm,
+  updateOrderToPayWithCertificate,
   updateOrderToDelivered,
   getOrders,
 } from "../controllers/orderController";
@@ -18,6 +19,7 @@ router.get("/myorders", protect, getMyOrders);
 router.get("/:id", protect, getOrderById);
 router.put("/:id/pay", protect, updateOrderToPaid);
 router.put("/:id/confirm", protect, updateOrderToConfirm);
+router.put("/:id/paybycertificate", protect, updateOrderToPayWithCertificate);
 router.put("/:id/deliver", protect, admin, updateOrderToDelivered);
 
 export default router;

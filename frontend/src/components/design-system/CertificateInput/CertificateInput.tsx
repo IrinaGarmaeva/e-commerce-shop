@@ -9,7 +9,7 @@ import useFormAndValidation from "../../../hooks/useFormAndValidation";
 import { FormEvent, useEffect } from "react";
 import {
   useGetOrderDetailsQuery,
-  usePayOrderMutation,
+  usePayOrderByCertificateMutation
 } from "../../../redux/slices/ordersApiSlice/ordersApiSlice";
 import { toast } from "react-toastify";
 import Loader from "../Loader/Loader";
@@ -25,7 +25,7 @@ const CertificateInput = () => {
     refetch,
   } = useGetOrderDetailsQuery(orderId);
 
-  const [payOrder, { isLoading: loadingPay }] = usePayOrderMutation();
+  const [payOrderByCertificate, {isLoading: loadingPay}] = usePayOrderByCertificateMutation();
 
   const {
     values,
@@ -36,7 +36,7 @@ const CertificateInput = () => {
     isValid,
     setIsValid,
   } = useFormAndValidation({
-    certificateNumber: "",
+    certificateNumber: 0,
   });
 
   useEffect(() => {
@@ -61,7 +61,8 @@ const CertificateInput = () => {
       });
     } else {
       setValues({ certificateNumber: "" });
-      await payOrder({ orderId, details: order });
+      await payOrderByCertificate({orderId, details: { ...order, certificateNumber: values.certificateNumber }})
+      setValues({ certificateNumber: 0 });
       refetch();
       toast.success("Confirm successful, u entered certificate number");
     }
@@ -77,7 +78,7 @@ const CertificateInput = () => {
       <div className="flex flex-row relative mb-3 bg-white rounded-md outline outline-1 outline-pink">
         <input
           type="certificateNumber"
-          value={values.certificateNumber}
+          value={values.certificateNumber === 0 ? "" : values.certificateNumber }
           name="certificateNumber"
           placeholder="Your certificate number"
           onChange={(e) =>

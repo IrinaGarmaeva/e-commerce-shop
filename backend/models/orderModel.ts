@@ -39,6 +39,7 @@ interface IOrder extends Document {
   isDelivered: boolean;
   deliveredAt: number;
   isConfirmed: boolean;
+  certificateNumber: number;
 }
 
 const orderSchema = new Schema<IOrder>({
@@ -104,6 +105,9 @@ const orderSchema = new Schema<IOrder>({
   },
   isConfirmed: {
     type: Boolean,
+  },
+  certificateNumber: {
+    type: Number,
   },
   isDelivered: {
     type: Boolean,

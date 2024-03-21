@@ -3,7 +3,7 @@ import CertificateInput from "../CertificateInput/CertificateInput";
 import { toast } from "react-toastify";
 import {
   useGetOrderDetailsQuery,
-  usePayOrderMutation,
+  usePayOrderByCardMutation,
   useConfirmOrderMutation,
 } from "../../../redux/slices/ordersApiSlice/ordersApiSlice";
 import { useState } from "react";
@@ -15,7 +15,7 @@ const PaymentActions = () => {
   const { orderId } = useParams();
 
   const { data: order, refetch } = useGetOrderDetailsQuery(orderId);
-  const [payOrder, { isLoading: loadingPay }] = usePayOrderMutation();
+  const [payOrderByCard, { isLoading: loadingPay }] = usePayOrderByCardMutation();
   const [confirmOrder, { isLoading: loadingConfirm }] =
     useConfirmOrderMutation();
 
@@ -24,7 +24,7 @@ const PaymentActions = () => {
       return;
     }
 
-    await payOrder({ orderId, details: order });
+    await payOrderByCard({ orderId, details: order });
     refetch();
     toast.success("Payment successful");
   };
