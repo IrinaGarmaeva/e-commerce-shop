@@ -17,6 +17,8 @@ import {
 import { FaTimes } from "react-icons/fa";
 import { IOrder } from "../../../types";
 import { Link } from "react-router-dom";
+import { formatISODate } from "../../../utils/dateFormatting";
+import { formatUnixTimestamp } from "../../../utils/dateFormatting";
 
 const Profile = () => {
   const dispatch = useDispatch();
@@ -151,7 +153,7 @@ const Profile = () => {
                         {order._id}
                       </td>
                       <td className="py-2 px-2 whitespace-nowrap">
-                        {order.createdAt!.substring(0, 10)}
+                        {formatISODate(order.createdAt!)}
                       </td>
                       <td className="py-2 px-2 whitespace-nowrap">
                         {order.totalPrice} RSD
@@ -159,7 +161,7 @@ const Profile = () => {
                       <td className="py-2 px-2 whitespace-nowrap">
                         <div className="flex justify-center items-center">
                           {order.isPaid ? (
-                            order.paidAt!.toString().substring(0, 10)
+                            formatUnixTimestamp(order.paidAt!)
                           ) : (
                             <FaTimes style={{ color: "red" }} />
                           )}
@@ -168,7 +170,7 @@ const Profile = () => {
                       <td className="py-2 px-2 whitespace-nowrap">
                         <div className="flex justify-center items-center">
                           {order.isDelivered ? (
-                            order.deliveredAt!.substring(0, 10)
+                            formatUnixTimestamp(order.deliveredAt!)
                           ) : (
                             <FaTimes
                               style={{ color: "red", alignSelf: "center" }}

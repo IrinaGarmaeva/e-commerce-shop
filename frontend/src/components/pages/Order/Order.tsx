@@ -6,6 +6,7 @@ import { IOrderItem } from "../../../types";
 import OrderSummary from "../../design-system/OrderSummary/OrderSummary";
 import { RootState } from "../../../redux/store";
 import PaymentActions from "../../design-system/PaymentActions/PaymentActions";
+import { formatUnixTimestamp } from "../../../utils/dateFormatting";
 
 const Order = () => {
   const { orderId } = useParams();
@@ -83,7 +84,7 @@ const Order = () => {
               </p>
               {order.isDelivered ? (
                 <p className="bg-[#D1F2EB] py-5 px-3 w-full text-[#13967D] border border-[#a3e4d7] rounded-md mt-3">
-                  Devivered on {order.deliveredAt}
+                  Devivered on {formatUnixTimestamp(order.deliveredAt)}
                 </p>
               ) : (
                 <p className="bg-[#FADBD8] py-5 px-3 w-full text-red border border-[#F5B7B1] rounded-md mt-3">
@@ -99,7 +100,7 @@ const Order = () => {
               </p>
               {order.isPaid ? (
                 <p className="bg-[#D1F2EB] py-5 px-3 w-full text-[#13967D] border border-[#a3e4d7] rounded-md mt-3">
-                  Paid on {order.paidAt}
+                  Paid on {formatUnixTimestamp(order.paidAt)}
                 </p>
               ) : (
                 <p className="bg-[#FADBD8] py-5 px-3 w-full text-red border border-[#F5B7B1] rounded-md mt-3">

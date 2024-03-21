@@ -124,6 +124,7 @@ const updateOrderToPayWithCertificate = asyncHandler(async (req: Request, res: R
   if(order) {
     order.isConfirmed = true;
     order.certificateNumber = req.body.certificateNumber;
+    order.paidAt = Date.now();
     const updateOrder = await order.save();
     res.status(200).json(updateOrder);
   } else {
