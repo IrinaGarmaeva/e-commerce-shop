@@ -22,6 +22,7 @@ import Cart from "./components/pages/Cart/Cart.tsx";
 import Profile from "./components/pages/Profile/Profile.tsx";
 import Shipping from "./components/pages/Shipping/Shipping.tsx";
 import ProtectedRoute from "./components/design-system/ProtectedRoute/ProtectedRoute.tsx";
+import AdminRoute from "./components/design-system/AdminRoute/AdminRoute.tsx";
 import Payment from "./components/pages/Payment/Payment.tsx";
 import PlaceOrder from "./components/pages/PlaceOrder/PlaceOrder.tsx";
 import Order from "./components/pages/Order/Order.tsx";
@@ -41,6 +42,8 @@ const router = createBrowserRouter(
         <Route path={ROUTES.payment} element={<Payment />} />
         <Route path={ROUTES.placeorder} element={<PlaceOrder />} />
         <Route path={ROUTES.order} element={<Order />} />
+      </Route>
+      <Route path="" element={<AdminRoute />}>
       </Route>
     </Route>
   )
