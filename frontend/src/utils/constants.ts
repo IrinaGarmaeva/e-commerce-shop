@@ -21,6 +21,11 @@ export const ROUTES = {
     up: "/register",
     in: "/login",
   },
+  admin: {
+    products: "/admin/productlist",
+    orders: "/admin/orderlist",
+    users: "/admin/userlist"
+  }
 };
 
 export const navItems = [

@@ -13,7 +13,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { RootState } from "../../../redux/store";
 import { useLogoutMutation } from "../../../redux/slices/usersApiSlice/usersApiSlice";
 import { logout } from "../../../redux/slices/authSlice/authSlice";
-import { ROUTES } from "../../../utils/constants";
+import { ORDERS_URL, ROUTES } from "../../../utils/constants";
 
 const Header = () => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState<boolean>(false);
@@ -37,16 +37,16 @@ const Header = () => {
     setIsMobileMenuOpen(false);
   };
 
-  const handleLogOut = async() => {
-    console.log('You clicked logg out button')
+  const handleLogOut = async () => {
+    console.log("You clicked logg out button");
     try {
-      await logoutApiCall(undefined).unwrap()
-      dispatch(logout())
-      navigate(ROUTES.home)
+      await logoutApiCall(undefined).unwrap();
+      dispatch(logout());
+      navigate(ROUTES.home);
     } catch (error) {
-      console.log(error)
+      console.log(error);
     }
-  }
+  };
 
   return (
     <header
@@ -95,18 +95,30 @@ const Header = () => {
                   Search
                 </span>
               </button>
+              <Link to={ROUTES.cart} className="static flex flex-row items-center">
+                <PiHandbag size={20} className=" text-light-gray" />
+                {cartItems.length > 0 && (
+                  <span className="ml-1 min-h-3 bg-pink w-5 rounded-xl text-white text-center">
+                    {cartItems.reduce((a, c) => a + c.quantity!, 0)}
+                  </span>
+                )}
+              </Link>
               <Link
                 to={userInfo ? "profile" : "login"}
                 onMouseEnter={() => setShowProfileMenu(true)}
                 onMouseLeave={() => setShowProfileMenu(false)}
               >
+                <div className="flex flex-row gap-1">
                 <GoPerson
                   size={20}
                   className={`${userInfo ? "text-pink" : "text-light-gray"}`}
                 />
+                {userInfo ? userInfo.name : ''}
+                </div>
+                {/* User links */}
                 {showProfileMenu && userInfo && (
-                  <div className="absolute top-20 right-13 bg-white shadow-md p-2 z-30 rounded-md w-20  font-medium text-light-gray">
-                    <Link to="/profile" className="block hover-menu">
+                  <div className="absolute top-20 right-[210px] bg-white shadow-md p-2 z-30 rounded-md w-20  font-medium text-light-gray">
+                    <Link to={ROUTES.profile} className="block hover-menu">
                       Profile
                     </Link>
                     <p className="block hover-menu" onClick={handleLogOut}>
@@ -114,13 +126,19 @@ const Header = () => {
                     </p>
                   </div>
                 )}
-              </Link>
-              <Link to="/cart" className="static flex flex-row items-center">
-                <PiHandbag size={20} className=" text-light-gray" />
-                {cartItems.length > 0 && (
-                  <span className="ml-1 min-h-3 bg-pink w-5 rounded-xl text-white text-center">
-                    {cartItems.reduce((a, c) => a + c.quantity!, 0)}
-                  </span>
+                {/* Admin links */}
+                {showProfileMenu && userInfo?.isAdmin && (
+                  <div className="absolute top-20 right-[210px] bg-white shadow-md p-2 z-30 rounded-md w-26  font-medium text-light-gray">
+                    <Link to={ROUTES.admin.products} className="block hover-menu">
+                      Products
+                    </Link>
+                    <Link to={ROUTES.admin.orders} className="block hover-menu">
+                      Orders
+                    </Link>
+                    <Link to={ROUTES.admin.users} className="block hover-menu">
+                      Users
+                    </Link>
+                  </div>
                 )}
               </Link>
             </div>
