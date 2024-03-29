@@ -46,7 +46,7 @@ const Shipping = () => {
         <h2 className="text-2xl mt-6">Shipping</h2>
         <form  className="w-96 pt-6 px-15 flex flex-col gap-5 max-[500px]:w-72" onSubmit={handleSubmit}>
           <fieldset className="flex flex-col">
-            <label htmlFor="address" className="">
+            <label htmlFor="address">
               Address
             </label>
             <Input
@@ -63,7 +63,7 @@ const Shipping = () => {
             />
           </fieldset>
           <fieldset className="flex flex-col">
-            <label htmlFor="city" className="">
+            <label htmlFor="city">
               City
             </label>
             <Input
