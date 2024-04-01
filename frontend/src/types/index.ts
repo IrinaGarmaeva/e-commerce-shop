@@ -10,6 +10,16 @@ export interface IProduct {
   quantity?: number;
 }
 
+export interface IUpdatedProduct {
+  _id: string;
+  name: string;
+  description: string;
+  category: string;
+  image: string;
+  price: number;
+  countInStock: number;
+}
+
 export interface ICartState {
   cartItems: IProduct[];
   itemsPrice?: string;

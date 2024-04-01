@@ -28,6 +28,7 @@ import PlaceOrder from "./components/pages/PlaceOrder/PlaceOrder.tsx";
 import Order from "./components/pages/Order/Order.tsx";
 import OrderList from "./components/pages/admin/OrderList/OrderList.tsx";
 import ProductListScreen from "./components/pages/admin/ProductListScreen/ProductListScreen.tsx";
+import ProductEdit from "./components/pages/admin/ProductEdit/ProductEdit.tsx";
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -48,6 +49,7 @@ const router = createBrowserRouter(
       <Route path="" element={<AdminRoute />}>
         <Route path={ROUTES.admin.orders} element={<OrderList />} />
         <Route path={ROUTES.admin.products} element={<ProductListScreen />} />
+        <Route path={ROUTES.admin.editProduct} element={<ProductEdit />} />
       </Route>
     </Route>
   )

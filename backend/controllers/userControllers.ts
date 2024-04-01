@@ -2,7 +2,7 @@ import { Request, Response } from "express-serve-static-core";
 import asyncHandler from "../middleware/asyncHandler";
 import User from "../models/userModel";
 import generateToken from "../utils/generateToken";
-import { CustomRequest } from "../middleware/authMiddleware";
+import { CustomRequest } from "../types";
 import { IUser, UserResponse } from "../types";
 
 // @desc    Auth user and get token

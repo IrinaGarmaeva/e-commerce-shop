@@ -3,7 +3,6 @@ import asyncHandler from "../middleware/asyncHandler";
 import Product from "../models/productModel";
 import { AuthenticatedRequest } from "../types";
 
-
 // @desc    Fetch all products
 // @route   GET /api/products
 // @access  Public
@@ -46,5 +45,28 @@ const createProduct = asyncHandler(async (req: Request, res: Response) => {
     res.status(201).json(createdProduct);
 });
 
+// @desc    Update a product
+// @route   PUT /api/products/:id
+// @access  Private/admin
+const updateProduct = asyncHandler(async (req: Request, res: Response) => {
+  res.setHeader("Cache-Control", "no-store");
+  const {name, price, description, image, category, countInStock} = req.body;
+  const product = await Product.findById(req.params.id);
+  if(product) {
+    product.name = name;
+    product.price = price;
+    product.description = description;
+    product.image = image;
+    product.category = category;
+    product.countInStock = countInStock;
 
-export { getProducts, getProductById, createProduct };
+    const updatedProduct = await product.save();
+    res.json(updatedProduct);
+  } else {
+    res.status(404);
+    throw new Error("Product not found");
+  }
+});
+
+
+export { getProducts, getProductById, createProduct, updateProduct };

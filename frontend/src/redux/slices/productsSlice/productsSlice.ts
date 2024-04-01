@@ -1,5 +1,7 @@
 import { PRODUCTS_URL } from "../../../utils/constants";
 import { apiSlice } from "../apiSlices/apiSlice";
+import { IProduct } from "../../../types";
+import { ObjectId } from "mongoose";
 
 export const productsSlice = apiSlice.injectEndpoints({
   endpoints: (builder) => ({
@@ -9,8 +11,8 @@ export const productsSlice = apiSlice.injectEndpoints({
       }),
       keepUnusedDataFor: 5,
     }),
-    getProductDetails: builder.query({
-      query: (productId) => ({
+    getProductDetails: builder.query<IProduct, ObjectId | string>({
+      query: (productId: string) => ({
         url: `${PRODUCTS_URL}/${productId}`,
       }),
       keepUnusedDataFor: 5,
@@ -22,6 +24,14 @@ export const productsSlice = apiSlice.injectEndpoints({
       }),
       invalidatesTags: ["Product"], // stop it from being cached - so we have fresh data. Without this, we would have to reload the page
     }),
+    updateProduct: builder.mutation({
+      query: (data: IProduct) => ({
+        url: `${PRODUCTS_URL}/${data._id}`,
+        method: 'PUT',
+        body: data
+      }),
+      invalidatesTags: ["Product"],
+    })
   }),
 });
 
@@ -29,4 +39,5 @@ export const {
   useGetProductsQuery,
   useGetProductDetailsQuery,
   useCreateProductMutation,
+  useUpdateProductMutation
 } = productsSlice;
