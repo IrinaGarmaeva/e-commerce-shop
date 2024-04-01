@@ -27,8 +27,6 @@ const Order = () => {
 
   const { userInfo } = useSelector((state: RootState) => state.auth);
 
-  console.log('order', order)
-
   const deliverOrderHandler = async () => {
     try {
       await deliverOrder(orderId);

@@ -1,18 +1,18 @@
 import { Link } from "react-router-dom";
-import { useGetOrdersQuery } from "../../../redux/slices/ordersApiSlice/ordersApiSlice";
-import Loader from "../../design-system/Loader/Loader";
-import { IOrder } from "../../../types";
+import { useGetOrdersQuery } from "../../../../redux/slices/ordersApiSlice/ordersApiSlice";
+import Loader from "../../../design-system/Loader/Loader";
+import { IOrder } from "../../../../types";
 import {
   formatISODate,
   formatUnixTimestamp,
-} from "../../../utils/dateFormatting";
+} from "../../../../utils/dateFormatting";
 import { FaTimes } from "react-icons/fa";
 
 const OrderList = () => {
   const { data: orders, isLoading, error } = useGetOrdersQuery("");
 
   return (
-    <section className="max-container padding py-10 ">
+    <section className="max-container padding py-10">
       <h2 className="text-2xl mt-6">Orders</h2>
       {isLoading ? (
         <Loader />
@@ -34,7 +34,7 @@ const OrderList = () => {
             </thead>
             <tbody>
               {orders.map((order: IOrder) => (
-                <tr key={order._id} className="">
+                <tr key={order._id}>
                   <td className="py-2 px-2 whitespace-nowrap">{order._id}</td>
                   <td className="py-2 px-2 whitespace-nowrap">
                     {order.user && order.user.name}

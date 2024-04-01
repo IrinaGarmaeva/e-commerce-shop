@@ -24,7 +24,8 @@ export const ROUTES = {
   admin: {
     products: "/admin/productlist",
     orders: "/admin/orderlist",
-    users: "/admin/userlist"
+    users: "/admin/userlist",
+    product: "/admin/product"
   }
 };
 
