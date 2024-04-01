@@ -1,12 +1,8 @@
 import { Request, Response } from "express-serve-static-core";
 import asyncHandler from "../middleware/asyncHandler";
 import Order, { IOrderItem } from "../models/orderModel";
+import { AuthenticatedRequest } from "../types";
 
-interface AuthenticatedRequest extends Request {
-  user: {
-    _id: string;
-  };
-}
 
 // @desc    Create new order
 // @route   POST /api/orders

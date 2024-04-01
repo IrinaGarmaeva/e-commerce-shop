@@ -1,12 +1,27 @@
 import { Link } from "react-router-dom";
 import Loader from "../../../design-system/Loader/Loader";
-import { useGetProductsQuery } from "../../../../redux/slices/productsSlice/productsSlice";
+import { useGetProductsQuery, useCreateProductMutation } from "../../../../redux/slices/productsSlice/productsSlice";
 import { FaEdit, FaTrash } from "react-icons/fa";
 import { IProduct } from "../../../../types";
 import { ROUTES } from "../../../../utils/constants";
+import { toast } from "react-toastify";
 
 const ProductListScreen = () => {
-  const { data: products, isLoading, error } = useGetProductsQuery("");
+  const { data: products, isLoading, error, refetch } = useGetProductsQuery("");
+
+  const [createProduct, {isLoading: loadingCreate}] = useCreateProductMutation();
+
+  const createProductHandler = async () => {
+    if (window.confirm("Are you sure you want to create a new product?")){
+    try {
+      await createProduct();
+      refetch();
+      toast.success('Product created')
+    } catch (error) {
+      toast.error("error");
+    }
+    }
+  }
 
   const deleteProduct = async (productId: string) => {
     console.log("deleted product", productId);
@@ -20,16 +35,18 @@ const ProductListScreen = () => {
           <button
             type="button"
             className="w-56 mt-5 py-3 bg-pink text-white font-semibold rounded-md"
+            onClick={createProductHandler}
           >
             Create Product
           </button>
         </div>
+        {loadingCreate && <Loader />}
         {isLoading ? (
           <Loader />
         ) : error ? (
           <div>There is an error</div>
         ) : (
-          <div>
+          <div className="overflow-x-auto">
             <table className="w-full table-auto mt-6 text-center text-text-main">
               <thead>
                 <tr>
@@ -61,7 +78,7 @@ const ProductListScreen = () => {
                     </td>
                     <td className="py-2 px-2 whitespace-nowrap">
                       <Link to={`${ROUTES.admin.product}/${product._id}/edit`}>
-                        <button className="mx-2">
+                        <button className="mx-2" >
                           <FaEdit />
                         </button>
                       </Link>
