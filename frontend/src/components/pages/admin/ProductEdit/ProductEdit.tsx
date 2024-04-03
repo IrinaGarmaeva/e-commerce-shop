@@ -1,34 +1,31 @@
-import { useEffect, FormEvent } from "react";
+import { useState, useEffect, FormEvent, ChangeEvent } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import { toast } from "react-toastify";
 import Loader from "../../../design-system/Loader/Loader";
 import {
   useGetProductDetailsQuery,
   useUpdateProductMutation,
+  useUploadProductImageMutation,
 } from "../../../../redux/slices/productsSlice/productsSlice";
 import useFormAndValidation from "../../../../hooks/useFormAndValidation";
 import { ROUTES } from "../../../../utils/constants";
 import Input from "../../../design-system/Input/Input";
 
 const ProductEdit = () => {
+  const [productLoaded, setProductLoaded] = useState<boolean>(false);
   const { id: productId } = useParams();
 
   const navigate = useNavigate();
 
-  const {
-    values,
-    setValues,
-    handleChange,
-    errors,
-    isValid,
-  } = useFormAndValidation({
-    name: "",
-    price: 0,
-    description: "",
-    image: "",
-    category: "",
-    countInStock: 0,
-  });
+  const { values, setValues, handleChange, errors, isValid, setIsValid } =
+    useFormAndValidation({
+      name: "",
+      price: 0,
+      description: "",
+      image: "",
+      category: "",
+      countInStock: 0,
+    });
 
   const {
     data: product,
@@ -36,9 +33,11 @@ const ProductEdit = () => {
     error,
   } = useGetProductDetailsQuery(productId!);
   const [updateProduct, { isLoading: isUpdating }] = useUpdateProductMutation();
+  const [uploadProductImage, { isLoading: loadingUpload }] =
+    useUploadProductImageMutation();
 
   useEffect(() => {
-    if (product) {
+    if (product  && !productLoaded) {
       setValues({
         name: product.name,
         price: product.price,
@@ -47,10 +46,19 @@ const ProductEdit = () => {
         category: product.category,
         countInStock: product.countInStock,
       });
+      setProductLoaded(true);
     }
-  }, [product]);
+  }, [product, productLoaded, setValues]);
 
-  const handleUpdate = async(e: FormEvent<HTMLFormElement>): Promise<void>  => {
+  useEffect(() => {
+    if (!values) {
+      setIsValid(false);
+    } else {
+      setIsValid(true);
+    }
+  }, [values]);
+
+  const handleUpdate = async (e: FormEvent<HTMLFormElement>): Promise<void> => {
     e.preventDefault();
     const updatedProduct = {
       _id: productId!,
@@ -60,8 +68,8 @@ const ProductEdit = () => {
       image: values.image,
       category: values.category,
       countInStock: values.countInStock,
-    }
-
+    };
+    console.log('updatedProduct', updatedProduct)
     try {
       await updateProduct(updatedProduct);
       refetch();
@@ -70,7 +78,22 @@ const ProductEdit = () => {
     } catch (err) {
       toast.error("There is an error");
     }
-  }
+  };
+
+  const handleUploadFile = async (e: ChangeEvent<HTMLInputElement>) => {
+    if (e.target && e.target.files && e.target.files.length > 0){
+      const formData = new FormData();
+      formData.append("image", e.target.files[0]);
+      try {
+        const res = await uploadProductImage(formData).unwrap();
+        toast.success(res.message);
+        setValues({...values, image: res.image})
+      } catch (error) {
+        console.log(error)
+        toast.error(error);
+      }
+    }
+  };
 
   return (
     <section className="max-container padding py-10">
@@ -82,9 +105,14 @@ const ProductEdit = () => {
           Go Back
         </Link>
         <div className="mt-5 flex flex-col self-center justify-center">
-          <h2 className="text-2xl max-[500px]:text-xl text-center">Edit Product</h2>
-          <form className="flex flex-col w-96 pt-6 px-15" onSubmit={handleUpdate}>
-            <fieldset className="flex flex-col" >
+          <h2 className="text-2xl max-[500px]:text-xl text-center">
+            Edit Product
+          </h2>
+          <form
+            className="flex flex-col w-96 pt-6 px-15"
+            onSubmit={handleUpdate}
+          >
+            <fieldset className="flex flex-col">
               <label htmlFor="Product Name" className="text-base">
                 Product Name
               </label>
@@ -96,6 +124,7 @@ const ProductEdit = () => {
                 inputClassName="input"
                 spanClassName="min-h-5 text-orange text-xs mt-1"
                 onChange={(e) => handleChange(e)}
+                placeholder="Enter name"
               />
               <label htmlFor="Product Name" className="text-base">
                 Price
@@ -108,6 +137,7 @@ const ProductEdit = () => {
                 inputClassName="input"
                 spanClassName="min-h-5 text-orange text-xs mt-1"
                 onChange={(e) => handleChange(e)}
+                placeholder="Enter price"
               />
               <label htmlFor="Product Name" className="text-base">
                 Description
@@ -120,6 +150,7 @@ const ProductEdit = () => {
                 inputClassName="input"
                 spanClassName="min-h-5 text-orange text-xs mt-1"
                 onChange={(e) => handleChange(e)}
+                placeholder="Enter product description"
               />
               <label htmlFor="Product Name" className="text-base">
                 Image
@@ -132,7 +163,15 @@ const ProductEdit = () => {
                 inputClassName="input"
                 spanClassName="min-h-5 text-orange text-xs mt-1"
                 onChange={(e) => handleChange(e)}
+                placeholder="Enter image url"
               />
+              <input
+                name="file"
+                type="file"
+                className="block file:bg-pink file:text-white file:font-semibold file:border-none file:h-full file:mr-3 text-sm border border-pink h-7 rounded-md pr-2 focus:outline-none focus:shadow-md cursor-pointer"
+                onChange={handleUploadFile}
+              />
+              <span className="min-h-5 text-orange text-xs mt-1"></span>
               <label htmlFor="Product Name" className="text-base">
                 Category
               </label>
@@ -144,6 +183,7 @@ const ProductEdit = () => {
                 inputClassName="input"
                 spanClassName="min-h-5 text-orange text-xs mt-1"
                 onChange={(e) => handleChange(e)}
+                placeholder="Enter category"
               />
               <label htmlFor="Product Name" className="text-base">
                 Count in Stock
@@ -156,15 +196,16 @@ const ProductEdit = () => {
                 inputClassName="input"
                 spanClassName="min-h-5 text-orange text-xs mt-1"
                 onChange={(e) => handleChange(e)}
+                placeholder="Enter count in stock"
               />
             </fieldset>
             <button
-            className="bg-pink px-6 py-3 text-white rounded-md disabled:cursor-not-allowed disabled:opacity-70"
-            type="submit"
-            disabled={!isValid}
-          >
-            Update
-          </button>
+              className="bg-pink px-6 py-3 text-white rounded-md disabled:cursor-not-allowed disabled:opacity-70"
+              type="submit"
+              disabled={!isValid}
+            >
+              Update
+            </button>
           </form>
         </div>
       </div>

@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 import Loader from "../../../design-system/Loader/Loader";
-import { useGetProductsQuery, useCreateProductMutation } from "../../../../redux/slices/productsSlice/productsSlice";
+import { useGetProductsQuery, useCreateProductMutation, useUploadProductImageMutation } from "../../../../redux/slices/productsSlice/productsSlice";
 import { FaEdit, FaTrash } from "react-icons/fa";
 import { IProduct } from "../../../../types";
 import { ROUTES } from "../../../../utils/constants";

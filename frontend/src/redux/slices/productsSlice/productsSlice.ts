@@ -1,4 +1,4 @@
-import { PRODUCTS_URL } from "../../../utils/constants";
+import { PRODUCTS_URL, UPLOADS_URL } from "../../../utils/constants";
 import { apiSlice } from "../apiSlices/apiSlice";
 import { IProduct } from "../../../types";
 import { ObjectId } from "mongoose";
@@ -10,12 +10,14 @@ export const productsSlice = apiSlice.injectEndpoints({
         url: PRODUCTS_URL,
       }),
       keepUnusedDataFor: 5,
+      providesTags: ["Product"],
     }),
     getProductDetails: builder.query<IProduct, ObjectId | string>({
       query: (productId: string) => ({
         url: `${PRODUCTS_URL}/${productId}`,
       }),
       keepUnusedDataFor: 5,
+      providesTags: ["Product"],
     }),
     createProduct: builder.mutation<void, void>({
       query: () => ({
@@ -31,6 +33,13 @@ export const productsSlice = apiSlice.injectEndpoints({
         body: data
       }),
       invalidatesTags: ["Product"],
+    }),
+    uploadProductImage: builder.mutation({
+      query: (data) => ({
+        url: UPLOADS_URL,
+        method: "POST",
+        body: data,
+      })
     })
   }),
 });
@@ -39,5 +48,6 @@ export const {
   useGetProductsQuery,
   useGetProductDetailsQuery,
   useCreateProductMutation,
-  useUpdateProductMutation
+  useUpdateProductMutation,
+  useUploadProductImageMutation
 } = productsSlice;
