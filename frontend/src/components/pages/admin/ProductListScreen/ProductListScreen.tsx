@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 import Loader from "../../../design-system/Loader/Loader";
-import { useGetProductsQuery, useCreateProductMutation, useUploadProductImageMutation } from "../../../../redux/slices/productsSlice/productsSlice";
+import { useGetProductsQuery, useCreateProductMutation, useDeleteProductMutation } from "../../../../redux/slices/productsSlice/productsSlice";
 import { FaEdit, FaTrash } from "react-icons/fa";
 import { IProduct } from "../../../../types";
 import { ROUTES } from "../../../../utils/constants";
@@ -8,8 +8,8 @@ import { toast } from "react-toastify";
 
 const ProductListScreen = () => {
   const { data: products, isLoading, error, refetch } = useGetProductsQuery("");
-
   const [createProduct, {isLoading: loadingCreate}] = useCreateProductMutation();
+  const [deleteProduct, {isLoading: loadingDelete}] = useDeleteProductMutation();
 
   const createProductHandler = async () => {
     if (window.confirm("Are you sure you want to create a new product?")){
@@ -23,8 +23,14 @@ const ProductListScreen = () => {
     }
   }
 
-  const deleteProduct = async (productId: string) => {
-    console.log("deleted product", productId);
+  const handleDeleteProduct = async (productId: string) => {
+    try {
+      await deleteProduct(productId);
+      refetch();
+      toast.success('Product deleted')
+    } catch (error) {
+      toast.error("error");
+    }
   };
 
   return (
@@ -41,6 +47,7 @@ const ProductListScreen = () => {
           </button>
         </div>
         {loadingCreate && <Loader />}
+        {loadingDelete && <Loader />}
         {isLoading ? (
           <Loader />
         ) : error ? (
@@ -84,7 +91,7 @@ const ProductListScreen = () => {
                       </Link>
                       <button
                         className="mx-2"
-                        onClick={() => deleteProduct(product._id)}
+                        onClick={() => handleDeleteProduct(product._id)}
                       >
                         <FaTrash />
                       </button>

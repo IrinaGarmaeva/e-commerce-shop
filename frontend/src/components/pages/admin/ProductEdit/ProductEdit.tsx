@@ -31,6 +31,7 @@ const ProductEdit = () => {
     data: product,
     refetch,
     error,
+    isLoading
   } = useGetProductDetailsQuery(productId!);
   const [updateProduct, { isLoading: isUpdating }] = useUpdateProductMutation();
   const [uploadProductImage, { isLoading: loadingUpload }] =
@@ -107,7 +108,9 @@ const ProductEdit = () => {
           <h2 className="text-2xl max-[500px]:text-xl text-center">
             Edit Product
           </h2>
-          <form
+          {loadingUpload && <Loader />}
+          {isLoading ? (<Loader />) : (
+            <form
             className="flex flex-col w-96 pt-6 px-15"
             onSubmit={handleUpdate}
           >
@@ -198,6 +201,7 @@ const ProductEdit = () => {
                 placeholder="Enter count in stock"
               />
             </fieldset>
+            {!isUpdating && <Loader />}
             <button
               className="bg-pink px-6 py-3 text-white rounded-md disabled:cursor-not-allowed disabled:opacity-70"
               type="submit"
@@ -206,6 +210,7 @@ const ProductEdit = () => {
               Update
             </button>
           </form>
+          )}
         </div>
       </div>
     </section>
