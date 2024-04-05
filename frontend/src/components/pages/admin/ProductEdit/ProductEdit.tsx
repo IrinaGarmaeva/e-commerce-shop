@@ -201,7 +201,7 @@ const ProductEdit = () => {
                 placeholder="Enter count in stock"
               />
             </fieldset>
-            {!isUpdating && <Loader />}
+            {isUpdating && <Loader />}
             <button
               className="bg-pink px-6 py-3 text-white rounded-md disabled:cursor-not-allowed disabled:opacity-70"
               type="submit"
