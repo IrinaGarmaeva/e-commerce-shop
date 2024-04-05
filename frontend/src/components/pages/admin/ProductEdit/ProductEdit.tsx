@@ -89,7 +89,6 @@ const ProductEdit = () => {
         toast.success(res.message);
         setValues({...values, image: res.image})
       } catch (error) {
-        console.log(error)
         toast.error(error);
       }
     }

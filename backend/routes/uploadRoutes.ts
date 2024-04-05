@@ -30,6 +30,7 @@ const storage = multer.diskStorage({
 function checkFileType(file: Express.Multer.File, cb: (error: CustomError | null, isValid: boolean) => void) {
   const filetypes = /jpg|jpeg|png/;
   const extname = filetypes.test(path.extname(file.originalname).toLowerCase());
+  console.log('extname', extname)
   const mimetype = filetypes.test(file.mimetype);
 
   if (extname && mimetype) {
@@ -44,9 +45,11 @@ const upload = multer({
 });
 
 router.post('/', upload.single('image'), (req, res) => {
+  const imagePath = `/${req!.file!.path.replace(/\\/g, '/')}`; // Changed this line
   res.send({
     message: 'Image uploaded successfully',
-    image: `/${req!.file!.path}`,
+    // image: `/${req!.file!.path}`,
+    image: imagePath,
   });
 });
 
