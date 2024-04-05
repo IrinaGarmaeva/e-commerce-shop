@@ -119,7 +119,8 @@ const updateUserProfile = asyncHandler(async (req: Request, res: Response) => {
 // @access  Private/admin
 const getUsers = asyncHandler(async (req: Request, res: Response) => {
   res.setHeader("Cache-Control", "no-store");
-  res.send("get all users");
+  const users = await User.find({})
+  res.status(200).json(users);
 });
 
 // @desc    Get user by ID
@@ -127,7 +128,11 @@ const getUsers = asyncHandler(async (req: Request, res: Response) => {
 // @access  Private/admin
 const getUserById = asyncHandler(async (req: Request, res: Response) => {
   res.setHeader("Cache-Control", "no-store");
-  res.send("get user profile by ID");
+  const user = await User.findById(req.params.id).select('-password');
+  if(user) {
+    return res.status(200).json(user);
+  }
+  res.status(404).json({ message: "User not found" });
 });
 
 // @desc    Update user by admin
@@ -135,7 +140,23 @@ const getUserById = asyncHandler(async (req: Request, res: Response) => {
 // @access  Private/admin
 const updateUser = asyncHandler(async (req: Request, res: Response) => {
   res.setHeader("Cache-Control", "no-store");
-  res.send("get user profile by ID");
+  const user = await User.findById(req.params.id);
+
+  if(user) {
+    user.name = req.body.name || user.name;
+    user.email = req.body.email || user.email;
+    user.isAdmin = Boolean(req.body.isAdmin);
+
+    const updatedUser = await user.save();
+    res.status(200).json({
+      _id: updatedUser._id,
+      name: updatedUser.name,
+      email: updatedUser.email,
+      isAdmin: updatedUser.isAdmin,
+    });
+  } else {
+    res.status(404).json({ message: "User not found" });
+  }
 });
 
 // @desc    Delete user
@@ -143,7 +164,18 @@ const updateUser = asyncHandler(async (req: Request, res: Response) => {
 // @access  Private/admin
 const deleteUser = asyncHandler(async (req: Request, res: Response) => {
   res.setHeader("Cache-Control", "no-store");
-  res.send("delete user");
+  const user = await User.findById(req.params.id);
+  if(user){
+    if(user.isAdmin) {
+      res.status(400);
+      throw new Error('Can not delete admin user');
+    }
+    await user.deleteOne({_id: user._id})
+    res.status(200).json({message: 'User deleted'});
+  } else {
+    res.status(404);
+    throw new Error("User not found");
+  }
 });
 
 export {
