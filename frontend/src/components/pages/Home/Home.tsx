@@ -18,11 +18,6 @@ const Home = () => {
         <>
           <h1 className="text-center">Latest Products</h1>
           <ProductList products={products} />
-          {/* <div className='grid grid-cols-4 justify-items-center gap-4 max-lg:grid-cols-3'>
-            {products.map((product) => (
-              <ProductCard product={product} />
-            ))}
-          </div> */}
         </>
       )}
     </section>

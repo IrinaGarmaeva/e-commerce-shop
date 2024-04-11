@@ -36,11 +36,11 @@ const ProductListScreen = () => {
   return (
     <section className="max-container padding py-10">
       <div className="flex flex-col">
-        <div className="flex flex-row justify-between">
+        <div className="flex flex-row justify-between items-center">
           <h2 className="text-2xl mt-6">Products</h2>
           <button
             type="button"
-            className="w-56 mt-5 py-3 bg-pink text-white font-semibold rounded-md"
+            className="w-56 mt-5 py-3 bg-pink text-white font-semibold rounded-md max-sm:w-36"
             onClick={createProductHandler}
           >
             Create Product
