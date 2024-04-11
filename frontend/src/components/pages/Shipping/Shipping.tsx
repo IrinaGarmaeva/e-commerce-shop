@@ -51,6 +51,7 @@ const Shipping = () => {
             </label>
             <Input
               type="text"
+              id="address"
               name="address"
               value={values.address}
               onChange={(e: ChangeEvent<HTMLInputElement>) =>
@@ -68,6 +69,7 @@ const Shipping = () => {
             </label>
             <Input
               type="text"
+              id="city"
               name="city"
               value={values.city}
               onChange={(e: ChangeEvent<HTMLInputElement>) =>
@@ -80,11 +82,12 @@ const Shipping = () => {
             />
           </fieldset>
           <fieldset className="flex flex-col">
-            <label htmlFor="country" className="">
+            <label htmlFor="country">
               Country
             </label>
             <Input
               type="text"
+              id="country"
               name="country"
               value={values.country}
               onChange={(e: ChangeEvent<HTMLInputElement>) =>
@@ -97,11 +100,12 @@ const Shipping = () => {
             />
           </fieldset>
           <fieldset className="flex flex-col">
-            <label htmlFor="postalCode" className="">
+            <label htmlFor="postalCode">
               Postal Code
             </label>
             <Input
               type="text"
+              id="postalCode"
               name="postalCode"
               value={values.postalCode}
               onChange={(e: ChangeEvent<HTMLInputElement>) =>

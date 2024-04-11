@@ -87,11 +87,12 @@ const Register = () => {
           onSubmit={handleRegister}
         >
           <fieldset className="flex flex-col">
-            <label htmlFor="Your Name" className="text-base">
+            <label htmlFor="name" className="text-base">
               Your Name
             </label>
             <Input
               type="text"
+              id="name"
               name="name"
               value={values.name}
               error={errors.name}
@@ -113,6 +114,7 @@ const Register = () => {
             </label>
             <Input
               type="email"
+              id="email"
               name="email"
               value={values.email}
               onChange={(e) =>
@@ -135,6 +137,7 @@ const Register = () => {
             <div className="relative w-full flex flex-col">
               <Input
                 type={showPassword ? "text" : "password"}
+                id="password"
                 name="password"
                 value={values.password}
                 error={errors.password}
@@ -165,6 +168,7 @@ const Register = () => {
             <div className="relative w-full flex flex-col">
               <Input
                 type={showConfirmPassword ? "text" : "password"}
+                id="confirmPassword"
                 name="confirmPassword"
                 value={values.confirmPassword}
                 error={errors.confirmPassword}

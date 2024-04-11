@@ -2,6 +2,7 @@ import {FC, ChangeEvent} from 'react';
 
 type InputProps = {
   type: string,
+  id?: string,
   name: string,
   value: string,
   placeholder?: string,
@@ -14,11 +15,12 @@ type InputProps = {
   maxLength?: number
 }
 
-const Input: FC<InputProps> = ({ type, name, value, placeholder, onChange, error, inputClassName, spanClassName, spanId, minLength, maxLength }) => {
+const Input: FC<InputProps> = ({ type, id, name, value, placeholder, onChange, error, inputClassName, spanClassName, spanId, minLength, maxLength }) => {
   return (
     <>
       <input
         type={type}
+        id={id}
         name={name}
         className={inputClassName}
         value={value}

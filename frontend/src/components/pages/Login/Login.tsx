@@ -77,6 +77,7 @@ const Login = () => {
             </label>
             <Input
               type="email"
+              id="email"
               name="email"
               value={values.email}
               onChange={(e) =>
@@ -99,6 +100,7 @@ const Login = () => {
             <div className="relative w-full flex flex-col">
               <Input
                 type={showPassword ? "text" : "password"}
+                id="password"
                 name="password"
                 value={values.password}
                 onChange={(e) =>

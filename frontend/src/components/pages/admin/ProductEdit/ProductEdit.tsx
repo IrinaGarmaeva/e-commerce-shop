@@ -70,7 +70,6 @@ const ProductEdit = () => {
       category: values.category,
       countInStock: values.countInStock,
     };
-    console.log('updatedProduct', updatedProduct)
     try {
       await updateProduct(updatedProduct);
       refetch();
@@ -115,11 +114,12 @@ const ProductEdit = () => {
             onSubmit={handleUpdate}
           >
             <fieldset className="flex flex-col">
-              <label htmlFor="Product Name" className="text-base">
+              <label htmlFor="name" className="text-base">
                 Product Name
               </label>
               <Input
                 type="text"
+                id="name"
                 name="name"
                 value={values.name}
                 error={errors.name}
@@ -128,11 +128,12 @@ const ProductEdit = () => {
                 onChange={(e) => handleChange(e)}
                 placeholder="Enter name"
               />
-              <label htmlFor="Product Name" className="text-base">
+              <label htmlFor="price" className="text-base">
                 Price
               </label>
               <Input
                 type="number"
+                id="price"
                 name="price"
                 value={values.price}
                 error={errors.price}
@@ -141,11 +142,12 @@ const ProductEdit = () => {
                 onChange={(e) => handleChange(e)}
                 placeholder="Enter price"
               />
-              <label htmlFor="Product Name" className="text-base">
+              <label htmlFor="description" className="text-base">
                 Description
               </label>
               <Input
                 type="text"
+                id="description"
                 name="description"
                 value={values.description}
                 error={errors.description}
@@ -154,11 +156,12 @@ const ProductEdit = () => {
                 onChange={(e) => handleChange(e)}
                 placeholder="Enter product description"
               />
-              <label htmlFor="Product Name" className="text-base">
+              <label htmlFor="image" className="text-base">
                 Image
               </label>
               <Input
                 type="text"
+                id="image"
                 name="image"
                 value={values.image}
                 error={errors.image}
@@ -174,11 +177,12 @@ const ProductEdit = () => {
                 onChange={handleUploadFile}
               />
               <span className="min-h-5 text-orange text-xs mt-1"></span>
-              <label htmlFor="Product Name" className="text-base">
+              <label htmlFor="category" className="text-base">
                 Category
               </label>
               <Input
                 type="text"
+                id="category"
                 name="category"
                 value={values.category}
                 error={errors.category}
@@ -187,11 +191,12 @@ const ProductEdit = () => {
                 onChange={(e) => handleChange(e)}
                 placeholder="Enter category"
               />
-              <label htmlFor="Product Name" className="text-base">
+              <label htmlFor="countInStock" className="text-base">
                 Count in Stock
               </label>
               <Input
                 type="number"
+                id="countInStock"
                 name="countInStock"
                 value={values.countInStock}
                 error={errors.countInStock}
