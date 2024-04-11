@@ -20,3 +20,9 @@ export interface IUser extends Document {
   matchPassword?: (enteredPassword: string) => Promise<boolean>;
 }
 
+export interface AuthenticatedRequest extends Request {
+  user: {
+    _id: string;
+  };
+}
+

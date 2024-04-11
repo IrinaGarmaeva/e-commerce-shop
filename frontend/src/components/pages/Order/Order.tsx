@@ -1,22 +1,41 @@
 import { Link, useNavigate, useParams } from "react-router-dom";
 import { useSelector } from "react-redux";
-import { useGetOrderDetailsQuery } from "../../../redux/slices/ordersApiSlice/ordersApiSlice";
+import {
+  useGetOrderDetailsQuery,
+  useDeliverOrderMutation,
+} from "../../../redux/slices/ordersApiSlice/ordersApiSlice";
 import Loader from "../../design-system/Loader/Loader";
 import { IOrderItem } from "../../../types";
 import OrderSummary from "../../design-system/OrderSummary/OrderSummary";
 import { RootState } from "../../../redux/store";
 import PaymentActions from "../../design-system/PaymentActions/PaymentActions";
 import { formatUnixTimestamp } from "../../../utils/dateFormatting";
+import { toast } from "react-toastify";
 
 const Order = () => {
   const { orderId } = useParams();
   const navigate = useNavigate();
 
-  const { data: order, error, isLoading } = useGetOrderDetailsQuery(orderId);
-
-  console.log('order in cert', order)
+  const {
+    data: order,
+    refetch,
+    error,
+    isLoading,
+  } = useGetOrderDetailsQuery(orderId);
+  const [deliverOrder, { isLoading: loadingDeliver }] =
+    useDeliverOrderMutation();
 
   const { userInfo } = useSelector((state: RootState) => state.auth);
+
+  const deliverOrderHandler = async () => {
+    try {
+      await deliverOrder(orderId);
+      refetch();
+      toast.success("Order delivered");
+    } catch (error) {
+      toast.error("error");
+    }
+  };
 
   const renderOrderItems = () => {
     return order.orderItems.map((item: IOrderItem, index: number) => (
@@ -117,6 +136,15 @@ const Order = () => {
         <div className="flex flex-col ml-8 w-80 rounded-md shadow-md p-2 text-nowrap bg-[#f5f5f5] max-lg:ml-0 max-lg:mt-3 max-lg:w-full">
           <OrderSummary order={order} />
           {!order.isConfirmed && <PaymentActions />}
+          {loadingDeliver && <Loader />}
+          {userInfo &&
+            userInfo.isAdmin &&
+            (order.isPaid || order.paymentMethod === "Cash") &&
+            !order.isDelivered && (
+              <button type="button" className="w-full mt-5 py-3 bg-pink text-white font-semibold rounded-md" onClick={deliverOrderHandler}>
+                Mark as Delivered
+              </button>
+            )}
         </div>
       </div>
     </section>

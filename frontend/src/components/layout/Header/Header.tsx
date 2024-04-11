@@ -37,16 +37,22 @@ const Header = () => {
     setIsMobileMenuOpen(false);
   };
 
-  const handleLogOut = async() => {
-    console.log('You clicked logg out button')
+  const handleLogOut = async () => {
     try {
-      await logoutApiCall(undefined).unwrap()
-      dispatch(logout())
-      navigate(ROUTES.home)
+      await logoutApiCall(undefined).unwrap();
+      dispatch(logout());
+      navigate(ROUTES.home);
+      setShowProfileMenu(false);
     } catch (error) {
-      console.log(error)
+      console.log(error);
     }
-  }
+  };
+
+  const handleNavigate = (route: string) => {
+    console.log("route", route);
+    navigate(route);
+    setShowProfileMenu(false);
+  };
 
   return (
     <header
@@ -96,31 +102,88 @@ const Header = () => {
                 </span>
               </button>
               <Link
-                to={userInfo ? "profile" : "login"}
-                onMouseEnter={() => setShowProfileMenu(true)}
-                onMouseLeave={() => setShowProfileMenu(false)}
+                to={ROUTES.cart}
+                className="static flex flex-row items-center"
               >
-                <GoPerson
-                  size={20}
-                  className={`${userInfo ? "text-pink" : "text-light-gray"}`}
-                />
-                {showProfileMenu && userInfo && (
-                  <div className="absolute top-20 right-13 bg-white shadow-md p-2 z-30 rounded-md w-20  font-medium text-light-gray">
-                    <Link to="/profile" className="block hover-menu">
-                      Profile
-                    </Link>
-                    <p className="block hover-menu" onClick={handleLogOut}>
-                      Logout
-                    </p>
-                  </div>
-                )}
-              </Link>
-              <Link to="/cart" className="static flex flex-row items-center">
                 <PiHandbag size={20} className=" text-light-gray" />
                 {cartItems.length > 0 && (
                   <span className="ml-1 min-h-3 bg-pink w-5 rounded-xl text-white text-center">
                     {cartItems.reduce((a, c) => a + c.quantity!, 0)}
                   </span>
+                )}
+              </Link>
+              <Link
+                to={userInfo ? "profile" : "login"}
+                onMouseEnter={() => setShowProfileMenu(true)}
+                onMouseLeave={() => setShowProfileMenu(false)}
+                className="relative"
+              >
+                <div className="flex flex-row gap-1">
+                  <GoPerson
+                    size={20}
+                    className={`${userInfo ? "text-pink" : "text-light-gray"}`}
+                  />
+                  <span className="max-sm:hidden">
+                    {userInfo ? userInfo.name : ""}
+                  </span>
+                </div>
+                {/* User links */}
+                {showProfileMenu && userInfo && (
+                  <div
+                    className={`absolute top-6 bg-white shadow-md p-2 z-30 rounded-md min-w-28 font-medium text-light-gray ${
+                      window.innerWidth < 640
+                        ? "max-sm:right-0 max-sm:w-28"
+                        : "left-0 w-full"
+                    }`}
+                  >
+                    <Link
+                      to={ROUTES.profile}
+                      className="block hover-menu text-center"
+                    >
+                      Profile
+                    </Link>
+                    <p
+                      className="block hover-menu text-center"
+                      onClick={handleLogOut}
+                    >
+                      Logout
+                    </p>
+                  </div>
+                )}
+                {/* Admin links */}
+                {showProfileMenu && userInfo?.isAdmin && (
+                  <div
+                    className={`absolute top-6 bg-white shadow-md p-2 z-30 rounded-md min-w-28 font-medium text-light-gray ${
+                      window.innerWidth < 640
+                        ? "max-sm:right-0 max-sm:w-28"
+                        : "left-0 w-full"
+                    }`}
+                  >
+                    <Link
+                      to={ROUTES.admin.products}
+                      className="block hover-menu text-center"
+                    >
+                      Products
+                    </Link>
+                    <Link
+                      to={ROUTES.admin.orders}
+                      className="block hover-menu text-center"
+                    >
+                      Orders
+                    </Link>
+                    <Link
+                      to={ROUTES.admin.users}
+                      className="block hover-menu text-center"
+                    >
+                      Users
+                    </Link>
+                    <p
+                      className="block hover-menu text-center"
+                      onClick={handleLogOut}
+                    >
+                      Logout
+                    </p>
+                  </div>
                 )}
               </Link>
             </div>

@@ -22,9 +22,15 @@ import Cart from "./components/pages/Cart/Cart.tsx";
 import Profile from "./components/pages/Profile/Profile.tsx";
 import Shipping from "./components/pages/Shipping/Shipping.tsx";
 import ProtectedRoute from "./components/design-system/ProtectedRoute/ProtectedRoute.tsx";
+import AdminRoute from "./components/design-system/AdminRoute/AdminRoute.tsx";
 import Payment from "./components/pages/Payment/Payment.tsx";
 import PlaceOrder from "./components/pages/PlaceOrder/PlaceOrder.tsx";
 import Order from "./components/pages/Order/Order.tsx";
+import OrderList from "./components/pages/admin/OrderList/OrderList.tsx";
+import ProductListScreen from "./components/pages/admin/ProductListScreen/ProductListScreen.tsx";
+import ProductEdit from "./components/pages/admin/ProductEdit/ProductEdit.tsx";
+import UserList from "./components/pages/admin/UserList/UserList.tsx";
+import UserEditScreen from "./components/pages/admin/UserEditScreen/UserEditScreen.tsx";
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -41,6 +47,13 @@ const router = createBrowserRouter(
         <Route path={ROUTES.payment} element={<Payment />} />
         <Route path={ROUTES.placeorder} element={<PlaceOrder />} />
         <Route path={ROUTES.order} element={<Order />} />
+      </Route>
+      <Route path="" element={<AdminRoute />}>
+        <Route path={ROUTES.admin.orders} element={<OrderList />} />
+        <Route path={ROUTES.admin.products} element={<ProductListScreen />} />
+        <Route path={ROUTES.admin.editProduct} element={<ProductEdit />} />
+        <Route path={ROUTES.admin.users} element={<UserList />} />
+        <Route path={ROUTES.admin.editUser} element={<UserEditScreen />} />
       </Route>
     </Route>
   )

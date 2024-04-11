@@ -11,31 +11,31 @@ const Footer = () => {
         <section className="flex flex-row gap-10 max-md:gap-6 max-md:text-sm max-sm:justify-between">
           <ul className="max-[400px]:text-xs">
             <li className="uppercase font-bold mb-3">Client Service</li>
-            <li className="">
+            <li>
               <Link to="/">Payment Options</Link>
             </li>
-            <li className="">
+            <li>
               <Link to="/">Shipping & Delivery</Link>
             </li>
-            <li className="">
+            <li>
               <Link to="/">Returns</Link>
             </li>
-            <li className="">
+            <li>
               <Link to="/">Warranity</Link>
             </li>
-            <li className="">
+            <li>
               <Link to="/">FAQ</Link>
             </li>
-            <li className="">
+            <li>
               <Link to="/">Jewelry care</Link>
             </li>
-            <li className="">
+            <li>
               <Link to="/">Size Guide</Link>
             </li>
           </ul>
           <ul className="max-[400px]:text-xs">
             <li className="uppercase font-bold mb-3">Company</li>
-            <li className="">About us</li>
+            <li>About us</li>
             <li>
               <Link to="/">Contact Us</Link>
             </li>

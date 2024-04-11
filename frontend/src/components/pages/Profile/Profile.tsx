@@ -69,11 +69,12 @@ const Profile = () => {
             onSubmit={handleSubmit}
           >
             <fieldset className="flex flex-col">
-              <label htmlFor="" className="text-base">
+              <label htmlFor="name" className="text-base">
                 Name
               </label>
               <Input
                 type="text"
+                id="name"
                 name="name"
                 value={values.name}
                 error={errors.name}
@@ -96,6 +97,7 @@ const Profile = () => {
               </label>
               <Input
                 type="email"
+                id="email"
                 name="email"
                 value={values.email}
                 error={errors.email}

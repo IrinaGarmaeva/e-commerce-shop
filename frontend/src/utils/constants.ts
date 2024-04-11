@@ -21,6 +21,14 @@ export const ROUTES = {
     up: "/register",
     in: "/login",
   },
+  admin: {
+    products: "/admin/productlist",
+    orders: "/admin/orderlist",
+    users: "/admin/userlist",
+    editUser: "/admin/user/:id/edit",
+    product: "/admin/product",
+    editProduct: "/admin/product/:id/edit",
+  }
 };
 
 export const navItems = [
@@ -36,3 +44,4 @@ export const PRODUCTS_URL = "/api/products";
 export const USERS_URL = "/api/users";
 export const ORDERS_URL = "/api/orders";
 export const PAYPAL_URL = "/api/config/paypal";
+export const UPLOADS_URL = "/api/upload";

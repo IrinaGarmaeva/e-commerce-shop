@@ -1,12 +1,8 @@
 import { Request, Response } from "express-serve-static-core";
 import asyncHandler from "../middleware/asyncHandler";
 import Order, { IOrderItem } from "../models/orderModel";
+import { AuthenticatedRequest } from "../types";
 
-interface AuthenticatedRequest extends Request {
-  user: {
-    _id: string;
-  };
-}
 
 // @desc    Create new order
 // @route   POST /api/orders
@@ -138,7 +134,17 @@ const updateOrderToPayWithCertificate = asyncHandler(async (req: Request, res: R
 // @access  Private/admin
 const updateOrderToDelivered = asyncHandler(
   async (req: Request, res: Response) => {
-    res.json("Update order to delivered");
+    const order = await Order.findById(req.params.id);
+
+    if(order) {
+      order.isDelivered = true;
+      order.deliveredAt = Date.now();
+      const updateOrder = await order.save();
+      res.status(200).json(updateOrder);
+    } else {
+      res.status(404);
+      throw new Error("Order not found");
+    }
   }
 );
 
@@ -146,7 +152,8 @@ const updateOrderToDelivered = asyncHandler(
 // @route   GET /api/orders
 // @access  Private/Admin
 const getOrders = asyncHandler(async (req: Request, res: Response) => {
-  res.json("get all orders");
+  const orders = await Order.find({}).populate('user', 'id name');
+  res.status(200).json(orders);
 });
 
 export {

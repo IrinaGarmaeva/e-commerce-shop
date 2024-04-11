@@ -37,6 +37,7 @@ const Payment = () => {
           <div className="mt-3">
             <Input
               type="radio"
+              id="PayPal"
               name="paymentMethod"
               inputClassName="appearance-none h-3 w-3 bg-white border-[1px] border-[#C5C5C5] rounded-full checked:bg-pink checked:border-gray-800 transition-all duration-700 ease-out"
               value="PayPal"
@@ -44,13 +45,14 @@ const Payment = () => {
                 setPaymentMethod(e.target.value)
               }
             />
-            <label htmlFor="paymentMethod" className="pl-3">
+            <label htmlFor="PayPal" className="pl-3">
               Paypal or Credit card
             </label>
           </div>
-          <div className="">
+          <div>
             <Input
               type="radio"
+              id="cash"
               name="paymentMethod"
               inputClassName="appearance-none h-3 w-3 bg-white border-[1px] border-[#C5C5C5] rounded-full checked:bg-pink checked:border-gray-800 transition-all duration-700 ease-out"
               value="Cash"
@@ -58,13 +60,14 @@ const Payment = () => {
                 setPaymentMethod(e.target.value)
               }
             />
-            <label htmlFor="paymentMethod" className="pl-3">
+            <label htmlFor="cash" className="pl-3">
               Cash on Delivery
             </label>
           </div>
-          <div className="">
+          <div>
             <Input
               type="radio"
+              id="certificate"
               name="paymentMethod"
               inputClassName="appearance-none h-3 w-3 bg-white border-[1px] border-[#C5C5C5] rounded-full checked:bg-pink checked:border-gray-800 transition-all duration-700 ease-out"
               value="Gift Certificate"
@@ -72,7 +75,7 @@ const Payment = () => {
                 setPaymentMethod(e.target.value)
               }
             />
-            <label htmlFor="paymentMethod" className="pl-3">
+            <label htmlFor="certificate" className="pl-3">
               Gift Certificate
             </label>
           </div>

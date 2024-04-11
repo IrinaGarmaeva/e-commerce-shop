@@ -44,7 +44,7 @@ const Cart = () => {
       <div className="flex justify-center">
         {cartItems.length === 0 ? (
           <div className="flex flex-col items-center mt-10">
-            <p className="">Your cart is empty</p>
+            <p>Your cart is empty</p>
             <Link to={ROUTES.home} className="mt-3">
               <span className="text-pink hover:scale-110">Click here</span> to
               continue shopping
@@ -121,7 +121,7 @@ const Cart = () => {
                 SUMMARY
               </h2>
               <table>
-                <tbody className="">
+                <tbody>
                   <tr>
                     <td className="py-2">
                       Subtotal (
@@ -130,7 +130,7 @@ const Cart = () => {
                     </td>
                     <td className="p-2 text-right w-28">{subtotal} RSD</td>
                   </tr>
-                  <tr className="">
+                  <tr>
                     <td className="py-2">Shipping:</td>
                     <td
                       className={`p-2 text-right w-28 ${
