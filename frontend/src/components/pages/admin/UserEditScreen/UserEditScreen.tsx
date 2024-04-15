@@ -1,4 +1,4 @@
-import { useState, useEffect, FormEvent, ChangeEvent } from "react";
+import { useState, useEffect, FormEvent } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import { toast } from "react-toastify";
 import Loader from "../../../design-system/Loader/Loader";
@@ -12,6 +12,7 @@ import Input from "../../../design-system/Input/Input";
 
 const UserEditScreen = () => {
   const [userLoaded, setUserLoaded] = useState<boolean>(false);
+  const [isAdmin, setIsAdmin] = useState<boolean>(false);
   const { id: userId } = useParams();
 
   const navigate = useNavigate();
@@ -20,7 +21,7 @@ const UserEditScreen = () => {
     useFormAndValidation({
       name: "",
       email: "",
-      isAdmin: false,
+      // isAdmin: false,
     });
 
   const {
@@ -36,8 +37,9 @@ const UserEditScreen = () => {
       setValues({
         name: user.name,
         email: user.email,
-        isAdmin: user.isAdmin,
+        // isAdmin: user.isAdmin,
       });
+      setIsAdmin(user.isAdmin)
       setUserLoaded(true);
     }
   }, [user, userLoaded, setValues]);
@@ -56,13 +58,14 @@ const UserEditScreen = () => {
       _id: userId!,
       name: values.name,
       email: values.email,
-      isAdmin: values.isAdmin,
+      // isAdmin: values.isAdmin,
+      isAdmin: isAdmin,
     };
     try {
       await updateUser(updatedUser);
       refetch();
       navigate(-1);
-      toast.success(`Product: ${updatedUser._id} have been updated`);
+      toast.success(`User: ${updatedUser.name} have been updated`);
     } catch (err) {
       toast.error("There is an error");
     }
@@ -122,10 +125,9 @@ const UserEditScreen = () => {
                     type="checkbox"
                     id="isAdmin"
                     name="isAdmin"
-                    value={values.isAdmin}
-                    checked={values.isAdmin}
+                    checked={isAdmin}
                     className="cursor-pointer h-4 w-4 border"
-                    onChange={(e) => handleChange(e)}
+                    onChange={() => setIsAdmin(!isAdmin)}
                   />
                   <label htmlFor="isAdmin" className="text-base">
                     Is Admin

@@ -40,6 +40,15 @@ export const navItems = [
   { to: ROUTES.giftCertificate, label: "Gift certificate" },
 ];
 
+export const categories = [
+  "Earrings",
+  "Necklaces",
+  "Rings",
+  "Bracelets",
+  "Gift certificate",
+  "Else"
+]
+
 export const PRODUCTS_URL = "/api/products";
 export const USERS_URL = "/api/users";
 export const ORDERS_URL = "/api/orders";

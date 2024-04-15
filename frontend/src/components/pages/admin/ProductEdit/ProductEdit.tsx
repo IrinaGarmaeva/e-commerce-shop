@@ -8,7 +8,7 @@ import {
   useUploadProductImageMutation,
 } from "../../../../redux/slices/productsSlice/productsSlice";
 import useFormAndValidation from "../../../../hooks/useFormAndValidation";
-import { ROUTES } from "../../../../utils/constants";
+import { ROUTES, categories } from "../../../../utils/constants";
 import Input from "../../../design-system/Input/Input";
 
 const ProductEdit = () => {
@@ -30,15 +30,15 @@ const ProductEdit = () => {
   const {
     data: product,
     refetch,
-    error,
-    isLoading
+    // error,
+    isLoading,
   } = useGetProductDetailsQuery(productId!);
   const [updateProduct, { isLoading: isUpdating }] = useUpdateProductMutation();
   const [uploadProductImage, { isLoading: loadingUpload }] =
     useUploadProductImageMutation();
 
   useEffect(() => {
-    if (product  && !productLoaded) {
+    if (product && !productLoaded) {
       setValues({
         name: product.name,
         price: product.price,
@@ -74,22 +74,22 @@ const ProductEdit = () => {
       await updateProduct(updatedProduct);
       refetch();
       navigate(-1);
-      toast.success(`Product: ${updatedProduct._id} have been updated`);
+      toast.success(`Product: ${updatedProduct.name} have been updated`);
     } catch (err) {
       toast.error("There is an error");
     }
   };
 
   const handleUploadFile = async (e: ChangeEvent<HTMLInputElement>) => {
-    if (e.target && e.target.files && e.target.files.length > 0){
+    if (e.target && e.target.files && e.target.files.length > 0) {
       const formData = new FormData();
       formData.append("image", e.target.files[0]);
       try {
         const res = await uploadProductImage(formData).unwrap();
         toast.success(res.message);
-        setValues({...values, image: res.image})
+        setValues({ ...values, image: res.image });
       } catch (error) {
-        toast.error(error);
+        toast.error('There is an error');
       }
     }
   };
@@ -108,113 +108,118 @@ const ProductEdit = () => {
             Edit Product
           </h2>
           {loadingUpload && <Loader />}
-          {isLoading ? (<Loader />) : (
+          {isLoading ? (
+            <Loader />
+          ) : (
             <form
-            className="flex flex-col w-96 pt-6 px-15"
-            onSubmit={handleUpdate}
-          >
-            <fieldset className="flex flex-col">
-              <label htmlFor="name" className="text-base">
-                Product Name
-              </label>
-              <Input
-                type="text"
-                id="name"
-                name="name"
-                value={values.name}
-                error={errors.name}
-                inputClassName="input"
-                spanClassName="min-h-5 text-orange text-xs mt-1"
-                onChange={(e) => handleChange(e)}
-                placeholder="Enter name"
-              />
-              <label htmlFor="price" className="text-base">
-                Price
-              </label>
-              <Input
-                type="number"
-                id="price"
-                name="price"
-                value={values.price}
-                error={errors.price}
-                inputClassName="input"
-                spanClassName="min-h-5 text-orange text-xs mt-1"
-                onChange={(e) => handleChange(e)}
-                placeholder="Enter price"
-              />
-              <label htmlFor="description" className="text-base">
-                Description
-              </label>
-              <Input
-                type="text"
-                id="description"
-                name="description"
-                value={values.description}
-                error={errors.description}
-                inputClassName="input"
-                spanClassName="min-h-5 text-orange text-xs mt-1"
-                onChange={(e) => handleChange(e)}
-                placeholder="Enter product description"
-              />
-              <label htmlFor="image" className="text-base">
-                Image
-              </label>
-              <Input
-                type="text"
-                id="image"
-                name="image"
-                value={values.image}
-                error={errors.image}
-                inputClassName="input"
-                spanClassName="min-h-5 text-orange text-xs mt-1"
-                onChange={(e) => handleChange(e)}
-                placeholder="Enter image url"
-              />
-              <input
-                name="file"
-                type="file"
-                className="block file:bg-pink file:text-white file:font-semibold file:border-none file:h-full file:mr-3 text-sm border border-pink h-7 rounded-md pr-2 focus:outline-none focus:shadow-md cursor-pointer"
-                onChange={handleUploadFile}
-              />
-              <span className="min-h-5 text-orange text-xs mt-1"></span>
-              <label htmlFor="category" className="text-base">
-                Category
-              </label>
-              <Input
-                type="text"
-                id="category"
-                name="category"
-                value={values.category}
-                error={errors.category}
-                inputClassName="input"
-                spanClassName="min-h-5 text-orange text-xs mt-1"
-                onChange={(e) => handleChange(e)}
-                placeholder="Enter category"
-              />
-              <label htmlFor="countInStock" className="text-base">
-                Count in Stock
-              </label>
-              <Input
-                type="number"
-                id="countInStock"
-                name="countInStock"
-                value={values.countInStock}
-                error={errors.countInStock}
-                inputClassName="input"
-                spanClassName="min-h-5 text-orange text-xs mt-1"
-                onChange={(e) => handleChange(e)}
-                placeholder="Enter count in stock"
-              />
-            </fieldset>
-            {isUpdating && <Loader />}
-            <button
-              className="bg-pink px-6 py-3 text-white rounded-md disabled:cursor-not-allowed disabled:opacity-70"
-              type="submit"
-              disabled={!isValid}
+              className="flex flex-col w-96 pt-6 px-15"
+              onSubmit={handleUpdate}
             >
-              Update
-            </button>
-          </form>
+              <fieldset className="flex flex-col">
+                <label htmlFor="name" className="text-base">
+                  Product Name
+                </label>
+                <Input
+                  type="text"
+                  id="name"
+                  name="name"
+                  value={values.name}
+                  error={errors.name}
+                  inputClassName="input"
+                  spanClassName="min-h-5 text-orange text-xs mt-1"
+                  onChange={(e) => handleChange(e)}
+                  placeholder="Enter name"
+                />
+                <label htmlFor="price" className="text-base">
+                  Price
+                </label>
+                <Input
+                  type="number"
+                  id="price"
+                  name="price"
+                  value={values.price}
+                  error={errors.price}
+                  inputClassName="input"
+                  spanClassName="min-h-5 text-orange text-xs mt-1"
+                  onChange={(e) => handleChange(e)}
+                  placeholder="Enter price"
+                />
+                <label htmlFor="description" className="text-base">
+                  Description
+                </label>
+                <Input
+                  type="text"
+                  id="description"
+                  name="description"
+                  value={values.description}
+                  error={errors.description}
+                  inputClassName="input"
+                  spanClassName="min-h-5 text-orange text-xs mt-1"
+                  onChange={(e) => handleChange(e)}
+                  placeholder="Enter product description"
+                />
+                <label htmlFor="image" className="text-base">
+                  Image
+                </label>
+                <Input
+                  type="text"
+                  id="image"
+                  name="image"
+                  value={values.image}
+                  error={errors.image}
+                  inputClassName="input"
+                  spanClassName="min-h-5 text-orange text-xs mt-1"
+                  onChange={(e) => handleChange(e)}
+                  placeholder="Enter image url"
+                />
+                <input
+                  name="file"
+                  type="file"
+                  className="block file:bg-pink file:text-white file:font-semibold file:border-none file:h-full file:mr-3 text-sm border border-pink h-7 rounded-md pr-2 focus:outline-none focus:shadow-md cursor-pointer"
+                  onChange={handleUploadFile}
+                />
+                <span className="min-h-5 text-orange text-xs mt-1"></span>
+                <label htmlFor="category" className="text-base">
+                  Category
+                </label>
+                <select
+                  id="category"
+                  name="category"
+                  value={values.category}
+                  onChange={(e) => handleChange(e)}
+                  className="input h-full appearance-none border rounded-md  focus:outline-none focus:border-pink"
+                >
+                  {categories.map((category) => (
+                    <option key={category} value={category}>
+                      {category}
+                    </option>
+                  ))}
+                </select>
+                <span className="min-h-5 text-orange text-xs mt-1">{errors.categories}</span>
+                <label htmlFor="countInStock" className="text-base">
+                  Count in Stock
+                </label>
+                <Input
+                  type="number"
+                  id="countInStock"
+                  name="countInStock"
+                  value={values.countInStock}
+                  error={errors.countInStock}
+                  inputClassName="input"
+                  spanClassName="min-h-5 text-orange text-xs mt-1"
+                  onChange={(e) => handleChange(e)}
+                  placeholder="Enter count in stock"
+                />
+              </fieldset>
+              {isUpdating && <Loader />}
+              <button
+                className="bg-pink px-6 py-3 text-white rounded-md disabled:cursor-not-allowed disabled:opacity-70"
+                type="submit"
+                disabled={!isValid}
+              >
+                Update
+              </button>
+            </form>
           )}
         </div>
       </div>

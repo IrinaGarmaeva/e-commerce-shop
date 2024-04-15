@@ -49,7 +49,6 @@ const Header = () => {
   };
 
   const handleNavigate = (route: string) => {
-    console.log("route", route);
     navigate(route);
     setShowProfileMenu(false);
   };
@@ -112,11 +111,12 @@ const Header = () => {
                   </span>
                 )}
               </Link>
-              <Link
-                to={userInfo ? "profile" : "login"}
+              <div
+                // to={userInfo ? "profile" : "login"}
                 onMouseEnter={() => setShowProfileMenu(true)}
                 onMouseLeave={() => setShowProfileMenu(false)}
                 className="relative"
+                onClick={() => !userInfo && navigate(ROUTES.sign.in)}
               >
                 <div className="flex flex-row gap-1">
                   <GoPerson
@@ -136,14 +136,14 @@ const Header = () => {
                         : "left-0 w-full"
                     }`}
                   >
-                    <Link
-                      to={ROUTES.profile}
-                      className="block hover-menu text-center"
+                    <p
+                      onClick={() => handleNavigate(ROUTES.profile)}
+                      className="block hover-menu text-center cursor-pointer"
                     >
                       Profile
-                    </Link>
+                    </p>
                     <p
-                      className="block hover-menu text-center"
+                      className="block hover-menu text-center cursor-pointer"
                       onClick={handleLogOut}
                     >
                       Logout
@@ -159,33 +159,39 @@ const Header = () => {
                         : "left-0 w-full"
                     }`}
                   >
-                    <Link
-                      to={ROUTES.admin.products}
-                      className="block hover-menu text-center"
+                    <p
+                      onClick={() => handleNavigate(ROUTES.profile)}
+                      className="block hover-menu text-center cursor-pointer"
+                    >
+                      Profile
+                    </p>
+                    <p
+                      onClick={() => handleNavigate(ROUTES.admin.products)}
+                      className="block hover-menu text-center cursor-pointer"
                     >
                       Products
-                    </Link>
-                    <Link
-                      to={ROUTES.admin.orders}
-                      className="block hover-menu text-center"
+                    </p>
+                    <p
+                      onClick={() => handleNavigate(ROUTES.admin.orders)}
+                      className="block hover-menu text-center cursor-pointer"
                     >
                       Orders
-                    </Link>
-                    <Link
-                      to={ROUTES.admin.users}
-                      className="block hover-menu text-center"
+                    </p>
+                    <p
+                      onClick={() => handleNavigate(ROUTES.admin.users)}
+                      className="block hover-menu text-center cursor-pointer"
                     >
                       Users
-                    </Link>
+                    </p>
                     <p
-                      className="block hover-menu text-center"
+                      className="block hover-menu text-center cursor-pointer"
                       onClick={handleLogOut}
                     >
                       Logout
                     </p>
                   </div>
                 )}
-              </Link>
+              </div>
             </div>
           </div>
         </div>

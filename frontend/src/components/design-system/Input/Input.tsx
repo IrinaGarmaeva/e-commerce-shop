@@ -4,7 +4,7 @@ type InputProps = {
   type: string,
   id?: string,
   name: string,
-  value: string,
+  value: string | number,
   placeholder?: string,
   onChange: (e: ChangeEvent<HTMLInputElement>) => void,
   error?: string,
@@ -16,6 +16,7 @@ type InputProps = {
 }
 
 const Input: FC<InputProps> = ({ type, id, name, value, placeholder, onChange, error, inputClassName, spanClassName, spanId, minLength, maxLength }) => {
+
   return (
     <>
       <input

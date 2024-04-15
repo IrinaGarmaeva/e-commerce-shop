@@ -1,7 +1,7 @@
 import { useState, useCallback, ChangeEvent } from "react";
 
 type FormValues = {
-  [key: string]: string | number | boolean;
+  [key: string]: string | number;
 };
 
 const useFormAndValidation = (initialValues: FormValues) => {
@@ -9,7 +9,7 @@ const useFormAndValidation = (initialValues: FormValues) => {
   const [errors, setErrors] = useState<{ [key: string]: string }>({});
   const [isValid, setIsValid] = useState<boolean>(false);
 
-  const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
+  const handleChange = (e: ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
     const { value, name } = e.target;
     setValues({ ...values, [name]: value });
 
