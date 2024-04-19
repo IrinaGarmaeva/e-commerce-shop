@@ -4,7 +4,7 @@ type FormValues = {
   [key: string]: string | number;
 };
 
-const useFormAndValidation = (initialValues: FormValues) => {
+const useFormAndValidation = <T extends FormValues>(initialValues: T) => {
   const [values, setValues] = useState(initialValues);
   const [errors, setErrors] = useState<{ [key: string]: string }>({});
   const [isValid, setIsValid] = useState<boolean>(false);
@@ -19,12 +19,12 @@ const useFormAndValidation = (initialValues: FormValues) => {
   };
 
   const resetForm = useCallback(
-    (newValues = {}, newErrors = {}, newIsValid = false) => {
-      setValues(newValues);
+    (newValues: Partial<T> = {}, newErrors = {}, newIsValid = false) => {
+      setValues({...initialValues, ...newValues});
       setErrors(newErrors);
       setIsValid(newIsValid);
     },
-    [setValues, setErrors, setIsValid]
+    [setValues, setErrors, setIsValid, initialValues]
   );
 
   return {

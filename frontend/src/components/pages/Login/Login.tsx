@@ -10,7 +10,7 @@ import {
 import { ROUTES } from "../../../utils/constants";
 import useFormAndValidation from "../../../hooks/useFormAndValidation";
 import Input from "../../design-system/Input/Input";
-import Loader from "../../design-system/Loader/Loader";
+// import Loader from "../../design-system/Loader/Loader";
 import { useLoginMutation } from "../../../redux/slices/usersApiSlice/usersApiSlice";
 import { setCredentials } from "../../../redux/slices/authSlice/authSlice";
 import { toast } from "react-toastify";
@@ -30,7 +30,8 @@ const Login = () => {
   const searchParams = new URLSearchParams(search);
   const redirect = searchParams.get("redirect") || "/";
   const navigate = useNavigate();
-  const [login, { isLoading }] = useLoginMutation();
+  // const [login, { isLoading }] = useLoginMutation();
+  const [login] = useLoginMutation();
   const { userInfo } = useSelector((state: RootState) => state.auth);
 
   useEffect(() => {

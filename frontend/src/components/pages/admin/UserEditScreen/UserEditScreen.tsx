@@ -21,13 +21,11 @@ const UserEditScreen = () => {
     useFormAndValidation({
       name: "",
       email: "",
-      // isAdmin: false,
     });
 
   const {
     data: user,
     refetch,
-    error,
     isLoading,
   } = useGetUserDetailsQuery(userId!);
   const [updateUser, { isLoading: isUpdating }] = useUpdateUserMutation();
@@ -37,7 +35,6 @@ const UserEditScreen = () => {
       setValues({
         name: user.name,
         email: user.email,
-        // isAdmin: user.isAdmin,
       });
       setIsAdmin(user.isAdmin)
       setUserLoaded(true);

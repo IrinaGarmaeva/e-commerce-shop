@@ -45,7 +45,7 @@ export interface IShippingDetails {
 }
 
 export interface IOrder {
-  _id?: mongoose.Schema.Types.ObjectId;
+  _id?: string;
   orderItems: IOrderItem[];
   shippingAddress: IShippingDetails;
   paymentMethod: "PayPal" | "Gift Certificate" | "Cash on Delivery" | string;

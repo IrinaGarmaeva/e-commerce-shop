@@ -16,7 +16,7 @@ const Product = () => {
     data: product,
     isLoading,
     error,
-  } = useGetProductDetailsQuery(productId);
+  } = useGetProductDetailsQuery(productId!);
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     const value = Number(e.target.value);
@@ -24,8 +24,8 @@ const Product = () => {
   };
 
   const handleAddToCart = () => {
-    dispatch(addToCart({ ...product, quantity }));
-    toast(<CustomNotification product={product} />, {
+    dispatch(addToCart({ ...product!, quantity }));
+    toast(<CustomNotification product={product!} />, {
       position: "top-right",
       autoClose: 4000,
       hideProgressBar: true,
@@ -36,7 +36,7 @@ const Product = () => {
 
   const incrementQuantity = () => {
     setQuantity((prevQuantity) =>
-      Math.min(prevQuantity + 1, product.countInStock)
+      Math.min(prevQuantity + 1, product!.countInStock)
     );
   };
 
@@ -65,13 +65,13 @@ const Product = () => {
               <h3 className="uppercase font-semibold">{product?.name}</h3>
               <p>{product?.description}</p>
               <p className="font-semibold ">{`${product?.price} RSD`}</p>
-              {product.countInStock > 0 && (
+              {product!.countInStock > 0 && (
                 <div className="flex flex-row justify-between items-center">
                   <div className="flex flex-row flex-nowrap justify-between border border-[#ececec] bg-[#f8f8f8] px-3 max-h-12 rounded-sm">
                     <button onClick={decrementQuantity} className="text-3xl text-text-main ease-linear transition-allhover:text-pink">-</button>
                     <input
                       type="text"
-                      max={product.countInStock}
+                      max={product!.countInStock}
                       placeholder="1"
                       value={quantity}
                       onChange={handleChange}

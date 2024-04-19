@@ -25,9 +25,9 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
 
-app.get("/", async (req: Request, res: Response) => {
-  res.send("Server is working");
-});
+// app.get("/", async (req: Request, res: Response) => {
+//   res.send("Server is working");
+// });
 
 app.use("/api/products", productRoutes);
 app.use("/api/users", userRoutes);
@@ -39,6 +39,18 @@ app.use("/api/config/paypal", (req, res) =>
 );
 
 app.use("/uploads", express.static(path.join(__dirname, "../uploads")));
+
+if (process.env.NODE_ENV === "production") {
+  app.use(express.static(path.join(__dirname, "../frontend/dist")));
+
+  app.get("*", (req: Request, res: Response) =>
+    res.sendFile(path.resolve(__dirname, "../frontend/dist/index.html"))
+  );
+} else {
+  app.get("/", async (req: Request, res: Response) => {
+    res.send("Server is running in development mode");
+  });
+}
 
 app.use(notFound);
 app.use(errorHandler);

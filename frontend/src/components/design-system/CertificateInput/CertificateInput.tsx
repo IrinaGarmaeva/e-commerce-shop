@@ -20,8 +20,6 @@ const CertificateInput = () => {
 
   const {
     data: order,
-    error,
-    isLoading,
     refetch,
   } = useGetOrderDetailsQuery(orderId);
 
@@ -36,7 +34,7 @@ const CertificateInput = () => {
     isValid,
     setIsValid,
   } = useFormAndValidation({
-    certificateNumber: 0,
+    certificateNumber: '',
   });
 
   useEffect(() => {
@@ -62,7 +60,7 @@ const CertificateInput = () => {
     } else {
       setValues({ certificateNumber: "" });
       await payOrderByCertificate({orderId, details: { ...order, certificateNumber: values.certificateNumber }})
-      setValues({ certificateNumber: 0 });
+      setValues({ certificateNumber: "0" });
       refetch();
       toast.success("Confirm successful, u entered certificate number");
     }
@@ -78,7 +76,7 @@ const CertificateInput = () => {
       <div className="flex flex-row relative mb-3 bg-white rounded-md outline outline-1 outline-pink">
         <input
           type="certificateNumber"
-          value={values.certificateNumber === 0 ? "" : values.certificateNumber }
+          value={parseInt(values.certificateNumber) === 0 ? "" : values.certificateNumber }
           name="certificateNumber"
           placeholder="Your certificate number"
           onChange={(e) =>

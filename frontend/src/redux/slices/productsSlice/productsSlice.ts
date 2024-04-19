@@ -1,6 +1,6 @@
 import { PRODUCTS_URL, UPLOADS_URL } from "../../../utils/constants";
 import { apiSlice } from "../apiSlices/apiSlice";
-import { IProduct } from "../../../types";
+import { IProduct, IUpdatedProduct } from "../../../types";
 import { ObjectId } from "mongoose";
 
 export const productsSlice = apiSlice.injectEndpoints({
@@ -27,7 +27,7 @@ export const productsSlice = apiSlice.injectEndpoints({
       invalidatesTags: ["Product"], // stop it from being cached - so we have fresh data. Without this, we would have to reload the page
     }),
     updateProduct: builder.mutation({
-      query: (data: IProduct) => ({
+      query: (data: IUpdatedProduct) => ({
         url: `${PRODUCTS_URL}/${data._id}`,
         method: 'PUT',
         body: data

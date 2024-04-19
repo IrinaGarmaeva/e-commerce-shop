@@ -30,7 +30,6 @@ const ProductEdit = () => {
   const {
     data: product,
     refetch,
-    // error,
     isLoading,
   } = useGetProductDetailsQuery(productId!);
   const [updateProduct, { isLoading: isUpdating }] = useUpdateProductMutation();

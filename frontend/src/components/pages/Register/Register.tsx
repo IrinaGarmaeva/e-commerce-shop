@@ -26,6 +26,7 @@ const Register = () => {
       name: "",
       email: "",
       password: "",
+      confirmPassword: "",
     });
 
   const [register, { isLoading }] = useRegisterMutation();

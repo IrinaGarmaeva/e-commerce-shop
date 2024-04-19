@@ -4,11 +4,13 @@
   "description": "e-commerce app built with The MERN stack",
   "main": "index.js",
   "scripts": {
-    "start": "node dist/index.js",
-    "build": "rimraf dist && npx tsc",
     "server": "nodemon backend/index.ts",
     "client": "npm run dev --prefix frontend",
-    "dev": "concurrently \"npm run server\" \"npm run client\""
+    "dev": "concurrently \"npm run server\" \"npm run client\"",
+    "build": "npm install && npm run build:backend && npm install --prefix frontend && npm run build --prefix frontend",
+    "build:backend": "npx tsc",
+    "build:frontend": "npm --prefix frontend run build",
+    "start": "node dist/index.js"
   },
   "author": "Irina Garmaeva",
   "license": "MIT",
