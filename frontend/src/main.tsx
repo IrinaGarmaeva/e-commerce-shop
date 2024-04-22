@@ -31,6 +31,11 @@ import ProductListScreen from "./components/pages/admin/ProductListScreen/Produc
 import ProductEdit from "./components/pages/admin/ProductEdit/ProductEdit.tsx";
 import UserList from "./components/pages/admin/UserList/UserList.tsx";
 import UserEditScreen from "./components/pages/admin/UserEditScreen/UserEditScreen.tsx";
+import Earrings from "./components/pages/Earrings/Earrings.tsx";
+import Rings from "./components/Rings/Rings.tsx";
+import Necklaces from "./components/pages/Necklaces/Necklaces.tsx";
+import Bracelets from "./components/pages/Bracelets/Bracelets.tsx";
+import GiftCertificate from "./components/pages/GiftCertificate/GiftCertificate.tsx";
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -41,6 +46,11 @@ const router = createBrowserRouter(
       <Route path={ROUTES.resetPassword} element={<ResetPassword />} />
       <Route path={ROUTES.product} element={<Product />} />
       <Route path={ROUTES.cart} element={<Cart />} />
+      <Route path={ROUTES.earrings} element={<Earrings />} />
+      <Route path={ROUTES.necklaces} element={<Necklaces />} />
+      <Route path={ROUTES.bracelets} element={<Bracelets />} />
+      <Route path={ROUTES.rings} element={<Rings />} />
+      <Route path={ROUTES.giftCertificate} element={<GiftCertificate />} />
       <Route path="" element={<ProtectedRoute />}>
         <Route path={ROUTES.shipping} element={<Shipping />} />
         <Route path={ROUTES.profile} element={<Profile />} />
