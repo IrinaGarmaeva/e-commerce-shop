@@ -1,5 +1,5 @@
 import { useState, ChangeEvent } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import { useDispatch } from "react-redux";
 import { useGetProductDetailsQuery } from "../../../redux/slices/productsSlice/productsSlice";
@@ -9,6 +9,7 @@ import CustomNotification from "../../design-system/CustomNotification/CustomNot
 
 const Product = () => {
   const { productId } = useParams();
+  const navigate = useNavigate();
   const dispatch = useDispatch();
   const [quantity, setQuantity] = useState<number>(1);
 
@@ -31,7 +32,7 @@ const Product = () => {
       hideProgressBar: true,
       closeOnClick: true,
       pauseOnHover: true,
-    })
+    });
   };
 
   const incrementQuantity = () => {
@@ -53,6 +54,12 @@ const Product = () => {
       ) : (
         <div className="flex flex-col w-4/5">
           <p className="text-light-gray">{`Home - Catalog - ${product?.category} - ${product?.name}`}</p>
+          <button
+              className="bg-pink px-10 py-3 mt-4 text-white rounded-md font-semibold w-40 ease-linear transition-all hover:scale-105"
+              onClick={() => navigate(-1)}
+            >
+              Go Back
+            </button>
           <div className="mt-5 flex flex-row gap-10 max-sm:flex-col max-sm:gap-5">
             <div className="w-[460px] h-96 max-sm:w-full">
               <img
@@ -68,7 +75,12 @@ const Product = () => {
               {product!.countInStock > 0 && (
                 <div className="flex flex-row justify-between items-center">
                   <div className="flex flex-row flex-nowrap justify-between border border-[#ececec] bg-[#f8f8f8] px-3 max-h-12 rounded-sm">
-                    <button onClick={decrementQuantity} className="text-3xl text-text-main ease-linear transition-allhover:text-pink">-</button>
+                    <button
+                      onClick={decrementQuantity}
+                      className="text-3xl text-text-main ease-linear transition-allhover:text-pink"
+                    >
+                      -
+                    </button>
                     <input
                       type="text"
                       max={product!.countInStock}
@@ -77,7 +89,12 @@ const Product = () => {
                       onChange={handleChange}
                       className="focus:outline-none text-center max-w-9 bg-transparent"
                     />
-                    <button onClick={incrementQuantity} className="text-3xl text-text-main ease-linear transition-all hover:text-pink">+</button>
+                    <button
+                      onClick={incrementQuantity}
+                      className="text-3xl text-text-main ease-linear transition-all hover:text-pink"
+                    >
+                      +
+                    </button>
                   </div>
                   <button
                     className="bg-pink rounded-md text-white font-medium px-5 py-3 ease-linear transition-all hover:scale-105"
