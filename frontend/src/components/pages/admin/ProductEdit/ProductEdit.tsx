@@ -1,5 +1,6 @@
 import { useState, useEffect, FormEvent, ChangeEvent } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
+import Select, {StylesConfig, ActionMeta, SingleValue} from "react-select";
 import { toast } from "react-toastify";
 import Loader from "../../../design-system/Loader/Loader";
 import {
@@ -10,6 +11,7 @@ import {
 import useFormAndValidation from "../../../../hooks/useFormAndValidation";
 import { ROUTES, categories } from "../../../../utils/constants";
 import Input from "../../../design-system/Input/Input";
+import { OptionType } from "./types";
 
 const ProductEdit = () => {
   const [productLoaded, setProductLoaded] = useState<boolean>(false);
@@ -66,7 +68,7 @@ const ProductEdit = () => {
       price: values.price,
       description: values.description,
       image: values.image,
-      category: values.category,
+      category: values.category.toLocaleLowerCase(),
       countInStock: values.countInStock,
     };
     try {
@@ -88,9 +90,110 @@ const ProductEdit = () => {
         toast.success(res.message);
         setValues({ ...values, image: res.image });
       } catch (error) {
-        toast.error('There is an error');
+        toast.error("There is an error");
       }
     }
+  };
+
+  const handleChangeCategory = (
+    selectedOption: SingleValue<OptionType>,
+    actionMeta: ActionMeta<OptionType>
+  ) => {
+    if (actionMeta.action === 'select-option' && selectedOption) {
+      const option = selectedOption as OptionType;
+      setValues({ ...values, category: option.value });
+    } else if (actionMeta.action === 'clear') {
+      setValues({ ...values, category: '' });
+    }
+  };
+
+  const customStyles: StylesConfig<OptionType, false>  = {
+    control: (provided, state) => ({
+      ...provided,
+      backgroundColor: "#fff",
+      color: "#333232",
+      width: "100%",
+      height: "28px",
+      minHeight: '28px',
+      borderRadius: "6px",
+      border: state.isFocused ? "1px solid #FF005B" : "1px solid #FF005B",
+      outline: "none",
+      boxShadow: state.isFocused ? "0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1)" : "none",
+      position: 'relative',
+      display: 'flex',
+      flexDirection: "row",
+      justifyContent: 'space-between',
+      alignItems: "center",
+      '&:hover': {
+        borderColor: "#FF005B",
+      },
+    }),
+    option: (provided, state) => ({
+      ...provided,
+      backgroundColor: state.isFocused ? '#FF005B' : "#fff",
+      color: state.isFocused ? "#fff" : "#333333",
+      fontSize: "14px",
+      fontWeight: "500",
+      textAlign: 'left',
+      height: '28px',
+      '&:hover': {
+        color: "#fff",
+      },
+    }),
+    valueContainer: (provided) => ({
+      ...provided,
+      padding: "0px",
+      height: "100%",
+      width: "100%",
+      position: "absolute",
+      top: '0',
+      left: '0',
+    }),
+    menu: (provided) => ({
+      ...provided,
+      marginTop: '4px',
+      width: '384px',
+      backgroundColor: '#fff',
+      borderRadius: '6px',
+      paddingTop: '6px',
+      paddingBottom: '6px',
+    }),
+    menuList: (provided) => ({
+      ...provided,
+      padding: 0,
+    }),
+    indicatorSeparator: (provided) => ({
+      ...provided,
+      display: 'none',
+    }),
+    indicatorsContainer: (provided) => ({
+      ...provided,
+      padding: '0',
+      position: 'absolute',
+      top: '0',
+      right: '0'
+    }),
+    dropdownIndicator: (provided, state) => ({
+      ...provided,
+      color: "#333333",
+      padding: '10px',
+      transform: state.selectProps.menuIsOpen ? 'rotate(180deg)' : 'rotate(0)',
+      transition: 'transform 0.3s ease',
+      cursor: "pointer",
+      '&:hover': {
+        color: "#FF005B",
+      },
+    }),
+    singleValue: (provided) => ({
+      ...provided,
+      color: "#333333",
+      fontSize: '14px',
+      fontWeight: '400',
+      margin: '0px',
+      padding: '0px 8px',
+      textAlign: 'left',
+      height: "100%"
+    }),
   };
 
   return (
@@ -181,20 +284,39 @@ const ProductEdit = () => {
                 <label htmlFor="category" className="text-base">
                   Category
                 </label>
-                <select
+                {/* <select
                   id="category"
-                  name="category"
+                  // name="category"
                   value={values.category}
                   onChange={(e) => handleChange(e)}
                   className="input h-full appearance-none border rounded-md  focus:outline-none focus:border-pink"
                 >
                   {categories.map((category) => (
-                    <option key={category} value={category}>
+                    <option
+                      key={category}
+                      value={category}
+                      selected={values.category}
+                    >
                       {category}
                     </option>
                   ))}
                 </select>
-                <span className="min-h-5 text-orange text-xs mt-1">{errors.categories}</span>
+                <span className="min-h-5 text-orange text-xs mt-1">
+                  {errors.category}
+                </span> */}
+                <Select
+                  value={{ value: values.category, label: values.category }}
+                  onChange={handleChangeCategory}
+                  options={categories.map((category) => ({
+                    value: category,
+                    label: category,
+                  }))}
+                  styles={customStyles}
+                  isSearchable={false}
+                />
+                <span className="min-h-5 text-orange text-xs mt-1">
+                  {errors.category}
+                </span>
                 <label htmlFor="countInStock" className="text-base">
                   Count in Stock
                 </label>

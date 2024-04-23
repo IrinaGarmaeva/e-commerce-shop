@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import Loader from "../../../design-system/Loader/Loader";
 import { useGetProductsQuery, useCreateProductMutation, useDeleteProductMutation } from "../../../../redux/slices/productsSlice/productsSlice";
 import { FaEdit, FaTrash } from "react-icons/fa";
@@ -7,7 +7,11 @@ import { ROUTES } from "../../../../utils/constants";
 import { toast } from "react-toastify";
 
 const ProductListScreen = () => {
-  const { data: products, isLoading, error, refetch } = useGetProductsQuery("");
+  let { keyword } = useParams();
+  if (!keyword) {
+    keyword = "";
+  }
+  const { data: products, isLoading, error, refetch } = useGetProductsQuery({keyword});
   const [createProduct, {isLoading: loadingCreate}] = useCreateProductMutation();
   const [deleteProduct, {isLoading: loadingDelete}] = useDeleteProductMutation();
 
@@ -66,7 +70,7 @@ const ProductListScreen = () => {
                 </tr>
               </thead>
               <tbody>
-                {products.map((product: IProduct) => (
+                {products!.map((product: IProduct) => (
                   <tr key={product._id}>
                     <td className="py-2 px-2 whitespace-nowrap">
                       {product._id}
