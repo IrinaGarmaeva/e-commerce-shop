@@ -5,9 +5,12 @@ import { ObjectId } from "mongoose";
 
 export const productsSlice = apiSlice.injectEndpoints({
   endpoints: (builder) => ({
-    getProducts: builder.query({
-      query: () => ({
+    getProducts: builder.query<IProduct[], {keyword: string}>({
+      query: ({keyword}) => ({
         url: PRODUCTS_URL,
+        params: {
+          keyword,
+        }
       }),
       keepUnusedDataFor: 5,
       providesTags: ["Product"],

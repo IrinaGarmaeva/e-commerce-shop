@@ -40,7 +40,9 @@ import GiftCertificate from "./components/pages/GiftCertificate/GiftCertificate.
 const router = createBrowserRouter(
   createRoutesFromElements(
     <Route path="/" element={<App />}>
-      <Route path={ROUTES.home} element={<Home />} />
+      {/* <Route path={ROUTES.home} element={<Home />} /> */}
+      <Route index={true} path={ROUTES.home} element={<Home />} />
+      <Route path="/search/:keyword" element={<Home />} />
       <Route path={ROUTES.sign.in} element={<Login />} />
       <Route path={ROUTES.sign.up} element={<Register />} />
       <Route path={ROUTES.resetPassword} element={<ResetPassword />} />

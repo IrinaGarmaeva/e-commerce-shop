@@ -8,7 +8,20 @@ import { AuthenticatedRequest } from "../types";
 // @access  Public
 const getProducts = asyncHandler(async (req: Request, res: Response) => {
   res.setHeader("Cache-Control", "no-store");
-  const products = await Product.find({});
+
+  const keyword = req.query.keyword as string;
+  let query = {};
+
+  if(keyword) {
+    query = {
+      $or: [
+        { name: { $regex: req.query.keyword, $options: "i" } },
+        { description: { $regex: req.query.keyword, $options: "i" } }
+      ]
+    }
+  }
+
+  const products = await Product.find(query);
   res.json(products);
 });
 
@@ -31,17 +44,17 @@ const createProduct = asyncHandler(async (req: Request, res: Response) => {
   const id = (req as AuthenticatedRequest).user._id;
 
   const product = new Product({
-    name: 'Sample name',
+    name: "Sample name",
     price: 0,
     user: id,
-    image: '/images/sample.jpg',
-    description: 'Sample description',
-    category: 'earrings',
+    image: "/images/sample.jpg",
+    description: "Sample description",
+    category: "earrings",
     countInStock: 0,
-    })
+  });
 
-    const createdProduct = await product.save();
-    res.status(201).json(createdProduct);
+  const createdProduct = await product.save();
+  res.status(201).json(createdProduct);
 });
 
 // @desc    Update a product
@@ -49,9 +62,9 @@ const createProduct = asyncHandler(async (req: Request, res: Response) => {
 // @access  Private/admin
 const updateProduct = asyncHandler(async (req: Request, res: Response) => {
   res.setHeader("Cache-Control", "no-store");
-  const {name, price, description, image, category, countInStock} = req.body;
+  const { name, price, description, image, category, countInStock } = req.body;
   const product = await Product.findById(req.params.id);
-  if(product) {
+  if (product) {
     product.name = name;
     product.price = price;
     product.description = description;
@@ -73,14 +86,19 @@ const updateProduct = asyncHandler(async (req: Request, res: Response) => {
 const deleteProduct = asyncHandler(async (req: Request, res: Response) => {
   res.setHeader("Cache-Control", "no-store");
   const product = await Product.findById(req.params.id);
-  if(product) {
-    await Product.deleteOne({_id:product._id})
-    res.status(200).json({message: 'Product deleted'});
+  if (product) {
+    await Product.deleteOne({ _id: product._id });
+    res.status(200).json({ message: "Product deleted" });
   } else {
     res.status(404);
     throw new Error("Product not found");
   }
 });
 
-
-export { getProducts, getProductById, createProduct, updateProduct, deleteProduct };
+export {
+  getProducts,
+  getProductById,
+  createProduct,
+  updateProduct,
+  deleteProduct,
+};
