@@ -32,7 +32,7 @@ import ProductEdit from "./components/pages/admin/ProductEdit/ProductEdit.tsx";
 import UserList from "./components/pages/admin/UserList/UserList.tsx";
 import UserEditScreen from "./components/pages/admin/UserEditScreen/UserEditScreen.tsx";
 import Earrings from "./components/pages/Earrings/Earrings.tsx";
-import Rings from "./components/Rings/Rings.tsx";
+import Rings from "./components/pages/Rings/Rings.tsx";
 import Necklaces from "./components/pages/Necklaces/Necklaces.tsx";
 import Bracelets from "./components/pages/Bracelets/Bracelets.tsx";
 import GiftCertificate from "./components/pages/GiftCertificate/GiftCertificate.tsx";

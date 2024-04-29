@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { RootState } from "../../../redux/store";
@@ -7,15 +8,17 @@ import { MdDeleteOutline } from "react-icons/md";
 
 import CartOnSmallScreen from "./CartOnSmallScreen";
 import { useCart } from "../../../hooks/useCart";
+import PromocodeInput from "../../design-system/PromocodeInput/PromocodeInput";
 
 const Cart = () => {
+  const [isOpenCertificateInput, setIsOpenCertificateInput] = useState<boolean>(false);
   const navigate = useNavigate();
 
   const {
     handleRemoveFromCart,
     handleIncrementQuantity,
     handleDecrementQuantity,
-    handleChangeQuantity
+    handleChangeQuantity,
   } = useCart();
 
   const cart = useSelector((state: RootState) => state.cart);
@@ -35,8 +38,7 @@ const Cart = () => {
 
   const handleCheckout = () => {
     navigate("/login?redirect=/shipping");
-  }
-
+  };
 
   return (
     <section className="max-container padding py-10 flex justify-center flex-col">
@@ -110,7 +112,9 @@ const Cart = () => {
             </table>
             <CartOnSmallScreen
               cartItems={cartItems}
-              handleNavigateToProductDetailsPage={handleNavigateToProductDetailsPage}
+              handleNavigateToProductDetailsPage={
+                handleNavigateToProductDetailsPage
+              }
               handleDecrementQuantity={handleDecrementQuantity}
               handleChangeQuantity={handleChangeQuantity}
               handleIncrementQuantity={handleIncrementQuantity}
@@ -148,9 +152,12 @@ const Cart = () => {
                   </tr>
                 </tbody>
               </table>
-              <p className="text-pink text underline underline-offset-4 text-sm">
-                I have promocode
-              </p>
+              <div className="flex justify-center flex-col">
+                <p className="text-pink text underline underline-offset-4 text-sm cursor-pointer" onClick={() => setIsOpenCertificateInput(!isOpenCertificateInput)}>
+                  I have promocode
+                </p>
+                {isOpenCertificateInput && <PromocodeInput />}
+              </div>
               <button
                 className="w-full mt-4 py-3 bg-pink text-white font-semibold rounded-md"
                 disabled={cartItems.length === 0}

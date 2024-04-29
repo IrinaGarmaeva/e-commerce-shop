@@ -10,11 +10,12 @@
     "build": "npm install && npm run build:backend && npm install --prefix frontend && npm run build --prefix frontend",
     "build:backend": "npx tsc",
     "build:frontend": "npm --prefix frontend run build",
-    "start": "node dist/index.js"
+    "start": "TG_ALLOW_MIXED=ALLOW node dist/index.js"
   },
   "author": "Irina Garmaeva",
   "license": "MIT",
   "dependencies": {
+    "@typegoose/typegoose": "^12.4.0",
     "@types/cookie-parser": "^1.4.6",
     "colors": "^1.4.0",
     "cookie-parser": "^1.4.6",

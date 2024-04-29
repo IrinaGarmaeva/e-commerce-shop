@@ -6,7 +6,7 @@ import { addToCart, removeFromCart } from "../redux/slices/cartSlice/cartSlice";
 
 export const useCart = () => {
   const dispatch = useDispatch();
-  const {pathname} = useLocation();
+  const { pathname } = useLocation();
 
   const handleAddToCart = (product: IProduct, newQuantity: number) => {
     const updatedQuantity = Math.min(newQuantity, product.countInStock);
@@ -23,12 +23,17 @@ export const useCart = () => {
 
   const handleIncrementQuantity = (item: IProduct) => {
     const newQuantity = item.quantity! + 1;
-    pathname === '/cart' && handleAddToCart(item, newQuantity);
+    pathname === "/cart" && handleAddToCart(item, newQuantity);
   };
 
   const handleDecrementQuantity = (item: IProduct) => {
-    const newQuantity = Math.max(item.quantity! - 1, 1);
-    pathname === '/cart' && handleAddToCart(item, newQuantity);
+    const newQuantity = Math.max(item.quantity! - 1, 0);
+
+    if (pathname === "/cart") {
+      newQuantity === 0
+        ? handleRemoveFromCart(item._id)
+        : handleAddToCart(item, newQuantity);
+    }
   };
 
   const handleChangeQuantity = (item: IProduct, newQuantity: number) => {

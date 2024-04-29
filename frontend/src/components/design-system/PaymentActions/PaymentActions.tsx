@@ -68,7 +68,7 @@ const PaymentActions = () => {
       {order.paymentMethod === "Gift Certificate" && (
         <div className="flex justify-center my-4">
           <p
-            className="text-pink text underline underline-offset-4 text-lg"
+            className="text-pink text underline underline-offset-4 text-lg cursor-pointer"
             onClick={() => setIsOpenCertificateInput(!isOpenCertificateInput)}
           >
             Enter certificate number

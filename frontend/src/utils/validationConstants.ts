@@ -6,6 +6,7 @@ export const PATTERN_PASSWORD =
   /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[A-Za-z\d]{8,}$/;
 export const PATTERN_USERNAME = /^[A-Za-zА-Яа-я\- ]{3,40}$/;
 export const PATTERN_CERTIFICATE = /^\d{4}$/;
+export const PATTERN_PROMOCODE = /^[\w\d_-]{3,}$/;
 export const isValidEmail = (email: string): boolean =>
   PATTERN_EMAIL.test(email);
 export const isValidPassword = (password: string): boolean =>
@@ -14,6 +15,8 @@ export const isValidName = (name: string): boolean =>
   PATTERN_USERNAME.test(name);
 export const isValidCertificate = (certificate: string): boolean =>
   PATTERN_CERTIFICATE.test(certificate);
+export const isValidPromocode = (promocode: string): boolean =>
+  PATTERN_PROMOCODE.test(promocode);
 
 export const VALIDATION_MESSAGES = {
   emptySearchRequest: "Enter what you are looking for",
@@ -26,6 +29,7 @@ export const VALIDATION_MESSAGES = {
   failedAuth: "Invalid email or password",
   emptyCertificateNumber: "Enter your certificate number",
   invalidCertificateNumber: "Certificate contains only 4 digits",
+  invalidPromocode: "Invalid promocode",
 };
 
 export const validateInput = (

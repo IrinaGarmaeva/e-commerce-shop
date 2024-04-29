@@ -107,7 +107,7 @@ const Header = () => {
                 <PiHandbag size={20} className=" text-light-gray" />
                 {cartItems.length > 0 && (
                   <span className="ml-1 min-h-3 bg-pink w-5 rounded-xl text-white text-center">
-                    {cartItems.reduce((a, c) => a + c.quantity!, 0)}
+                    {cartItems.length}
                   </span>
                 )}
               </Link>
