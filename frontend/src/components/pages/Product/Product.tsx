@@ -1,10 +1,11 @@
 import { useState, ChangeEvent } from "react";
-import { useParams, useNavigate } from "react-router-dom";
+import { useParams, useNavigate, Link } from "react-router-dom";
 import { toast } from "react-toastify";
 import { useDispatch } from "react-redux";
 import { useGetProductDetailsQuery } from "../../../redux/slices/productsSlice/productsSlice";
-import Loader from "../../design-system/Loader/Loader";
 import { addToCart } from "../../../redux/slices/cartSlice/cartSlice";
+import { ROUTES } from "../../../utils/constants";
+import Loader from "../../design-system/Loader/Loader";
 import CustomNotification from "../../design-system/CustomNotification/CustomNotification";
 
 const Product = () => {
@@ -53,28 +54,34 @@ const Product = () => {
         <div>There is an error </div>
       ) : (
         <div className="flex flex-col w-4/5">
-          <p className="text-light-gray">{`Home - Catalog - ${product?.category} - ${product?.name}`}</p>
+          <p className="text-light-gray">
+            <Link to={ROUTES.home}>Home</Link> -{" "}
+            <Link to={`/catalog/${product?.category}`}>
+              {product?.category}
+            </Link>{" "}
+            - <Link to={`/product/${product?._id}`}>{product?.name}</Link>
+          </p>
           <button
-              className="bg-pink px-10 py-3 mt-4 text-white rounded-md font-semibold w-40 ease-linear transition-all hover:scale-105"
-              onClick={() => navigate(-1)}
-            >
-              Go Back
-            </button>
+            className="bg-pink px-10 py-3 mt-4 text-white rounded-md font-semibold w-40 ease-linear transition-all hover:scale-105"
+            onClick={() => navigate(-1)}
+          >
+            Go Back
+          </button>
           <div className="mt-5 flex flex-row gap-10 max-sm:flex-col max-sm:gap-5">
             <div className="w-[460px] h-96 max-sm:w-full">
               <img
                 src={product?.image}
                 alt={product?.name}
-                className="object-cover w-full h-full"
+                className="object-cover w-full h-full rounded-lg"
               />
             </div>
-            <div className="flex flex-col gap-6 max-sm:gap-3">
+            <div className="flex flex-col gap-6 max-sm:gap-3 w-80">
               <h3 className="uppercase font-semibold">{product?.name}</h3>
               <p>{product?.description}</p>
               <p className="font-semibold ">{`${product?.price} RSD`}</p>
               {product!.countInStock > 0 && (
-                <div className="flex flex-row justify-between items-center">
-                  <div className="flex flex-row flex-nowrap justify-between border border-[#ececec] bg-[#f8f8f8] px-3 max-h-12 rounded-sm">
+                <div className="flex flex-row gap-3 items-center">
+                  <div className="flex flex-row flex-nowrap justify-between border border-[#ececec] bg-[#f8f8f8] px-3 max-h-12">
                     <button
                       onClick={decrementQuantity}
                       className="text-3xl text-text-main ease-linear transition-allhover:text-pink"

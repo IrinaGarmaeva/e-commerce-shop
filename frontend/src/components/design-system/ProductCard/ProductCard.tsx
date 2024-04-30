@@ -5,8 +5,8 @@ import { IoIosHeart } from "react-icons/io";
 import { IProduct } from "../../../types/index";
 
 export type ProductCardProps = {
-  product: IProduct
-}
+  product: IProduct;
+};
 
 const ProductCard: FC<ProductCardProps> = ({ product }) => {
   const [isLiked, setIsLiked] = useState<boolean>(false);
@@ -19,7 +19,7 @@ const ProductCard: FC<ProductCardProps> = ({ product }) => {
           <img
             src={product.image}
             alt={product.name}
-            className="w-full h-64 object-cover"
+            className="w-full h-64 object-cover rounded-lg"
           />
         </Link>
         {isLiked ? (
