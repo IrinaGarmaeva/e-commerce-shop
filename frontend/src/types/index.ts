@@ -28,6 +28,7 @@ export interface ICartState {
   totalPrice?: string;
   shippingAddress?: IShippingDetails;
   paymentMethod?: string;
+  promocode?: string;
 }
 
 export interface IUser {
@@ -61,6 +62,7 @@ export interface IOrder {
   isConfirmed?: boolean;
   deliveredAt?: string;
   updatedAt?: string;
+  promocode?: string; // ???
   user: IUser;
 }
 

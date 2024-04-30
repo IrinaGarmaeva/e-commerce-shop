@@ -1,3 +1,4 @@
+import { FC, FormEvent } from "react";
 import { TfiArrowCircleRight } from "react-icons/tfi";
 import {
   handleChangeInput,
@@ -5,47 +6,34 @@ import {
   isValidPromocode,
 } from "../../../utils/validationConstants";
 import Button from "../Button/Button";
-import useFormAndValidation from "../../../hooks/useFormAndValidation";
-import { FormEvent, useEffect } from "react";
-import { toast } from "react-toastify";
 
-const PromocodeInput = () => {
-
-  const {
-    values,
-    // setValues,
-    handleChange,
-    errors,
-    setErrors,
-    isValid,
-    setIsValid,
-  } = useFormAndValidation({
-    promocode: '',
-  });
-
-  useEffect(() => {
-    if (errors.promocode || !values.promocode) {
-      setIsValid(false);
-    } else {
-      setIsValid(true);
-    }
-  }, [errors, setIsValid]);
-
-  const checkValidity = isValid ? "disabled" : "";
-
-  const addPromocode = async (e: FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-
-    if (!values.promocode) {
-      setErrors({
-        certificateNumber: VALIDATION_MESSAGES.emptyCertificateNumber,
-      });
-    } else {
-      // setValues({ promocode: "" });
-      toast.success("Confirm successful, u entered correct promocode");
-    }
+type PromocodeInputProps = {
+  addPromocode: (e: FormEvent<HTMLFormElement>) => Promise<void>;
+  value: string;
+  errors: {
+    [key: string]: string;
   };
+  setErrors: React.Dispatch<
+    React.SetStateAction<{
+      [key: string]: string;
+    }>
+  >;
+  handleChange: (
+    e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
+  ) => void;
+  checkValidity: "" | "disabled";
+  isValid: boolean;
+};
 
+const PromocodeInput: FC<PromocodeInputProps> = ({
+  addPromocode,
+  value,
+  errors,
+  setErrors,
+  handleChange,
+  checkValidity,
+  isValid,
+}) => {
   return (
     <form
       onSubmit={addPromocode}
@@ -56,7 +44,7 @@ const PromocodeInput = () => {
       <div className="flex flex-row relative mb-3 bg-white rounded-md outline outline-1 outline-pink">
         <input
           type="promocode"
-          value={values.promocode || ''}
+          value={value || ""}
           name="promocode"
           placeholder="Enter promocode"
           onChange={(e) =>

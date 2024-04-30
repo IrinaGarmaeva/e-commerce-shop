@@ -1,18 +1,22 @@
-import { useState } from "react";
+import { FormEvent, useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import { RootState } from "../../../redux/store";
 import { ROUTES } from "../../../utils/constants";
 import { IProduct } from "../../../types";
 import { MdDeleteOutline } from "react-icons/md";
-
 import CartOnSmallScreen from "./CartOnSmallScreen";
+import { savePromocode } from "../../../redux/slices/cartSlice/cartSlice";
 import { useCart } from "../../../hooks/useCart";
 import PromocodeInput from "../../design-system/PromocodeInput/PromocodeInput";
+import useFormAndValidation from "../../../hooks/useFormAndValidation";
+import { toast } from "react-toastify";
+import { VALIDATION_MESSAGES } from "../../../utils/validationConstants";
 
 const Cart = () => {
   const [isOpenCertificateInput, setIsOpenCertificateInput] = useState<boolean>(false);
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   const {
     handleRemoveFromCart,
@@ -37,8 +41,45 @@ const Cart = () => {
   const total = subtotal + (shipping === "FREE" ? 0 : 400);
 
   const handleCheckout = () => {
+    dispatch(savePromocode(values.promocode));
     navigate("/login?redirect=/shipping");
   };
+
+  const {
+    values,
+    // setValues,
+    handleChange,
+    errors,
+    setErrors,
+    isValid,
+    setIsValid,
+  } = useFormAndValidation({
+    promocode: '',
+  });
+
+  useEffect(() => {
+    if (errors.promocode || !values.promocode) {
+      setIsValid(false);
+    } else {
+      setIsValid(true);
+    }
+  }, [errors, setIsValid]);
+
+  const checkValidity = isValid ? "disabled" : "";
+
+  const addPromocode = async (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+
+    if (!values.promocode) {
+      setErrors({
+        certificateNumber: VALIDATION_MESSAGES.emptyCertificateNumber,
+      });
+    } else {
+      dispatch(savePromocode(values.promocode));
+      toast.success("Confirm successful, u entered correct promocode");
+    }
+  };
+
 
   return (
     <section className="max-container padding py-10 flex justify-center flex-col">
@@ -156,7 +197,7 @@ const Cart = () => {
                 <p className="text-pink text underline underline-offset-4 text-sm cursor-pointer" onClick={() => setIsOpenCertificateInput(!isOpenCertificateInput)}>
                   I have promocode
                 </p>
-                {isOpenCertificateInput && <PromocodeInput />}
+                {isOpenCertificateInput && <PromocodeInput addPromocode={addPromocode} value={values.promocode} errors={errors} setErrors={setErrors} handleChange={handleChange} checkValidity={checkValidity} isValid={isValid} />}
               </div>
               <button
                 className="w-full mt-4 py-3 bg-pink text-white font-semibold rounded-md"

@@ -16,7 +16,6 @@ type InputProps = {
 }
 
 const Input: FC<InputProps> = ({ type, id, name, value, placeholder, onChange, error, inputClassName, spanClassName, spanId, minLength, maxLength }) => {
-
   return (
     <>
       <input
