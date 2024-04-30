@@ -11,7 +11,6 @@ import Input from "../Input/Input";
 const SearchForm = () => {
   const navigate = useNavigate();
   const { keyword } = useParams();
-  // const [keyword, setKeyword] = useState<string | undefined>(urlKeyword || "");
 
   const { values, setValues, errors, setErrors, handleChange, isValid } =
     useFormAndValidation({
@@ -29,7 +28,6 @@ const SearchForm = () => {
     navigate(`/search/${values.searchRequest}`);
     setValues({ searchRequest: "" });
     handleCloseSearchForm();
-    console.log("you have submitted the search form");
   };
 
   const handleCloseSearchForm = () => {

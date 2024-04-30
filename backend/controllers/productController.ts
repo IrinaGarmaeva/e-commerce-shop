@@ -1,6 +1,6 @@
 import { Request, Response } from "express-serve-static-core";
 import asyncHandler from "../middleware/asyncHandler";
-import Product from "../models/productModel";
+import Product, { IProduct } from "../models/productModel";
 import { AuthenticatedRequest } from "../types";
 
 // @desc    Fetch all products
@@ -8,29 +8,44 @@ import { AuthenticatedRequest } from "../types";
 // @access  Public
 const getProducts = asyncHandler(async (req: Request, res: Response) => {
   res.setHeader("Cache-Control", "no-store");
-
   const keyword = req.query.keyword as string;
   let query = {};
 
-  if(keyword) {
+  if (keyword) {
     query = {
       $or: [
         { name: { $regex: req.query.keyword, $options: "i" } },
-        { description: { $regex: req.query.keyword, $options: "i" } }
-      ]
-    }
+        { description: { $regex: req.query.keyword, $options: "i" } },
+      ],
+    };
   }
 
   const products = await Product.find(query);
   res.json(products);
 });
 
+// @desc    Fetch products by category
+// @route   GET /api/products/category
+// @access  Public
+const getProductsByCategory = asyncHandler(
+  async (req: Request, res: Response) => {
+    res.setHeader("Cache-Control", "no-store");
+    const category = req.params.category as string;
+    const products: IProduct[] = await Product.find({ category });
+    
+    if (products && products.length > 0) {
+      return res.json(products);
+    }
+    res.status(404).json({ message: "There are no products in that category" });
+  }
+);
+
 // @desc    Fetch a product
 // @route   GET /api/products/:id
 // @access  Public
 const getProductById = asyncHandler(async (req: Request, res: Response) => {
   res.setHeader("Cache-Control", "no-store");
-  const product = await Product.findById(req.params.id);
+  const product: IProduct | null = await Product.findById(req.params.id);
   if (product) {
     return res.json(product);
   }
@@ -97,6 +112,7 @@ const deleteProduct = asyncHandler(async (req: Request, res: Response) => {
 
 export {
   getProducts,
+  getProductsByCategory,
   getProductById,
   createProduct,
   updateProduct,
