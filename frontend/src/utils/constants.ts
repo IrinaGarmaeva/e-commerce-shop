@@ -9,7 +9,7 @@ export const ROUTES = {
   order: "/order/:orderId",
   product: "/product/:productId",
   earrings: "/catalog/earrings",
-  necklaces: "/catalog/neclaces",
+  necklaces: "/catalog/necklaces",
   bracelets: "/catalog/bracelets",
   rings: "/catalog/rings",
   giftCertificate: "/catalog/gift-certificate",
