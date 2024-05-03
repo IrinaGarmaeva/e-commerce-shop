@@ -308,8 +308,8 @@ const ProductEdit = () => {
                   value={{ value: values.category, label: values.category }}
                   onChange={handleChangeCategory}
                   options={categories.map((category) => ({
-                    value: category,
-                    label: category,
+                    value: category.value,
+                    label: category.label,
                   }))}
                   styles={customStyles}
                   isSearchable={false}

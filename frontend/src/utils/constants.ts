@@ -13,6 +13,7 @@ export const ROUTES = {
   bracelets: "/catalog/bracelets",
   rings: "/catalog/rings",
   giftCertificate: "/catalog/gift-certificate",
+  else: "/catalog/else",
   resetPassword: "/passwordreset",
   shipping: "/shipping",
   payment: "/payment",
@@ -31,23 +32,24 @@ export const ROUTES = {
   }
 };
 
-export const navItems = [
-  { to: ROUTES.bestsellers, label: "Best Sellers" },
-  { to: ROUTES.earrings, label: "Earrings" },
-  { to: ROUTES.necklaces, label: "Necklaces" },
-  { to: ROUTES.bracelets, label: "Bracelets" },
-  { to: ROUTES.rings, label: "Rings" },
-  { to: ROUTES.giftCertificate, label: "Gift certificate" },
+export const categories = [
+  { to: ROUTES.bestsellers, label: "Best Sellers", value: "bestSellers" },
+  { to: ROUTES.earrings, label: "Earrings", value: "earrings" },
+  { to: ROUTES.necklaces, label: "Necklaces", value: "necklaces" },
+  { to: ROUTES.bracelets, label: "Bracelets", value: "bracelets" },
+  { to: ROUTES.rings, label: "Rings", value: "rings" },
+  { to: ROUTES.giftCertificate, label: "Gift certificates", value: "certificates" },
+  { to: ROUTES.else, label: "Else", value: "else" },
 ];
 
-export const categories = [
-  "Earrings",
-  "Necklaces",
-  "Rings",
-  "Bracelets",
-  "Gift certificate",
-  "Else"
-]
+// export const categories = [
+//   "Earrings",
+//   "Necklaces",
+//   "Rings",
+//   "Bracelets",
+//   "Gift certificate",
+//   "Else"
+// ]
 
 export const PRODUCTS_URL = "/api/products";
 export const USERS_URL = "/api/users";

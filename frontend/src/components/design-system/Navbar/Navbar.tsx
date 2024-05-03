@@ -1,6 +1,6 @@
 import { FC } from "react";
 import { Link, useLocation } from "react-router-dom";
-import { navItems } from "../../../utils/constants";
+import { categories } from "../../../utils/constants";
 
 type NavbarProps = {
   isMobileMenuOpen: boolean;
@@ -27,17 +27,16 @@ const Navbar: FC<NavbarProps> = ({
             >
               Home
             </Link>
-            {navItems.map((item) => (
+            {categories.map((category) => (
               <Link
-                to={item.to}
-                //className="hover-menu py-3 font-bold border-b border-[#d9d4d4] max-lg:pl-16 max-md:pl-5"
+                to={category.to}
                 className={`hover-menu py-3 font-bold border-b border-[#d9d4d4] max-lg:pl-16 max-md:pl-5 ${
-                  pathname === item.to ? "text-pink" : ""
+                  pathname === category.to ? "text-pink" : ""
                 }`}
-                key={item.label}
+                key={category.label}
                 onClick={handleCloseMobileMenu}
               >
-                {item.label}
+                {category.label}
               </Link>
             ))}
           </div>
@@ -47,13 +46,13 @@ const Navbar: FC<NavbarProps> = ({
         id="menu"
         className="flex flex-row justify-evenly items-center uppercase text-text-main font-semibold  max-lg:hidden"
       >
-        {navItems.map((item) => (
+        {categories.map((category) => (
           <Link
-            to={item.to}
-            className={`hover-menu ${pathname === item.to ? "text-pink underline underline-offset-4" : ""}`}
-            key={item.label}
+            to={category.to}
+            className={`hover-menu ${pathname === category.to ? "text-pink underline underline-offset-4" : ""}`}
+            key={category.label}
           >
-            {item.label}
+            {category.label}
           </Link>
         ))}
       </nav>

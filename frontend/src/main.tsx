@@ -31,16 +31,11 @@ import ProductListScreen from "./components/pages/admin/ProductListScreen/Produc
 import ProductEdit from "./components/pages/admin/ProductEdit/ProductEdit.tsx";
 import UserList from "./components/pages/admin/UserList/UserList.tsx";
 import UserEditScreen from "./components/pages/admin/UserEditScreen/UserEditScreen.tsx";
-import Earrings from "./components/pages/Earrings/Earrings.tsx";
-import Rings from "./components/pages/Rings/Rings.tsx";
-import Necklaces from "./components/pages/Necklaces/Necklaces.tsx";
-import Bracelets from "./components/pages/Bracelets/Bracelets.tsx";
-import GiftCertificate from "./components/pages/GiftCertificate/GiftCertificate.tsx";
+import CategoryPage from "./components/pages/CategoryPage/CategoryPage.tsx";
 
 const router = createBrowserRouter(
   createRoutesFromElements(
     <Route path="/" element={<App />}>
-      {/* <Route path={ROUTES.home} element={<Home />} /> */}
       <Route index={true} path={ROUTES.home} element={<Home />} />
       <Route path="/search/:keyword" element={<Home />} />
       <Route path={ROUTES.sign.in} element={<Login />} />
@@ -48,11 +43,12 @@ const router = createBrowserRouter(
       <Route path={ROUTES.resetPassword} element={<ResetPassword />} />
       <Route path={ROUTES.product} element={<Product />} />
       <Route path={ROUTES.cart} element={<Cart />} />
-      <Route path={ROUTES.earrings} element={<Earrings />} />
-      <Route path={ROUTES.necklaces} element={<Necklaces />} />
-      <Route path={ROUTES.bracelets} element={<Bracelets />} />
-      <Route path={ROUTES.rings} element={<Rings />} />
-      <Route path={ROUTES.giftCertificate} element={<GiftCertificate />} />
+      <Route path={ROUTES.earrings} element={<CategoryPage categoryName="earrings" />} />
+      <Route path={ROUTES.necklaces} element={<CategoryPage categoryName="necklaces" />} />
+      <Route path={ROUTES.bracelets} element={<CategoryPage categoryName="bracelets" />} />
+      <Route path={ROUTES.rings} element={<CategoryPage categoryName="rings" />} />
+      <Route path={ROUTES.giftCertificate} element={<CategoryPage categoryName="certificates" />} />
+      <Route path={ROUTES.else} element={<CategoryPage categoryName="else" />} />
       <Route path="" element={<ProtectedRoute />}>
         <Route path={ROUTES.shipping} element={<Shipping />} />
         <Route path={ROUTES.profile} element={<Profile />} />
