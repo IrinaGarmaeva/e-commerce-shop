@@ -42,17 +42,21 @@ export const categories = [
   { to: ROUTES.else, label: "Else", value: "else" },
 ];
 
-// export const categories = [
-//   "Earrings",
-//   "Necklaces",
-//   "Rings",
-//   "Bracelets",
-//   "Gift certificate",
-//   "Else"
-// ]
-
 export const PRODUCTS_URL = "/api/products";
 export const USERS_URL = "/api/users";
 export const ORDERS_URL = "/api/orders";
 export const PAYPAL_URL = "/api/config/paypal";
 export const UPLOADS_URL = "/api/upload";
+
+export const slides = [
+  {
+    src: "../../../../public/images/viva.jpeg",
+    alt: "",
+    link: "/catalog/earrings",
+  },
+  {
+    src: "../../../../public/images/new_collection.jpg",
+    alt: "",
+    link: "/catalog/necklaces",
+  },
+];

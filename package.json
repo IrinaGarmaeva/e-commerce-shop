@@ -15,6 +15,7 @@
   "author": "Irina Garmaeva",
   "license": "MIT",
   "dependencies": {
+    "@material-tailwind/react": "^2.1.9",
     "@typegoose/typegoose": "^12.4.0",
     "@types/cookie-parser": "^1.4.6",
     "colors": "^1.4.0",

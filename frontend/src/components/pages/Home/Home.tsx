@@ -2,6 +2,8 @@ import { useParams, useNavigate } from "react-router-dom";
 import ProductList from "../../design-system/ProductList/ProductList";
 import { useGetProductsQuery } from "../../../redux/slices/productsSlice/productsSlice";
 import Loader from "../../design-system/Loader/Loader";
+import Carousel from "../../design-system/Carousel/Carousel";
+import { slides } from "../../../utils/constants";
 
 const Home = () => {
   let { keyword } = useParams();
@@ -22,9 +24,10 @@ const Home = () => {
         </div>
       ) : (
         <>
+          <Carousel slides={slides} />
           {products?.length ? (
             <>
-              <h1 className="text-center">Latest Products</h1>
+              <h1 className="text-center mt-6">Latest Products</h1>
               <ProductList products={products!} />
             </>
           ) : (
